@@ -2,7 +2,10 @@
 """Generate 6 legal pages for TradingMapClaw sharing the site's visual language."""
 import os
 
-OUT = os.path.join(os.path.dirname(__file__), "legal")
+# NOTE: legacy generator. site/legal/*.html have since been hand-updated with
+# unified nav/footer + canonical tags (phase 2); regenerating will lose those
+# improvements unless this template is first synced with the live pages.
+OUT = os.path.join(os.path.dirname(__file__), "..", "site", "legal")
 os.makedirs(OUT, exist_ok=True)
 
 EFFECTIVE = "July 4, 2026"
@@ -13,6 +16,7 @@ HEAD = """<!doctype html>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>{title} — TradingMapClaw</title>
+<link rel="canonical" href="https://www.tradingmapclaw.com/legal/{slug}" />
 <meta name="description" content="{desc}" />
 <meta name="robots" content="index,follow" />
 <link rel="icon" href="../assets/logo-icon.jpg" />
@@ -301,7 +305,7 @@ PAGES["contact"] = ("Contact",
   """)
 
 for slug, (title, desc, body) in PAGES.items():
-    html = HEAD.format(title=title, desc=desc, eff=EFFECTIVE, body=body)
+    html = HEAD.format(title=title, desc=desc, eff=EFFECTIVE, body=body, slug=slug)
     with open(os.path.join(OUT, f"{slug}.html"), "w", encoding="utf-8") as f:
         f.write(html)
     print(f"wrote legal/{slug}.html ({len(html)} bytes)")

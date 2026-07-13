@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Deep Analysis — The Dual-Engine Method | TradingMapClaw</title>
+<meta name="description" content="How TradingMapClaw's dual-engine verification works: Hermes Agent builds the analysis, Codex re-checks it, and a multi-model council (DeepSeek V4 Pro, GLM-5.2, GPT-5.6) resolves disagreements." />
+<meta name="author" content="TradingMapClaw" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#01696f" />
+<link rel="canonical" href="https://www.tradingmapclaw.com/deep-analysis" />
+<link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+<meta property="og:site_name" content="TradingMapClaw" />
+<meta property="og:title" content="Deep Analysis — The Dual-Engine Method | TradingMapClaw" />
+<meta property="og:description" content="How TradingMapClaw's dual-engine verification works: Hermes Agent builds the analysis, Codex re-checks it, and a multi-model council (DeepSeek V4 Pro, GLM-5.2, GPT-5.6) resolves disagreements." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.tradingmapclaw.com/deep-analysis" />
+<meta property="og:image" content="https://www.tradingmapclaw.com/assets/logo-slogan.jpg" />
+<meta property="og:image:alt" content="TradingMapClaw — One Hand. One Bag. One System." />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Deep Analysis — The Dual-Engine Method | TradingMapClaw" />
+<meta name="twitter:description" content="How TradingMapClaw's dual-engine verification works: Hermes Agent builds the analysis, Codex re-checks it, and a multi-model council (DeepSeek V4 Pro, GLM-5.2, GPT-5.6) resolves disagreements." />
+<meta name="twitter:image" content="https://www.tradingmapclaw.com/assets/logo-slogan.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23155e63'/%3E%3Cpath d='M8 24 L11 12 L16 19 L21 12 L24 24' stroke='white' stroke-width='2.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='24' cy='9' r='3' fill='%23e8873a'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="/assets/site.css" />
+
+</head>
+<body>
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/" aria-label="TradingMapClaw home">
+      <img class="mark" src="/assets/logo-icon.jpg" alt="TradingMapClaw logo" width="30" height="30" />
+      <span>TradingMap<span class="accent">Claw</span></span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="/story">Story</a>
+      <a href="/research">Research</a>
+      <a href="/system">System</a>
+      <a href="/build-log">Build Log</a>
+      <a href="/products">Products</a>
+      <a href="/faq">FAQ</a>
+    </div>
+    <div class="nav-right">
+      <a class="btn btn-primary" href="/products">Get Access</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</nav>
+<main>
+<header class="page-hero"><div class="ph-inner"><p class="section-label">Deep Analysis</p><h1>One model can be confidently wrong.</h1><p class="ph-sub">Why every TradingMapClaw report is built by one engine, re-checked by a second, and judged by a council of independent models before a human ever reads it.</p><p class="ph-compliance">Research &amp; education only. Not investment advice. · WATCHLIST_ONLY</p></div></header><!-- ===== DEEP ANALYSIS / COUNCIL EXPLAINER ===== -->
+<section class="section section-alt" id="method">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label">Deep Analysis</p>
+      <h2 class="section-title">Why this isn’t just asking ChatGPT.</h2>
+      <p class="section-sub">A single model gives you one answer with no second opinion. TMC makes two independent engines derive the same numbers — and prints the disagreement instead of hiding it.</p>
+    </div>
+
+    <div class="da-versus">
+      <div class="da-col single">
+        <span class="da-tag">Single AI · ChatGPT / one agent</span>
+        <h3>One model. One answer. No one checking.</h3>
+        <ul class="da-flow">
+          <li><span class="ic">1</span><span>You ask once. A single model responds.</span></li>
+          <li><span class="ic">2</span><span>It states a PE, a growth rate, a target price — confidently.</span></li>
+          <li><span class="ic">3</span><span>Nothing re-derives those numbers. No second view.</span></li>
+          <li><span class="ic">!</span><span>If it’s wrong, it’s wrong <em>fluently</em> — and nothing tells you.</span></li>
+        </ul>
+        <p class="da-verdict">Confidently wrong, silently.</p>
+      </div>
+      <div class="da-col tmc">
+        <span class="da-tag">TMC · Dual-Engine + Council</span>
+        <h3>Two engines derive it. A council decides.</h3>
+        <ul class="da-flow">
+          <li><span class="ic">A</span><span><b>Engine 1 (Hermes Agent)</b> derives the fundamentals — valuation, insider flow, the thesis.</span></li>
+          <li><span class="ic">B</span><span><b>Engine 2 (Codex)</b> <em>independently</em> re-derives the key numbers: PE, revenue growth, an illustrative valuation range, and the 52-week range.</span></li>
+          <li><span class="ic">✓</span><span>Agree within <b>5%</b> → confidence rises. Disagree → the divergence is <b>printed</b>, not smoothed over.</span></li>
+          <li><span class="ic">⚖</span><span>Contested calls go to the <b>Council War Room</b> for a three-round vote.</span></li>
+        </ul>
+        <p class="da-verdict">Disagreement is a feature, not a bug.</p>
+      </div>
+    </div>
+
+    <div class="da-steps">
+      <div class="da-step">
+        <span class="arrow">→</span>
+        <div class="sn">Round 1</div>
+        <h4>DeepSeek proposes</h4>
+        <p>DeepSeek V4 Pro makes the opening call on the contested ticker.</p>
+      </div>
+      <div class="da-step">
+        <span class="arrow">→</span>
+        <div class="sn">Round 2</div>
+        <h4>GLM-5.2 reviews</h4>
+        <p>A second model reviews the proposal, challenges the weak points, and revises.</p>
+      </div>
+      <div class="da-step">
+        <div class="sn">Round 3</div>
+        <h4>GPT-5.6 breaks the tie</h4>
+        <p>The tiebreaker returns a single scenario label with a confidence score out of 100 — illustrating how the verification workflow resolves disagreement.</p>
+      </div>
+    </div>
+
+    <p class="da-hook">One model can be confidently wrong. <span class="accent">A second engine catches it. A council decides.</span></p>
+    <p class="feed-foot mono" style="margin-top:1.6rem">No single vendor’s model bias — or outage — silently defines the whole analysis. WATCHLIST_ONLY · Research &amp; education only. Not investment advice.</p>
+  </div>
+</section>
+
+<!-- ===== SCHEDULE / FROM DUSK TO DAWN TIMELINE ===== -->
+<section class="section" id="schedule">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label">The All-Weather Run</p>
+      <h2 class="section-title">One full cycle, end to end.</h2>
+      <p class="section-sub">The system runs across the full trading day and after-hours — collecting, reasoning, cross-verifying, and voting — so the verdict is ready when you are. Times follow each market session; the flagship tasks are highlighted.</p>
+    </div>
+
+    <p class="tl-phase-label">Evening · Pre-market build-up</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">8:00 AM<small>Mon–Fri · ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">T3</span><h3>Pre-market Deep Dive</h3><span class="tl-model">GLM-5.2 · 14 sections</span></div>
+          <p>The most detailed scheduled report of the night: watchlist panorama, ticker-by-ticker deep dive, macro overview, full-list coverage, news &amp; impact, valuation &amp; technicals, a scoring panel, catalysts, and a data-quality check — an illustration of the workflow's report structure.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">8:30 AM<small>ET</small></div>
+        <article class="tl-card">
+          <div class="tl-head"><span class="tl-code">Scoring</span><h3>Scoring Engine</h3></div>
+          <p>A worked example of turning a model's conviction into a numeric score — then a plain scenario label (e.g. Watch / Hold / Review) per ticker. Illustrative of the scoring workflow, not a recommendation.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">8:45 AM<small>ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">Deep Analysis</span><h3>Ticker Analyst</h3><span class="tl-model">GLM-5.2 + Codex</span></div>
+          <p>Multi-engine deep analysis per ticker: Engine 1 (fundamentals + valuation + insider) → Engine 2 (technicals + cross-verify) → a co-authored Synthesis. 8 sections, ≤1,200 words, ending in a scenario label and an illustrative valuation range. A worked example of the analysis workflow. <a class="accent" href="#method" style="font-weight:600">How it works ↓</a></p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">8:50 AM<small>Mon–Fri · ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">T11</span><h3>Screening Radar</h3></div>
+          <p>A full-market screening example. Scans 8 sources and hard-filters out OTC, meme, penny, and micro-cap names. Five-factor scoring — Surge Intensity, Catalyst Backing, Supply-Chain Chokepoint, Market Blindness, Sector Alignment — sorts results into three illustrative score bands.</p>
+          <div class="tl-tiers">
+            <span class="tl-tier">🔴 High-Score ≥ 70</span>
+            <span class="tl-tier">🟡 Mid-Score 50–69</span>
+            <span class="tl-tier">🟠 Low-Score</span>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <p class="tl-phase-label">Night · Deep reasoning &amp; the vote</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">9:00 AM<small>Mon/Thu · ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">T26</span><h3>Supply Chain Onion</h3><span class="tl-model">GPT-5.6</span></div>
+          <p>A five-layer peel across 8 sectors — upstream (raw materials → components → equipment) and downstream (contract manufacturing → end brands). Each layer gets a bottleneck story (“who’s got who by the neck”) and a company deep-dive: moat, financials, valuation, and a scenario label. Plain language, no jargon.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">9:15 AM<small>ET</small></div>
+        <article class="tl-card">
+          <div class="tl-head"><span class="tl-code">Bull/Bear</span><h3>Bull vs Bear</h3><span class="tl-model">GLM-5.2</span></div>
+          <p>Per-holding bull case vs bear case, ≤3 points each, scored X/10 — the tension made explicit.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">9:30 AM<small>ET</small></div>
+        <article class="tl-card">
+          <div class="tl-head"><span class="tl-code">Scenario</span><h3>Scenario Explorer</h3><span class="tl-model">DeepSeek V4 Pro</span></div>
+          <p>An educational walk-through of common trade-offs — how a workflow can frame different market scenarios and outcomes side by side. Illustrative only; nothing here is a strategy recommendation.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">9:45 AM<small>Mon–Fri · ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">Council</span><h3>Council War Room</h3></div>
+          <p>The multi-model vote for contested outputs: <b>R1</b> DeepSeek proposes → <b>R2</b> GLM-5.2 reviews → <b>R3</b> GPT-5.6 breaks the tie → a single scenario label with a confidence score out of 100. An illustration of the verification workflow.</p>
+        </article>
+      </div>
+    </div>
+
+    <p class="tl-phase-label">Overnight · Intraday watch (scheduled)</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">10:30 AM–3:00 PM<small>ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">T1</span><h3>Intraday Snapshots</h3><span class="tl-model">DeepSeek V4 Pro · 11 sections</span></div>
+          <p>Four passes — 10:30 AM, 12:00 PM, 1:30 PM, 3:00 PM ET — tracking the latest available watchlist prices, news, sentiment, and a 6-factor scoring panel. Sends a data alert the moment a tracked ticker moves ±4% / ±6%.</p>
+        </article>
+      </div>
+    </div>
+
+    <p class="tl-phase-label">Dawn · The wrap-up</p>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-time">5:00 PM<small>Mon–Fri · ET</small></div>
+        <article class="tl-card feat">
+          <div class="tl-head"><span class="tl-code">T2</span><h3>After-Hours Daily</h3><span class="tl-model">GPT-5.6 · 12 sections</span></div>
+          <p>The most comprehensive daily read: watchlist panorama, the full-list coverage (49 tickers), sentiment divergence, oversold/overbought score examples, next-session watch items, and a data-quality report — an illustration of the workflow's daily output.</p>
+        </article>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">7:00 PM<small>ET</small></div>
+        <article class="tl-card">
+          <div class="tl-head"><span class="tl-code">T16</span><h3>Market Sentiment Pulse</h3><span class="tl-model">GPT-5.6</span></div>
+          <p>Breadth metrics, the Fear &amp; Greed index, and sector sentiment — the market-mood side of the morning brief.</p>
+        </article>
+      </div>
+    </div>
+
+    <details class="tl-more">
+      <summary>The supporting cast — the other jobs that run through the night</summary>
+      <div class="more-body">
+        <div class="mrow"><span class="mc">T17</span><span>Earnings calendar &amp; surprise tracking across the watchlist.</span></div>
+        <div class="mrow"><span class="mc">T18</span><span>Insider activity from SEC Form 4 filings — who’s buying, who’s selling.</span></div>
+        <div class="mrow"><span class="mc">T15</span><span>Macro sweep — rates, CPI, jobs, and the calendar that moves everything.</span></div>
+        <div class="mrow"><span class="mc">T12</span><span>Weekly synthesis — the week compressed into a single review.</span></div>
+        <div class="mrow"><span class="mc">Backtest</span><span>Strategy backtesting against historical windows.</span></div>
+        <div class="mrow"><span class="mc">DCF</span><span>Discounted-cash-flow valuation for the core holdings.</span></div>
+      </div>
+    </details>
+    <p class="feed-foot mono">TMC v2.0 · times shown per market session · For research only · WATCHLIST_ONLY</p>
+  </div>
+</section>
+
+<section class="section" id="notes">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label">From the Workbench</p>
+      <h2 class="section-title">Engineering notes, published weekly.</h2>
+      <p class="section-sub">Long-form write-ups live on Substack. Three recent picks:</p>
+    </div>
+    <div class="card-grid-3">
+      <a class="note-card" href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">
+        <p class="w-date mono">Deep Dive</p>
+        <h3>How the S-Factor caught IONQ before the headlines</h3>
+        <p>Volume anomaly + sentiment divergence, and why the council still argued about it.</p>
+        <span class="w-more">Read on Substack →</span>
+      </a>
+      <a class="note-card" href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">
+        <p class="w-date mono">Architecture</p>
+        <h3>Inside the council: three models, one verdict</h3>
+        <p>How DeepSeek V4 Pro, GLM-5.2 and GPT-5.6 vote — and what happens when they split 2-1.</p>
+        <span class="w-more">Read on Substack →</span>
+      </a>
+      <a class="note-card" href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">
+        <p class="w-date mono">Build Log</p>
+        <h3>From zero code to 230+ scripts in two months</h3>
+        <p>The honest timeline, including the three days the whole scheduler was silently down.</p>
+        <span class="w-more">Read on Substack →</span>
+      </a>
+    </div>
+  </div>
+</section>
+<!-- ===== WRITING ===== -->
+<section class="section section-alt" id="writing">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label">Writing</p>
+      <h2 class="section-title">Field notes from a one-handed operator.</h2>
+      <p class="section-sub">Technical, first-person, story-driven. New posts weekly.</p>
+    </div>
+    <div class="writing-grid">
+      <a class="write-item" href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">
+        <span class="w-plat">Substack</span>
+        <h3>Budget engineering: capping an AI research stack at $55/month</h3>
+        <p>The fallback chains, the guardrails, and the incident that nearly blew the budget.</p>
+      </a>
+      <a class="write-item" href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">
+        <span class="w-plat">Substack</span>
+        <h3>Maker/Checker: why one AI is never allowed to be right alone</h3>
+        <p>Designing an adversarial quality gate so divergence surfaces instead of hiding.</p>
+      </a>
+      <a class="write-item" href="https://medium.com/@tradingmapclaw" target="_blank" rel="noopener">
+        <span class="w-plat">Medium</span>
+        <h3>One hand, no lowered standard</h3>
+        <p>What building a production system looks like from where I sit.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="email-section" id="newsletter">
+  <div class="email-box">
+    <h3>Get the method in your inbox</h3>
+    <p>The free build-notes list walks through one pipeline design decision every week.</p>
+    <!-- CONVERTKIT_FORM_START: replace this <form> block with your ConvertKit inline embed code -->
+    <form class="email-form" action="https://tradingmapclaw.substack.com/subscribe" method="get" target="_blank" rel="noopener">
+      <input type="email" name="email" placeholder="you@example.com" aria-label="Email address" required />
+      <button class="btn btn-primary" type="submit">Subscribe free</button>
+    </form>
+    <!-- CONVERTKIT_FORM_END -->
+    <p class="email-note">Free · One email a week · Unsubscribe anytime · Never investment advice</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="nav-logo" href="/" aria-label="TradingMapClaw home">
+          <img class="mark" src="assets/logo-icon.jpg" alt="TradingMapClaw logo" width="30" height="30" />
+          <span>TradingMap<span class="accent">Claw</span></span>
+        </a>
+        <p class="slogan">One Hand · One Bag · One System<br>Not pity. <span class="accent">Visibility.</span></p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="/research">Research</a>
+        <a href="/system">System</a>
+        <a href="/build-log">Build Log</a>
+        <a href="/story">The Story</a>
+        <a href="/deep-analysis">Deep Analysis</a>
+        <a href="/products">Products</a>
+        <a href="/consulting">Consulting</a>
+        <a href="/checklist.html">Free Checklist</a>
+        <a href="/faq">FAQ</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="https://x.com/tradingmapclaw" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="https://www.linkedin.com/company/tradingmapclaw/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://tradingmapclaw.substack.com" target="_blank" rel="noopener">Substack</a>
+        <a href="https://medium.com/@tradingmapclaw" target="_blank" rel="noopener">Medium</a>
+        <a href="https://t.me/tradingmapclaw" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://wa.me/447857086337" target="_blank" rel="noopener">WhatsApp</a>
+        <!-- SOCIAL_YOUTUBE_PLACEHOLDER: replace with your real channel URL -->
+        <a href="https://www.youtube.com/@tradingmapclaw" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:contact@tradingmapclaw.com">contact@tradingmapclaw.com</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="legal/terms.html">Terms of Service</a>
+        <a href="legal/privacy.html">Privacy Policy</a>
+        <a href="legal/refund.html">Refund Policy</a>
+        <a href="legal/delivery.html">Delivery Policy</a>
+        <a href="legal/disclaimer.html">Disclaimer</a>
+        <a href="legal/contact.html">Contact</a>
+      </div>
+    </div>
+
+    <!-- ===== COMMUNITY & ADVOCACY ===== -->
+    <div class="footer-advocacy">
+      <h4 class="footer-col" style="margin-bottom:.6rem">Community &amp; Advocacy</h4>
+      <p class="adv-intro">A quiet thank-you to the organizations that make people like me visible. <span class="accent">— Not pity. Visibility.</span></p>
+      <div class="adv-cols">
+        <div class="adv-col">
+          <h5>International</h5>
+          <a href="https://www.crohnscolitisfoundation.org" target="_blank" rel="noopener">Crohn’s &amp; Colitis Foundation (US, IBD)</a>
+          <a href="https://www.ubpn.org" target="_blank" rel="noopener">United Brachial Plexus Network (UBPN)</a>
+          <a href="https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities.html" target="_blank" rel="noopener">UN Convention on the Rights of Persons with Disabilities (CRPD)</a>
+        </div>
+        <div class="adv-col">
+          <h5>China</h5>
+          <a href="https://www.cccf4u.com/home" target="_blank" rel="noopener">爱在延长炎症性肠病基金会 (CCCF)</a>
+          <a href="https://www.cdpf.org.cn" target="_blank" rel="noopener">中国残疾人联合会 (CDPF)</a>
+          <a href="http://www.cappd.org.cn" target="_blank" rel="noopener">中国肢残人协会 (China Assoc. of Persons with Physical Disability)</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="disclaimer"><b>Compliance:</b> TradingMapClaw is an independent financial-market research, information-aggregation and research-engineering platform operating in <b>WATCHLIST_ONLY</b> mode. It provides market research, educational materials, research software, and workflow-engineering services. It does not execute trades, hold customer funds, operate brokerage accounts, or provide individualized investment recommendations. All output and all products sold here are for research and educational purposes and are <b>not investment advice</b>. Markets carry risk; do your own diligence.</p>
+
+    <p class="footer-pay mono">Payments processed securely by <b>PayPal</b> · Digital delivery via <b>Payhip</b></p>
+    <div class="footer-bottom">
+      <span>© 2026 TradingMapClaw · Research &amp; education only · Not investment advice</span>
+      <span>v2.0 · Active · <!--TMC:footer-date-->2026-07-12<!--/TMC:footer-date--></span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 12); };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+  const tgl = document.getElementById('navToggle'), links = document.getElementById('navLinks');
+  if (tgl && links) tgl.addEventListener('click', () => {
+    const open = links.classList.toggle('open');
+    tgl.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+</script>
+<!-- Cloudflare Web Analytics: replace TOKEN (dashboard → Analytics & Logs → Web Analytics) -->
+<script src="/assets/js/tmc-events.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "REPLACE_WITH_CF_TOKEN"}'></script>
+</body>
+</html>

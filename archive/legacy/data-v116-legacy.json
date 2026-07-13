@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "version": "v13 (v1.1.6)",
+    "generated": "2026-07-02",
+    "source": "Notion CMS — TMC Products + TMC Daily Updates"
+  },
+  "stats": [
+    { "label": "Python scripts", "value": "500", "note": "500/500 compile" },
+    { "label": "Cron jobs", "value": "115", "note": "106 enabled" },
+    { "label": "Skill files", "value": "93", "note": "SKILL.md modules" },
+    { "label": "Coverage tickers", "value": "82", "note": "75 unique" },
+    { "label": "Monthly cost", "value": "$55", "note": "hard cap" },
+    { "label": "High-sev bugs", "value": "0", "note": "60 fixes resolved" }
+  ],
+  "products": [
+    {
+      "name": "Beginner Tutorial",
+      "full_name": "Build Your First Budget-Disciplined AI Research Loop",
+      "category": "Tutorial",
+      "price": 49,
+      "tagline": "Go from zero to a running overnight research pipeline on one Mac mini.",
+      "description": "A consulting-grade PDF that walks a non-coder through standing up the core TMC loop: data collection, the $55/month budget guardrail, cron scheduling, and Telegram delivery. Bundled with a starter Skill Pack.",
+      "buy_url": "",
+      "status": "Coming Soon",
+      "order": 1,
+      "badge": "Starter"
+    },
+    {
+      "name": "Intermediate Tutorial",
+      "full_name": "Dual-Engine AI Council & Quality Gate",
+      "category": "Tutorial",
+      "price": 149,
+      "tagline": "Add adversarial AI review and a real quality gate to your pipeline.",
+      "description": "The middle tier: wire up the Maker/Checker dual-engine council (GLM-5.2 + GPT-5.6), build the freshness/completeness/schema quality gate, and add model-fallback chains. Bundled with the Dual-Engine + Quality Gate Skill Packs.",
+      "buy_url": "",
+      "status": "Coming Soon",
+      "order": 2,
+      "badge": "Most Popular"
+    },
+    {
+      "name": "Flagship Tutorial",
+      "full_name": "The Complete Solo Operator System",
+      "category": "Tutorial",
+      "price": 299,
+      "tagline": "The full blueprint: 500 scripts, 115 crons, bilingual delivery, incident recovery.",
+      "description": "The complete production system, documented end to end: architecture, 60-fix incident playbook, bilingual (EN/ZH) delivery, cron recovery, and the WATCHLIST_ONLY compliance model. Bundled with the full Skill Pack suite.",
+      "buy_url": "",
+      "status": "Coming Soon",
+      "order": 3,
+      "badge": "Flagship"
+    },
+    {
+      "name": "AI Workflow Audit",
+      "full_name": "AI Workflow Audit",
+      "category": "Consulting",
+      "price": 399,
+      "tagline": "A 30-page written analysis of your AI research workflow + architecture map + cost model.",
+      "description": "I review your current setup and deliver a written audit: architecture map, cost model, failure-mode analysis, and a prioritized fix list. For solo operators and serious investors building their own low-cost systems.",
+      "buy_url": "",
+      "status": "Published",
+      "order": 4,
+      "badge": ""
+    },
+    {
+      "name": "System Blueprint",
+      "full_name": "System Blueprint",
+      "category": "Consulting",
+      "price": 699,
+      "tagline": "90-minute deep dive + custom roadmap + 30-day support.",
+      "description": "The top-tier engagement: a 90-minute working session, a custom build roadmap tailored to your goals and budget, and 30 days of follow-up support as you implement.",
+      "buy_url": "",
+      "status": "Published",
+      "order": 5,
+      "badge": "Premium"
+    },
+    {
+      "name": "Skill Packs",
+      "full_name": "TMC Skill Packs",
+      "category": "Skill Pack",
+      "price": 19,
+      "tagline": "Budget Watchdog · Cron Recovery · Dual-Engine Council · Quality Gate.",
+      "description": "Standalone, drop-in skill packs distilled from the TMC system. Each pack is a self-contained module you can adapt to your own pipeline. Priced $19-99 depending on the pack.",
+      "buy_url": "",
+      "status": "Coming Soon",
+      "order": 6,
+      "badge": "From $19"
+    }
+  ],
+  "updates": [
+    {
+      "title": "Pre-market brief — risk-on into the open",
+      "type": "Market Brief",
+      "date": "2026-07-02",
+      "summary": "Indices firm pre-open; semis leading. NVDA and AVGO bid on AI-capex headlines. Rates steady, VIX compressed. Core holdings mixed but constructive.",
+      "tickers": ["NVDA"],
+      "compliance": "For research only. Not investment advice. WATCHLIST_ONLY."
+    },
+    {
+      "title": "System log — v13 bilingual delivery live",
+      "type": "System Log",
+      "date": "2026-07-02",
+      "summary": "TMC frozen at v13 (v1.1.6). Bilingual delivery now live: English to Telegram, Chinese to Feishu via DeepSeek. 500/500 scripts compile, 0 high-severity bugs.",
+      "tickers": [],
+      "compliance": "System status update. WATCHLIST_ONLY research tool — no order routing."
+    },
+    {
+      "title": "CRWV — CoreWeave capacity note",
+      "type": "Ticker Note",
+      "date": "2026-07-01",
+      "summary": "Dual-engine council reviewed CoreWeave datacenter capacity commentary. Engine B flagged one revenue-timing assumption in Engine A's model; divergence noted, not hidden.",
+      "tickers": ["CRWV"],
+      "compliance": "For research only. Not investment advice. WATCHLIST_ONLY."
+    }
+  ]
+}

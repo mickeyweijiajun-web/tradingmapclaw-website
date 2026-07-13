@@ -327,9 +327,11 @@ class _TagCollector(html.parser.HTMLParser):
                 "id": attrd.get("id"),
                 "aria_label": attrd.get("aria-label"),
                 "aria_labelledby": attrd.get("aria-labelledby"),
+                "wrapped_in_label": getattr(self, "_label_depth", 0) > 0,
             })
 
         if tag_l == "label":
+            self._label_depth = getattr(self, "_label_depth", 0) + 1
             for_ = attrd.get("for")
             if for_:
                 self.labels_for.add(for_)
@@ -338,6 +340,8 @@ class _TagCollector(html.parser.HTMLParser):
         tag_l = tag.lower()
         if tag_l == "title":
             self._in_title = False
+        if tag_l == "label":
+            self._label_depth = max(0, getattr(self, "_label_depth", 0) - 1)
         if tag_l == "script" and self._in_script_ld_json:
             self._in_script_ld_json = False
             self.script_ld_json_blobs.append("".join(self._ld_json_buf))
@@ -668,6 +672,8 @@ def check_sitemap(site_dir: str, base_url: str):
         slug = relp[:-len(".html")] if relp.endswith(".html") else relp
         if slug.endswith("/index"):
             slug = slug[: -len("index")]
+        if slug == "index":  # root index.html -> site root "/"
+            slug = ""
         slug = slug.replace(os.sep, "/")
         candidates = {
             base_url.rstrip("/") + "/" + slug,
@@ -886,6 +892,7 @@ def check_accessibility_basics(site_dir: str):
             if inp["type"] in ("hidden", "submit", "button"):
                 continue
             has_label = inp["id"] in parser.labels_for if inp["id"] else False
+            has_label = has_label or inp.get("wrapped_in_label", False)
             has_aria = bool(inp["aria_label"]) or bool(inp["aria_labelledby"])
             if not has_label and not has_aria:
                 problems.append("{}: <input type={}> missing label/aria-label".format(

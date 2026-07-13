@@ -1,0 +1,13 @@
+{
+  "period": "2026-W28",
+  "data_as_of": "2026-07-10",
+  "published_at": "2026-07-12",
+  "is_sample": true,
+  "status": "SAMPLE",
+  "next_publication": "auto",
+  "rows": [
+    {"ticker": "IONQ", "sector": "Quantum Computing", "surge_5d_pct": 18.4, "s_factor": 82, "band": "high-research-priority", "verified_by": "Council ✓ (3 models agree)"},
+    {"ticker": "CEG", "sector": "Utilities · Nuclear", "surge_5d_pct": 9.1, "s_factor": 74, "band": "watch", "verified_by": "Engine 1 + Engine 2 ✓"},
+    {"ticker": "AFRM", "sector": "Consumer Fintech", "surge_5d_pct": 12.7, "s_factor": 68, "band": "watch", "verified_by": "Engine 1 ✓ · council split"}
+  ]
+}

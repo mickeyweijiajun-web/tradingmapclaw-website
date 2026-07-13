@@ -1,0 +1,53 @@
+# TradingMapClaw (TMC)
+
+> An independent financial-market research, intelligence-aggregation, and research-engineering platform. Dual-engine (Hermes Agent + Codex) cross-verified research across 82 tracked assets, 13 report types, 118 scheduled workflows — built and run by one operator on a single Mac mini for ~$55/month. Research & education only — WATCHLIST_ONLY. Not pity. Visibility.
+
+TradingMapClaw (TMC) v2.0 (2026-07-12) is operated single-handedly ("the one-handed operator"). Its defining feature is cross-verification: no single model is allowed to be right alone. It aggregates financial-market information across company fundamentals, valuation, technical structure, capital flows, options context, macro conditions, and market sentiment. It is a research system — it never provides investment advice, routes orders, or executes trades.
+
+## Key facts (v2.0, 2026-07-12)
+- 118 scheduled workflows (117 enabled), 230+ Python scripts, 50+ SKILL modules
+- 82 tracked assets across 5 groups; 13 report types
+- Cost: ~$55/month budget cap
+- Delivery: English → Telegram, Chinese → Feishu
+- Boundary: WATCHLIST_ONLY — no broker API, no order execution, no buy/sell recommendations
+- Runs on macOS (Apple Silicon), one Mac mini
+
+## Engine positioning
+- Dual-Engine, Multi-Model Council.
+- Engine 1 = Hermes Agent (orchestration + fundamental/macro/sentiment analysis)
+- Engine 2 = Codex (independent re-derivation and cross-verification of Engine 1's numbers)
+- Council = DeepSeek V4 Pro + GLM-5.2 + GPT-5.6 (+ local Qwen3 14B fallback)
+- Analysis runs in three passes: Pass A (build) → Pass B (verify) → Pass C (council resolution)
+- Outputs use bullish / neutral / bearish scenario labels — never BUY/HOLD/SELL instructions
+- Tagline: "One model can be confidently wrong. A second engine catches it. A council decides."
+
+## What it publishes (free)
+- Weekly Market Radar — desensitized watchlist observations, scenario labels: https://www.tradingmapclaw.com/radar
+- Research hub (Market Radar, Market Structure Briefs, Engine Disagreement Notes, Research Method Releases): https://www.tradingmapclaw.com/research
+- System Build Log (weekly): https://www.tradingmapclaw.com/build-log
+- How the dual-engine system runs day to day (schedule, architecture): https://www.tradingmapclaw.com/system
+- Deep-analysis method walkthroughs: https://www.tradingmapclaw.com/deep-analysis
+- Free Research Checklist (interactive, no signup required): https://www.tradingmapclaw.com/checklist.html
+
+## Products & services
+- Tutorial 01 / 02 / 03 (PDF, $19 each) and Complete Bundle ($49)
+- Engineering Patterns Bundle — 7 skill packs ($79, one-time)
+- Skills Library ($29/mo) — founding waitlist only, not on sale yet
+- Services: Operator Consulting ($200/60min), Research-System Audit ($399), Architecture Blueprint Session ($699) — technical/process consulting only
+- Catalog: https://www.tradingmapclaw.com/products
+- Consulting qualification form: https://www.tradingmapclaw.com/consulting
+
+## Links
+- Site: https://www.tradingmapclaw.com/
+- Products: https://www.tradingmapclaw.com/products
+- Radar: https://www.tradingmapclaw.com/radar
+- Research hub: https://www.tradingmapclaw.com/research
+- System: https://www.tradingmapclaw.com/system
+- Build Log: https://www.tradingmapclaw.com/build-log
+- Free Checklist: https://www.tradingmapclaw.com/checklist.html
+- Consulting: https://www.tradingmapclaw.com/consulting
+- FAQ: https://www.tradingmapclaw.com/faq
+- GitHub: https://github.com/mickeyweijiajun-web/TradingMapClaw
+- Substack: https://tradingmapclaw.substack.com
+
+Research & education only. Not investment advice.

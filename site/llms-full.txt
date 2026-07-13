@@ -1,0 +1,127 @@
+# TradingMapClaw (TMC) — Full Reference for AI Agents
+
+> A dual-engine, multi-model AI research system for US equities and crypto, built by one operator on a single Mac mini for ~$55/month. It runs 118 scheduled workflows (117 enabled), cross-verifies its own conclusions with a council of models, and delivers reports to Telegram (English) and Feishu (Chinese). Research only — WATCHLIST_ONLY. Not pity. Visibility.
+
+Version: v2.0 (2026-07-12)
+Canonical URL: https://www.tradingmapclaw.com/
+Slogan: One Hand · One Bag · One System. Not pity. Visibility.
+
+---
+
+## 1. What it is
+
+TradingMapClaw (TMC) is a transparent, auditable AI research pipeline for US equities and crypto. Its defining feature is cross-verification: no single model is allowed to be right alone. Two independent engines derive the key numbers; a multi-model council decides contested calls. It is a research and education tool — it does NOT provide personalized investment advice, route orders, or execute trades. This boundary (WATCHLIST_ONLY) is intentional and architectural: there is no broker API in the system.
+
+Built by a brand persona — "the one-handed operator" — who constructed the system with no prior coding background, using AI as an engineering collaborator, after a brachial plexus injury and years of illness. The message is Not pity, Visibility.
+
+## 2. Authoritative facts (v2.0)
+
+- 118 scheduled workflows total; 117 enabled
+- 230+ Python scripts
+- 50+ SKILL.md modules
+- 82 tickers (75 unique)
+- 12 data sources
+- Cost: $55/month headline budget cap; actual spend ~$7/month (~13.5% of cap)
+- Delivery channels: English → Telegram; Chinese → Feishu
+- Hardware: one Mac mini, macOS on Apple Silicon
+- Boundary: WATCHLIST_ONLY — no broker API, no order execution
+
+## 3. Engine architecture — "Dual-Engine. Multi-Model Council."
+
+- Engine 1 — Hermes Agent: the orchestrator. Runs fundamental, macro, and sentiment reasoning; schedules and sequences the entire nightly pipeline.
+- Engine 2 — Codex / GPT-5.6: the independent check. Runs technical and flow analysis and independently cross-verifies Engine 1's numbers.
+- The Multi-Model Council: DeepSeek V4 Pro, GLM-5.2, GPT-5.6, plus a local Qwen3 14B.
+- Model fallback chain: GLM-5.2 → GPT-5.6 → DeepSeek V4 Pro → Qwen3 14B (local, free).
+- Core tagline: "One model can be confidently wrong. Two engines catch it. A council of three decides."
+
+## 4. Deep Analysis (深度分析) — why it differs from a single AI
+
+Asking a single AI (ChatGPT / one agent) gives one answer with no second opinion. Nothing re-derives the numbers; if it is wrong, it is wrong fluently and nothing tells you.
+
+TMC Deep Analysis:
+- Engine 1 (Hermes Agent) derives the fundamentals — valuation, insider flow, the thesis.
+- Engine 2 (Codex) INDEPENDENTLY re-derives the key numbers: PE, revenue growth, valuation ranges, 52-week range.
+- If Engine 1 and Engine 2 agree within 5%, confidence rises. If they disagree, the divergence is PRINTED, not smoothed over.
+- Contested calls escalate to the Council War Room: a 3-round vote — Round 1 DeepSeek proposes → Round 2 GLM-5.2 reviews → Round 3 GPT-5.6 breaks the tie → a single bullish / neutral / bearish scenario label with a confidence score out of 100.
+- No single vendor's model bias or outage silently defines the whole analysis.
+
+## 5. The nightly run — 从早到晚 (all times Beijing / BJT)
+
+Evening — pre-market build-up:
+- 20:00 (Mon–Fri) — T3 Pre-market Deep Dive (GLM-5.2, 14 sections): B-group panorama, position-by-position deep dive, A-group macro, C-group full list, D-group crypto, news & impact, valuation & technicals, signal board, catalysts, data quality. The most detailed scheduled report.
+- 20:30 — Scoring Engine: turns a model's conviction into a numeric score, then a plain scenario label per ticker (illustrative of the scoring workflow, not a recommendation).
+- 20:45 — Position Analyst (Deep Analysis, GLM-5.2 + Codex): multi-engine per-ticker analysis — Engine 1 (fundamentals+valuation+insider) → Engine 2 (technicals+cross-verify) → co-authored Synthesis. 8 sections, ≤1200 words, bullish/neutral/bearish scenario label + valuation context.
+- 20:50 (Mon–Fri) — T11 Alpha Radar: full-market hidden-gem discovery; scans 8 sources; hard-filters OTC/meme/penny/micro-cap. 3 tiers — 🔴 High Research Priority (α≥70), 🟡 Emerging (α 50–69), 🟠 Speculative Surge. 5-factor scoring: Surge Intensity, Catalyst Backing, Supply-Chain Chokepoint, Market Blindness, Sector Alignment.
+
+Night — deep reasoning & the vote:
+- 21:00 (Mon/Thu) — T26 Supply Chain Onion (GPT-5.6): five-layer supply-chain peel across 8 sectors; upstream (raw materials → components → equipment) + downstream (contract mfg → end brands). Each layer: bottleneck story ("who's got who by the neck") + company deep-dive (moat, financials, valuation, scenario label). Plain language.
+- 21:15 — Bull/Bear (GLM-5.2): per-holding bull vs bear, ≤3 points each, score X/10.
+- 21:30 — Options Strategy (DeepSeek V4 Pro): covered call / protective put / bull call spread / wait.
+- 21:45 (Mon–Fri) — Council War Room: multi-model vote — R1 DeepSeek → R2 GLM-5.2 reviews → R3 GPT-5.6 tiebreaker → final bullish/neutral/bearish scenario label + confidence/100.
+
+Overnight — real-time watch:
+- 22:30 / 00:00 / 01:30 / 03:00 — T1 Intraday Snapshots (DeepSeek V4 Pro, 11 sections each): real-time B/C/D group prices, news, sentiment, 6-factor signal board. Force-push if a holding moves ±4%/±6%.
+
+Dawn — the wrap-up:
+- 05:00 (Tue–Sat) — T2 After-Hours Daily (GPT-5.6, 12 sections): B-group panorama, C-group full list (49 tickers), crypto, sentiment divergence, oversold-bounce picks, next-session recommendations, data-quality report. The most comprehensive daily.
+- 07:00 — T16 On-chain (GPT-5.6): BTC network metrics, Fear & Greed, per-coin sentiment.
+
+Supporting cast (secondary jobs): T17 earnings, T18 insider Form 4, T15 macro, T12 weekly synthesis, backtest, DCF valuation.
+
+## 6. Sellable skill packs (products)
+
+All packs are environment-agnostic (环境无关), OpenAI-compatible, and MIT-licensed. Distilled from 50+ internal SKILL modules.
+1. Budget Watchdog — track multi-model LLM spend against a monthly cap; GREEN/AMBER/RED status from a plain usage log. (#pack-budget-watchdog)
+2. Maker-Checker Dual-Engine Verification — one model answers, a second independent model verifies the key numbers before you trust the output. (#pack-maker-checker)
+3. Cron Recovery / Self-Heal — wraps scheduled jobs, auto-fixes common failure modes, retries once, reports what happened. (#pack-cron-recovery)
+4. Quality Gate — pre-publish checklist (compile, freshness, schema, non-empty) that blocks bad output before it ships. (#pack-quality-gate)
+5. Model Fallback Chain — tries a primary LLM, falls back through an ordered backup chain on error/timeout/rate-limit. (#pack-model-fallback)
+6. Prompt Governance — versions your prompts and lints them (and their outputs) against your own house-style rules. (#pack-prompt-governance)
+7. Generic Data Fallback Chain — 4-level pluggable fetch pattern (direct → alternate → library → cache) for any data field. (#pack-data-fallback)
+
+Internal SKILL modules that power the running system (not all individually for sale yet): deep-analysis-dual-head, supply-chain-alpha (T26), t11-alpha-radar-v2, market-intelligence, sentiment-analysis, system-audit/devops.
+
+## 7. Tutorials & consulting (shipping soon)
+
+- Tutorial 01 — The $55 AI Research Stack (Beginner) — $19
+- Tutorial 02 — Building the Dual-Engine System (Intermediate) — $19
+- Tutorial 03 — The Solo-Operator Blueprint (Advanced) — $19
+- Complete Tutorial Bundle — $49
+- Engineering Patterns Bundle (7 skill packs) — $79
+- Skills Library — $29/mo, founding waitlist only, not on sale yet
+- Services (live): Operator Consulting $200/60min · Research-System Audit $399 · Architecture Blueprint Session $699
+Checkout via Payhip (current channel). Lemon Squeezy is a planned future backup checkout, not yet in use.
+
+## 8. How it compares
+
+- Monthly cost: TMC ~$55 budget cap vs commercial platforms $1,000s/seat vs DIY ChatGPT $20–200.
+- Cross-model verification: TMC yes (dual-engine); commercial rarely exposed; DIY no.
+- Auditable pipeline: TMC yes (every job); commercial black box; DIY ad-hoc.
+- Automation: TMC 118 scheduled workflows; commercial yes; DIY manual.
+- Model fallback chain: TMC 4-tier; commercial vendor-locked; DIY no.
+- Trade execution: TMC none by design; commercial often included; DIY no.
+- Runs on your own hardware: TMC one Mac mini; commercial cloud SaaS; DIY your choice.
+
+## 9. Community & advocacy
+
+International: Crohn's & Colitis Foundation (https://www.crohnscolitisfoundation.org), United Brachial Plexus Network (https://www.ubpn.org), UN CRPD (https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities.html).
+China: 爱在延长炎症性肠病基金会 CCCF (https://www.isun.org.cn), 中国残疾人联合会 CDPF (https://www.cdpf.org.cn), 中国肢残人协会 (http://www.cappd.org.cn).
+
+## 10. Links
+
+- Site: https://www.tradingmapclaw.com/
+- Products: https://www.tradingmapclaw.com/products
+- Radar: https://www.tradingmapclaw.com/radar
+- Research hub: https://www.tradingmapclaw.com/research
+- System (how the dual-engine pipeline runs): https://www.tradingmapclaw.com/system
+- Build Log: https://www.tradingmapclaw.com/build-log
+- Free Checklist: https://www.tradingmapclaw.com/checklist.html
+- Consulting: https://www.tradingmapclaw.com/consulting
+- Substack: https://tradingmapclaw.substack.com
+- Medium: https://medium.com/@tradingmapclaw
+- Telegram: https://t.me/tradingmapclaw
+- Contact: hello@tradingmapclaw.com
+
+## 11. Compliance
+
+TradingMapClaw is a research tool operating in WATCHLIST_ONLY mode. It produces research and analysis only — it does not route orders, execute trades, or provide personalized investment advice. All output is for research and educational purposes and is NOT investment advice. Markets carry risk; do your own diligence.
