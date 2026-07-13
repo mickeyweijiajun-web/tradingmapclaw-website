@@ -109,6 +109,8 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--skip-url-check", action="store_true",
                     help="skip live-reachability check (rehearsals only)")
+    ap.add_argument("--stop-after-preview", action="store_true",
+                    help="stop after preview deploy + smoke; production requires explicit approval")
     a = ap.parse_args()
 
     links = read_links_file(a.links_file) if a.links_file else {}
@@ -155,6 +157,11 @@ def main():
     if prev.get("url") and not smoke(prev["url"]):
         sys.exit("Preview smoke test failed — production NOT touched. "
                  "Rollback: python3 tools/swap_payhip_links.py --rollback")
+
+    if a.stop_after_preview:
+        print("STOPPED after preview (per approval gate). Production not touched.")
+        print(f"preview url: {prev.get('url')}")
+        return
 
     print("== 5/6 production deploy ==")
     cf_deploy("main")
