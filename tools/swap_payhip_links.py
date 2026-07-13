@@ -113,8 +113,8 @@ def main() -> int:
 
     if len(changed) == len(SLOTS):
         text = text.replace(PILL_OLD, PILL_NEW)
-        text = text.replace('"availability":"https://schema.org/PreOrder"',
-                            '"availability":"https://schema.org/InStock"')
+        text = re.sub(r'"availability":\s*"https://schema\.org/PreOrder"',
+                      '"availability": "https://schema.org/InStock"', text)
 
     diff = list(difflib.unified_diff(
         orig.splitlines(), text.splitlines(),
