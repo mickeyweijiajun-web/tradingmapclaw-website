@@ -45,7 +45,7 @@ ARG_MAP = {"tutorial-01": "tutorial-01", "tutorial-02": "tutorial-02",
 
 def run(cmd, cwd=None, check=True):
     print(f"$ {' '.join(cmd)}")
-    r = subprocess.run(cmd, cwd=cwd or SITE_DIR, capture_output=True, text=True)
+    r = subprocess.run(cmd, cwd=cwd or REPO_DIR, capture_output=True, text=True)
     if r.stdout:
         print(r.stdout[-2000:])
     if r.returncode != 0:

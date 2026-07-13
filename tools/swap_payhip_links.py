@@ -33,12 +33,12 @@ SLOTS = {
     "tutorial-01": ("PAYHIP_LINK:tutorial-01", "Buy now — $19"),
     "tutorial-02": ("PAYHIP_LINK:tutorial-02", "Buy now — $19"),
     "tutorial-03": ("PAYHIP_LINK:tutorial-03", "Buy now — $19"),
-    "bundle": ("PAYPAL_BUTTON_START:blueprint-49", "Buy the bundle — $49"),
+    "bundle": ("PAYHIP_LINK:bundle-49", "Buy the bundle — $49"),
     "patterns": ("PAYHIP_LINK:patterns-bundle", "Buy now — $79"),
 }
 PILL_OLD = "Ready — checkout connecting"
 PILL_NEW = "Instant download"
-HTML = Path(__file__).resolve().parent.parent / "products.html"
+HTML = Path(__file__).resolve().parent.parent / "site" / "products.html"
 
 
 class _Check(html.parser.HTMLParser):
