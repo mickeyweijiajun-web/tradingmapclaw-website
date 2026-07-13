@@ -52,8 +52,8 @@ jobs:
         if: github.event_name == 'push'
         run: |
           sleep 20
-          for path in / /products.html /radar.html /story.html /faq.html /sitemap.xml /llms.txt; do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "https://www.tradingmapclaw.com${path}")
+          for path in / /products /radar /story /faq /sitemap.xml /llms.txt /api/health; do
+            code=$(curl -sL -o /dev/null -w "%{http_code}" "https://www.tradingmapclaw.com${path}")
             echo "$code  $path"
             [ "$code" = "200" ] || { echo "::error::smoke test failed on ${path}"; exit 1; }
           done
