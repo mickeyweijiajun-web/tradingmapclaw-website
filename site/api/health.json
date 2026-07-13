@@ -1,0 +1,8 @@
+{
+  "status": "ok",
+  "service": "tradingmapclaw-website",
+  "hosting": "cloudflare-pages",
+  "source_repo": "https://github.com/mickeyweijiajun-web/tradingmapclaw-website",
+  "site_version": "phase2",
+  "note": "Static health endpoint. Deploy id is visible in Cloudflare Pages dashboard."
+}

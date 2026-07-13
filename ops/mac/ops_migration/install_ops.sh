@@ -12,8 +12,9 @@ TMC="$HOME/TradingMapClaw"
 echo "== 1. public pipeline =="
 mkdir -p "$TMC/public_pipeline" "$TMC/tools_bypass"
 cp -R "$HOME/Downloads/tmc-handoff-bundle/pipeline/"* "$TMC/public_pipeline/"
+# audit/ 保留在 public_pipeline 内（tests/run_all.py 依赖），同时复制一份到 tools_bypass
 if [ -d "$TMC/public_pipeline/audit" ]; then
-  cp -R "$TMC/public_pipeline/audit/"* "$TMC/tools_bypass/" && rm -rf "$TMC/public_pipeline/audit"
+  cp -R "$TMC/public_pipeline/audit/"* "$TMC/tools_bypass/"
 fi
 
 echo "== 2. public-content tree =="
