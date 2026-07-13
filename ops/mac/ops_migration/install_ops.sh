@@ -11,7 +11,20 @@ TMC="$HOME/TradingMapClaw"
 
 echo "== 1. public pipeline =="
 mkdir -p "$TMC/public_pipeline" "$TMC/tools_bypass"
-cp -R "$HOME/Downloads/tmc-handoff-bundle/pipeline/"* "$TMC/public_pipeline/"
+# 管道源按优先级回退: Downloads 交接包 -> /tmp 暂存区 -> 已安装目录(跳过复制)
+PIPE_SRC=""
+for c in "$HOME/Downloads/tmc-handoff-bundle/pipeline" "/tmp/tmc_stage/pipeline"; do
+  if [ -d "$c" ] && [ -f "$c/_common.py" ]; then PIPE_SRC="$c"; break; fi
+done
+if [ -n "$PIPE_SRC" ]; then
+  echo "  pipeline source: $PIPE_SRC"
+  cp -R "$PIPE_SRC/"* "$TMC/public_pipeline/"
+elif [ -f "$TMC/public_pipeline/_common.py" ]; then
+  echo "  no source bundle found; keeping already-installed pipeline in place"
+else
+  echo "ERROR: no pipeline source found (Downloads bundle, /tmp/tmc_stage/pipeline) and nothing installed." >&2
+  exit 1
+fi
 # audit/ 保留在 public_pipeline 内（tests/run_all.py 依赖），同时复制一份到 tools_bypass
 if [ -d "$TMC/public_pipeline/audit" ]; then
   cp -R "$TMC/public_pipeline/audit/"* "$TMC/tools_bypass/"
