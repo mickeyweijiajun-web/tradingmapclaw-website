@@ -1,0 +1,45 @@
+name: Weekly repo & site health check
+
+# GITHUB-ACTIONS owned. Replaces the Perplexity weekly GitHub health cron.
+# Notifies ONLY on failure/changes by creating/commenting a GitHub issue.
+# Uses the built-in GITHUB_TOKEN only; no external secrets, never prints tokens.
+
+on:
+  schedule:
+    - cron: "30 1 * * 1"   # Monday 01:30 UTC = 09:30 Beijing
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run health checks
+        id: health
+        run: |
+          python tools/weekly_health.py --out health-report.md || echo "failed=true" >> "$GITHUB_OUTPUT"
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: health-report.md
+      - name: Open issue on failure or drift
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if grep -qE "^STATUS: (FAIL|DRIFT)" health-report.md; then
+            title="Weekly health: $(grep '^STATUS:' health-report.md | head -1)  $(date -u +%F)"
+            gh issue create --title "$title" --body-file health-report.md --label health || \
+            gh issue create --title "$title" --body-file health-report.md
+          else
+            echo "STATUS OK — no issue created (notify only on change/failure)."
+          fi

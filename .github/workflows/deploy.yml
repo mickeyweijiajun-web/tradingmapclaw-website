@@ -1,0 +1,59 @@
+name: Deploy to Cloudflare Pages
+
+# Production deploys ONLY from main (after CI passes).
+# PRs get a preview deployment on a pr-<number> branch alias.
+# Requires repo secrets: CLOUDFLARE_API_TOKEN (Pages Edit), CLOUDFLARE_ACCOUNT_ID.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Quality gate (must pass before any deploy)
+        run: python tools/tmc_ops.py verify-all --json verify-report.json
+
+  deploy:
+    needs: verify
+    runs-on: ubuntu-latest
+    if: ${{ !github.event.pull_request.head.repo.fork }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Guard — secrets must exist
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -z "$CF_TOKEN" ] || [ -z "$CF_ACCOUNT" ]; then
+            echo "::error::Missing CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID secrets"; exit 1
+          fi
+      - name: Deploy (preview for PR, production for main)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy site --project-name=tradingmapclaw
+            --branch=${{ github.event_name == 'push' && 'main' || format('pr-{0}', github.event.number) }}
+            --commit-dirty=true
+      - name: Smoke test production
+        if: github.event_name == 'push'
+        run: |
+          sleep 20
+          for path in / /products.html /radar.html /story.html /faq.html /sitemap.xml /llms.txt; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://www.tradingmapclaw.com${path}")
+            echo "$code  $path"
+            [ "$code" = "200" ] || { echo "::error::smoke test failed on ${path}"; exit 1; }
+          done
+          curl -s https://www.tradingmapclaw.com/ | grep -q "Dual-Engine" || { echo "::error::homepage content check failed"; exit 1; }
