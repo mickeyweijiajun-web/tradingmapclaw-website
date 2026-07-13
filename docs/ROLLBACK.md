@@ -36,3 +36,9 @@ launchctl unload ~/Library/LaunchAgents/ai.tmc.weekly_content.plist
 ```bash
 python3 tools/tmc_ops.py verify-all --smoke
 ```
+
+## Apex 域切换记录（2026-07-13）
+
+- 变更：裸域 tradingmapclaw.com 原绑定旧 Worker `tradingmapclaw`（附带只读 AAAA 100:: 记录），已解除 Worker 域绑定，新建 CNAME → tradingmapclaw.pages.dev（proxied），并作为自定义域绑定到 Pages 项目 `tradingmapclaw`（status: active）。
+- 回滚：`POST /accounts/984e275d2928a92b9602542421828fcb/workers/domains` body `{"hostname":"tradingmapclaw.com","service":"tradingmapclaw","environment":"production","zone_id":"abd048979074908bfafd80603faeb585"}`，并删除 apex CNAME 记录。旧 Worker 脚本未删除，随时可恢复。
+- 生产部署回滚：Cloudflare Pages 控制台将上一个 production deployment 设为当前（或 `pages_deploy.py` 重新部署旧 commit 的 site/）。
