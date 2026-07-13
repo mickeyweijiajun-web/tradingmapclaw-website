@@ -82,13 +82,16 @@ def build_manifest(root: Path):
              and not any(part.startswith(".") for part in p.relative_to(root).parts)]
     if not files or len(files) > 1000:
         sys.exit(f"refusing: {len(files)} files")
-    manifest, payloads = {}, {}
+    manifest, payloads, specials = {}, {}, {}
     for p in files:
+        if str(p.relative_to(root)) in ("_redirects", "_headers", "_routes.json"):
+            specials[p.name] = p.read_text()
+            continue
         data = p.read_bytes()
         h = file_hash(data, p.suffix.lstrip("."))
         manifest["/" + str(p.relative_to(root))] = h
         payloads[h] = (data, mimetypes.guess_type(p.name)[0] or "application/octet-stream")
-    return manifest, payloads
+    return manifest, payloads, specials
 
 
 def main():
@@ -97,7 +100,9 @@ def main():
     ap.add_argument("--dir", default=str(SITE))
     a = ap.parse_args()
 
-    manifest, payloads = build_manifest(Path(a.dir).resolve())
+    manifest, payloads, specials = build_manifest(Path(a.dir).resolve())
+    if specials:
+        print("special files:", ", ".join(specials))
     print(f"{len(manifest)} files, {len(payloads)} unique hashes")
 
     # 1. account-auth: short-lived upload JWT
@@ -142,9 +147,15 @@ def main():
     with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as mf:
         json.dump(manifest, mf)
         mfname = mf.name
-    d = curl(f"{API}/deployments", "POST",
-             form={"manifest": f"<{mfname}", "branch": a.branch}, timeout=240)
+    dform = {"manifest": f"<{mfname}", "branch": a.branch}
+    sptmp = []
+    for name, text in specials.items():
+        t = tempfile.NamedTemporaryFile("w", suffix=name, delete=False)
+        t.write(text); t.close(); sptmp.append(t.name)
+        dform[name] = f"@{t.name}"   # wrangler sends _redirects/_headers as file form fields
+    d = curl(f"{API}/deployments", "POST", form=dform, timeout=240)
     os.unlink(mfname)
+    for t in sptmp: os.unlink(t)
     if not d.get("success"):
         sys.exit(f"deployment failed: {json.dumps(d)[:500]}")
     res = d["result"]
