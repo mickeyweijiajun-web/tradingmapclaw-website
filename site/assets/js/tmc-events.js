@@ -9,8 +9,9 @@
  *     unless explicitly enabled.
  *
  * Supported event names (see docs/SPEC_SITE_PHASE2.md §E):
- *   page_view, newsletter_submit, radar_view, product_click,
- *   payhip_click, consulting_mail_click, github_click
+ *   page_view, newsletter_click, newsletter_submit, radar_view, product_click,
+ *   payhip_click, skill_click, consulting_mail_click, github_click
+ *   (consulting_mail_click is the site's implementation of "consulting_click")
  *
  * Usage:
  *   window.tmcEvent('radar_view');
