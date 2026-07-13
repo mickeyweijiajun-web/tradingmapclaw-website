@@ -95,6 +95,36 @@ def _format_human_date(d: _dt.date) -> str:
     return f"{d.strftime('%A, %B')} {d.day}, {d.year}"
 
 
+BAND_RENDER = {
+    "high-research-priority": ("sf sf-hi", "high priority"),
+    "watch": ("sf sf-mid", "watch"),
+    "logged": ("sf sf-low", "logged"),
+}
+
+
+def render_radar_rows(radar_data: dict) -> str:
+    """Render table <tr> rows from radar JSON (verified rows first, by |move| desc)."""
+    rows = radar_data.get("rows") or []
+    ok = sorted((r for r in rows if "surge_5d_pct" in r),
+                key=lambda r: -abs(r["surge_5d_pct"]))
+    na = [r for r in rows if "surge_5d_pct" not in r]
+    out = []
+    for r in ok:
+        pct = r["surge_5d_pct"]
+        cls = "up" if pct >= 0 else "down"
+        sign = "+" if pct >= 0 else ""
+        bcls, blbl = BAND_RENDER.get(r.get("band", "logged"), ("sf sf-low", "logged"))
+        out.append(
+            f'<tr><td class="mono"><b>{r["ticker"]}</b></td><td>{r["sector"]}</td>'
+            f'<td class="{cls}">{sign}{pct}%</td><td><span class="{bcls}">{blbl}</span></td>'
+            f'<td>{r.get("verified_by", "")}</td></tr>')
+    for r in na:
+        out.append(
+            f'<tr><td class="mono"><b>{r.get("ticker", "?")}</b></td><td>{r.get("sector", "")}</td>'
+            f'<td colspan="3" class="mono">DATA_UNAVAILABLE — {r.get("reason", "")}</td></tr>')
+    return "\n          ".join(out)
+
+
 def compute_markers(radar_data: dict, site_config: dict) -> dict:
     published_at = radar_data.get("published_at", "")
     is_sample = bool(radar_data.get("is_sample", False))
@@ -127,6 +157,8 @@ def compute_markers(radar_data: dict, site_config: dict) -> dict:
         "footer-date": published_at or "",
         "cta-headline": cta_headline,
         "radar-status": status,
+        "radar-rows": render_radar_rows(radar_data),
+        "radar-scope": radar_data.get("scope_note", ""),
     }
 
 

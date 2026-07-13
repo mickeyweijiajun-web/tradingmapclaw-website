@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#01696f" />
 <link rel="canonical" href="https://www.tradingmapclaw.com/radar" />
 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+<link rel="alternate" type="application/rss+xml" title="TradingMapClaw Weekly Brief" href="/rss.xml" />
 <meta property="og:site_name" content="TradingMapClaw" />
 <meta property="og:title" content="The Radar — Weekly Market Intelligence | TradingMapClaw" />
 <meta property="og:description" content="Sample output from TradingMapClaw's dual-engine research pipeline: T11 surge radar, S-Factor scores, and the weekly research feed. Research and education only — not investment advice." />
@@ -54,21 +55,28 @@
 <header class="page-hero"><div class="ph-inner"><p class="section-label">The Radar</p><h1>118 jobs. 82 tickers. Around the clock.</h1><p class="ph-sub">A weekly look at what the system watches and produces — surge radar, deep-dive queue, and the weekly research feed. Informational only. Not investment advice.</p><p class="ph-compliance">Research &amp; education only. Not investment advice. · WATCHLIST_ONLY</p></div></header><section class="section" id="sample">
   <div class="section-inner">
     <div class="section-head">
-      <p class="section-label">Sample Output</p>
+      <p class="section-label">Weekly Output</p>
       <h2 class="section-title">What a T11 surge-radar run looks like.</h2>
-      <p class="section-sub">Redacted sample from a real run. Illustrative only — tickers shown are <em>research subjects</em>, never recommendations.</p>
-      <p class="radar-cap mono">PERIOD <!--TMC:radar-period-->2026-W28<!--/TMC:radar-period--> · DATA AS OF <!--TMC:radar-as-of-->2026-07-10<!--/TMC:radar-as-of--> · <span class="pstatus waitlist"><!--TMC:radar-sample-badge-->SAMPLE — illustrative only<!--/TMC:radar-sample-badge--></span></p>
+      <p class="section-sub">When marked LIVE, every row below is dual-source price-verified. When marked SAMPLE, the table is a redacted illustration. Tickers shown are <em>research subjects</em>, never recommendations.</p>
+      <p class="radar-cap mono">PERIOD <!--TMC:radar-period-->2026-W29<!--/TMC:radar-period--> · DATA AS OF <!--TMC:radar-as-of-->2026-07-10<!--/TMC:radar-as-of--> · <span class="pstatus live"><!--TMC:radar-status-->LIVE<!--/TMC:radar-status--></span> <span class="mono"><!--TMC:radar-sample-badge--><!--/TMC:radar-sample-badge--></span></p>
     </div>
     <div class="radar-table-wrap">
       <table class="radar-table">
-        <thead><tr><th>Ticker</th><th>Sector</th><th>Surge Δ (5d)</th><th>S-Factor</th><th>Verified by</th></tr></thead>
+        <thead><tr><th>Ticker</th><th>Sector</th><th>Surge Δ (5d)</th><th>Band</th><th>Verified by</th></tr></thead>
         <tbody>
-          <tr><td class="mono"><b>IONQ</b></td><td>Quantum Computing</td><td class="up">+18.4%</td><td><span class="sf sf-hi">82</span></td><td>Council ✓ (3 models agree)</td></tr>
-          <tr><td class="mono"><b>CEG</b></td><td>Utilities · Nuclear</td><td class="up">+9.1%</td><td><span class="sf sf-mid">74</span></td><td>Engine 1 + Engine 2 ✓</td></tr>
-          <tr><td class="mono"><b>AFRM</b></td><td>Consumer Fintech</td><td class="up">+12.7%</td><td><span class="sf sf-mid">68</span></td><td>Engine 1 ✓ · council split</td></tr>
+          <!--TMC:radar-rows--><tr><td class="mono"><b>RKLB</b></td><td>Space · Launch</td><td class="down">-19.3%</td><td><span class="sf sf-hi">high priority</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>META</b></td><td>Social · Advertising</td><td class="up">+14.8%</td><td><span class="sf sf-hi">high priority</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>AVGO</b></td><td>Semiconductors · Networking</td><td class="up">+11.0%</td><td><span class="sf sf-hi">high priority</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>CRWV</b></td><td>AI Cloud Infrastructure</td><td class="up">+8.7%</td><td><span class="sf sf-hi">high priority</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>NVDA</b></td><td>Semiconductors · AI</td><td class="up">+8.3%</td><td><span class="sf sf-hi">high priority</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>ETH</b></td><td>Crypto · L1</td><td class="up">+2.2%</td><td><span class="sf sf-low">logged</span></td><td>dual-source ✓ (Coinbase + Kraken, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>MSFT</b></td><td>Software · Cloud</td><td class="down">-1.4%</td><td><span class="sf sf-low">logged</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>NOW</b></td><td>Enterprise Software</td><td class="up">+1.3%</td><td><span class="sf sf-low">logged</span></td><td>dual-source ✓ (Yahoo + Nasdaq, ≤1.5% divergence)</td></tr>
+          <tr><td class="mono"><b>BTC</b></td><td>Crypto · L1</td><td class="up">+0.9%</td><td><span class="sf sf-low">logged</span></td><td>dual-source ✓ (Coinbase + Kraken, ≤1.5% divergence)</td></tr><!--/TMC:radar-rows-->
         </tbody>
       </table>
-      <p class="mono radar-cap">S-Factor = composite surge score (volume anomaly + momentum + sentiment 0–100). Bands: <span class="sf sf-hi">80+</span> high research priority · <span class="sf sf-mid">60–79</span> watch · below 60 logged only.</p>
+      <p class="mono radar-cap">Band = research-priority band from the verified 5-day move: <span class="sf sf-hi">±8%+</span> high priority · <span class="sf sf-mid">±3–8%</span> watch · <span class="sf sf-low">below ±3%</span> logged. S-Factor engine scores (volume anomaly + momentum + sentiment, 0–100) are produced by the local dual-engine run and attach once published with a run manifest.</p>
+      <p class="mono radar-cap"><!--TMC:radar-scope-->MVP live publication: B-group watchlist subset (7 US equities + BTC/ETH). 5-trading-day change, dual-source verified. S-Factor engine metrics are produced by the local dual-engine system and are not included in this MVP run.<!--/TMC:radar-scope--></p>
     </div>
   </div>
 </section>
@@ -189,7 +197,7 @@
     <p class="footer-pay mono">Payments processed securely by <b>PayPal</b> · Digital delivery via <b>Payhip</b></p>
     <div class="footer-bottom">
       <span>© 2026 TradingMapClaw · Research &amp; education only · Not investment advice</span>
-      <span>v2.0 · Active · <!--TMC:footer-date-->2026-07-12<!--/TMC:footer-date--></span>
+      <span>v2.0 · Active · <!--TMC:footer-date-->2026-07-13<!--/TMC:footer-date--></span>
     </div>
   </div>
 </footer>

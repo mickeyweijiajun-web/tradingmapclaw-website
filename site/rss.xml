@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+ <channel>
+  <title>TradingMapClaw — Weekly Market Intelligence Brief</title>
+  <link>https://www.tradingmapclaw.com/research/radar</link>
+  <description>Dual-source verified weekly watchlist observations. Research and education only — not investment advice. WATCHLIST_ONLY.</description>
+  <language>en-us</language>
+  <atom:link href="https://www.tradingmapclaw.com/rss.xml" rel="self" type="application/rss+xml" />
+  <item>
+   <title>Weekly Market Intelligence Brief 2026-W29</title>
+   <link>https://www.tradingmapclaw.com/research/radar/2026-w29</link>
+   <guid isPermaLink="true">https://www.tradingmapclaw.com/research/radar/2026-w29</guid>
+   <pubDate>2026-07-13T04:00:00Z</pubDate>
+   <description>Weekly Market Intelligence Brief 2026-W29. Dual-source verified moves: RKLB -19.3% 5d; META +14.8% 5d; AVGO +11.0% 5d. Research and education only — not investment advice.</description>
+  </item>
+ </channel>
+</rss>
