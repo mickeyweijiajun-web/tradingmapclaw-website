@@ -15,18 +15,27 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  verify:
+  # Full quality gate — MUST match ci.yml exactly so Production can never deploy
+  # on a tree that CI would reject. Job name is unique (preflight) to avoid
+  # colliding with ci.yml's `verify-ci` required status check.
+  preflight:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Quality gate (must pass before any deploy)
+      - name: py_compile all tools
+        run: python -m py_compile tools/*.py
+      - name: verify-all quality gate
         run: python tools/tmc_ops.py verify-all --json verify-report.json
+      - name: workspace data contract (Codex gate)
+        run: python tools/workspace_validate.py
+      - name: workspace pages built & idempotent
+        run: python tools/workspace_build.py --check
 
   deploy:
-    needs: verify
+    needs: preflight
     runs-on: ubuntu-latest
     if: ${{ !github.event.pull_request.head.repo.fork }}
     steps:
