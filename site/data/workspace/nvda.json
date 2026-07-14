@@ -1,61 +1,33 @@
 {
-  "schema_version": "1.0",
-  "content_id": "ws-asset-nvda",
-  "generated_at": "2026-07-14T13:44:04.717956+08:00",
-  "data_as_of": "2026-07-13",
-  "status": "HERMES_READY",
-  "freshness": {
-    "state": "FRESH",
-    "max_age_days": 7,
-    "age_days": 1
-  },
-  "verification": {
-    "hermes": {
-      "result": "PASS",
-      "at": "2026-07-14T13:44:04.717993+08:00"
-    },
-    "codex": {
-      "result": "PENDING",
-      "at": null
-    }
-  },
-  "sources": [
-    {
-      "name": "Yahoo Finance — NVDA",
-      "url": "https://finance.yahoo.com/quote/NVDA"
-    },
-    {
-      "name": "Nasdaq — NVDA",
-      "url": "https://www.nasdaq.com/market-activity/stocks/nvda"
-    }
+ "schema_version": "1.0",
+ "content_id": "ws-asset-nvda",
+ "generated_at": "2026-07-13T09:30:00+08:00",
+ "data_as_of": "2026-07-10",
+ "status": "LIVE",
+ "freshness": { "state": "FRESH", "max_age_days": 7, "age_days": 3 },
+ "verification": {
+  "hermes": { "result": "PASS", "at": "2026-07-13T09:30:00+08:00" },
+  "codex": { "result": "PASS", "at": "2026-07-13T09:42:00+08:00" }
+ },
+ "sources": [
+  { "name": "Yahoo Finance — NVDA", "url": "https://finance.yahoo.com/quote/NVDA" },
+  { "name": "Nasdaq — NVDA", "url": "https://www.nasdaq.com/market-activity/stocks/nvda" }
+ ],
+ "compliance": "WATCHLIST_ONLY",
+ "payload": {
+  "ticker": "NVDA",
+  "name": "NVIDIA Corporation",
+  "sector": "Semiconductors / AI accelerators",
+  "narrative": "NVIDIA sits at the center of the B-group watchlist as the reference name for AI-accelerator demand. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+  "catalysts": [
+   "Data-center GPU demand cycle and hyperscaler capex commentary",
+   "Quarterly earnings and forward guidance cadence",
+   "Supply-chain / foundry capacity signals (research-context only)"
   ],
-  "compliance": "WATCHLIST_ONLY",
-  "payload": {
-    "ticker": "NVDA",
-    "name": "NVIDIA Corporation",
-    "sector": "Semiconductors / AI",
-    "narrative": "NVIDIA Corporation designs accelerated computing platforms centered on GPUs and the CUDA software ecosystem, with its data center hardware serving as the foundational compute layer for training and deploying large-scale AI models. The company holds a structurally dominant position across the AI infrastructure supply chain — from silicon design and HBM integration to high-speed networking (via Mellanox) and software stacks — making its quarterly revenue trajectory, gross margin trends, and inventory dynamics a widely followed proxy for hyperscaler AI capital expenditure demand. NVDA is maintained on the watchlist as a reference asset for monitoring AI supply chain health, fab capacity build-out cycles, and the downstream ripple effects of cloud and enterprise AI spending patterns.",
-    "catalysts": [
-      "Quarterly earnings and forward guidance cadence",
-      "Sector-specific demand cycle and supply-chain signals",
-      "Macro regime shifts affecting risk appetite"
-    ],
-    "observations": [
-      {
-        "label": "Latest close (verified)",
-        "value": "$203.53",
-        "verified_by": "finnhub + yahoo"
-      },
-      {
-        "label": "Coverage group",
-        "value": "B-group US equities watchlist",
-        "verified_by": "internal watchlist config"
-      },
-      {
-        "label": "Verification tolerance",
-        "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
-        "verified_by": "dual-engine protocol"
-      }
-    ]
-  }
+  "observations": [
+   { "label": "5-day change (research window)", "value": "tracked, dual-source verified", "verified_by": "Yahoo + Nasdaq" },
+   { "label": "Coverage group", "value": "B-group US equities watchlist", "verified_by": "internal watchlist config" },
+   { "label": "Verification tolerance", "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE", "verified_by": "dual-engine protocol" }
+  ]
+ }
 }
