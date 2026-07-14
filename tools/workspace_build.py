@@ -106,6 +106,10 @@ def load(cid):
     return json.loads((WS_DATA / f"{cid}.json").read_text(encoding="utf-8"))
 
 
+def asset_ids():
+    return sorted(p.stem for p in WS_DATA.glob("*.json") if p.name != "status.json")
+
+
 def render_asset_page(cid) -> str:
     d = load(cid)
     pl = d["payload"]
@@ -205,17 +209,17 @@ def render_status_page() -> str:
 
 
 def targets():
-    return {
+    pages = {
         SITE / "workspace" / "index.html": render_index(),
         SITE / "workspace" / "radar" / "index.html": render_stub("radar", "Radar", "Weekly market radar", "The workspace radar mirrors the public radar feed."),
         SITE / "workspace" / "research" / "index.html": render_stub("research", "Research", "Deep research notes", "Longer-form dual-engine research write-ups."),
         SITE / "workspace" / "catalysts" / "index.html": render_stub("catalysts", "Catalysts", "Research calendar", "Upcoming catalysts tracked across the watchlist."),
         SITE / "workspace" / "methodology" / "index.html": render_stub("methodology", "Methodology", "How the pipeline works", "The read-only bypass, dual-engine verification, and the publish gate."),
         SITE / "workspace" / "status" / "index.html": render_status_page(),
-        SITE / "workspace" / "assets" / "nvda" / "index.html": render_asset_page("nvda"),
-        SITE / "workspace" / "assets" / "mstr" / "index.html": render_asset_page("mstr"),
-        SITE / "workspace" / "assets" / "btc" / "index.html": render_asset_page("btc"),
     }
+    for cid in asset_ids():
+        pages[SITE / "workspace" / "assets" / cid / "index.html"] = render_asset_page(cid)
+    return pages
 
 
 def main() -> int:

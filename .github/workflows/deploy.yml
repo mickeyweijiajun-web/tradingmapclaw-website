@@ -27,6 +27,10 @@ jobs:
           python-version: "3.12"
       - name: py_compile all tools
         run: python -m py_compile tools/*.py
+      - name: regression tests
+        run: python -m unittest discover -s tests -v
+      - name: independent candidate verification
+        run: python tools/codex_verify_queue.py
       - name: verify-all quality gate
         run: python tools/tmc_ops.py verify-all --json verify-report.json
       - name: workspace data contract (Codex gate)
@@ -61,9 +65,10 @@ jobs:
         if: github.event_name == 'push'
         run: |
           sleep 20
-          for path in / /products /radar /story /faq /sitemap.xml /llms.txt /api/health; do
+          for path in / /products /radar /story /faq /workspace/ /workspace/assets/nvda/ /sitemap.xml /llms.txt /api/health; do
             code=$(curl -sL -o /dev/null -w "%{http_code}" "https://www.tradingmapclaw.com${path}")
             echo "$code  $path"
             [ "$code" = "200" ] || { echo "::error::smoke test failed on ${path}"; exit 1; }
           done
           curl -s https://www.tradingmapclaw.com/ | grep -q "Dual-Engine" || { echo "::error::homepage content check failed"; exit 1; }
+          curl -s https://www.tradingmapclaw.com/workspace/assets/nvda/ | grep -q "STATUS: LIVE" || { echo "::error::workspace NVDA is not LIVE"; exit 1; }
