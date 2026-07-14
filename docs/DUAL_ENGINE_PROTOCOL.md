@@ -47,7 +47,28 @@ DRAFT ──Hermes 审(叙事/价值)──▶ HERMES_PASS ─┐
   红线命中 / 数据不可核验 ─▶ BLOCKED(终态,不发布,人工介入)
 ```
 
-状态取值:`DRAFT` `HERMES_PASS` `CODEX_PASS` `NEEDS_FIX` `BLOCKED` `APPROVED-CANDIDATE` `PUBLISHED` `ARCHIVED`。
+状态取值(历史标签,仍接受):`DRAFT` `HERMES_PASS` `CODEX_PASS` `NEEDS_FIX` `BLOCKED` `APPROVED-CANDIDATE` `PUBLISHED` `ARCHIVED`。
+
+### 状态机标签调和(2026-07-14,P3)
+
+自 Workspace 数据契约起,采用更细粒度的**规范标签**;历史标签等价保留、不作废:
+
+```
+DRAFT → HERMES_READY → CODEX_VERIFYING → APPROVED_CANDIDATE → PREVIEW → LIVE → ARCHIVED
+            │                  │
+            └─ NEEDS_FIX ◀──────┘   (≤2 轮确定性修复,超出→BLOCKED)
+```
+
+| 规范标签(新) | 历史标签(v1) |
+|---|---|
+| `HERMES_READY` | `HERMES_PASS` |
+| `CODEX_VERIFYING` | (隐式:Codex 审查中) |
+| `APPROVED_CANDIDATE` | `APPROVED-CANDIDATE` |
+| `PREVIEW` | (隐式:CF Pages PR 预览) |
+| `LIVE` | `PUBLISHED` |
+| `ARCHIVED` | `ARCHIVED` |
+
+发布门禁:`LIVE` 需 **Hermes=PASS 且 Codex=PASS 且 freshness=FRESH**,由 `tools/workspace_validate.py` 与 radar 发布管道确定性强制。详见 `docs/handoff/FINAL_HANDOFF_20260714.md` §4。
 
 落地约定:
 
