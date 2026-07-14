@@ -62,5 +62,26 @@
                 "verified_by": "dual-engine protocol"
             }
         ]
+    },
+    "market_data": {
+        "ticker": "META",
+        "currency": "USD",
+        "as_of": "2026-07-14",
+        "value": 660.98,
+        "tolerance_pct": 1.5,
+        "sources": [
+            {
+                "name": "Finnhub",
+                "url": "https://finnhub.io/quote/META",
+                "as_of": "2026-07-14",
+                "value": 660.94
+            },
+            {
+                "name": "Yahoo Finance",
+                "url": "https://finance.yahoo.com/quote/META",
+                "as_of": "2026-07-14",
+                "value": 660.98
+            }
+        ]
     }
 }

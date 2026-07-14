@@ -62,5 +62,26 @@
                 "verified_by": "dual-engine protocol"
             }
         ]
+    },
+    "market_data": {
+        "ticker": "SPCX",
+        "currency": "USD",
+        "as_of": "2026-07-14",
+        "value": 141.24,
+        "tolerance_pct": 1.5,
+        "sources": [
+            {
+                "name": "Finnhub",
+                "url": "https://finnhub.io/quote/SPCX",
+                "as_of": "2026-07-14",
+                "value": 141.28
+            },
+            {
+                "name": "Yahoo Finance",
+                "url": "https://finance.yahoo.com/quote/SPCX",
+                "as_of": "2026-07-14",
+                "value": 141.24
+            }
+        ]
     }
 }
