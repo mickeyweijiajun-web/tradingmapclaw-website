@@ -1004,21 +1004,38 @@ def check_site_config(site_dir: str):
 
 # ---- network checks (opt-in via --smoke) --------------------------------
 
+class _FollowAllRedirects(urllib.request.HTTPRedirectHandler):
+    # Python's stdlib historically does NOT auto-follow 308 (Permanent Redirect).
+    # Cloudflare Pages clean-URLs answer /foo.html with a 308 to /foo, which made
+    # the smoke check see "HTTP 308" and FAIL even though the page is healthy —
+    # while the live GitHub Actions smoke used `curl -L` and passed. This handler
+    # follows 301/302/303/307/308 alike so the local gate matches production.
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
+_OPENER = urllib.request.build_opener(_FollowAllRedirects)
+
+
 def _http_get(url, timeout=10):
     req = urllib.request.Request(url, headers={"User-Agent": "tmc-verify-all/1.0"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:  # nosec - fixed scheme, controlled URL
+    with _OPENER.open(req, timeout=timeout) as resp:  # nosec - fixed scheme, controlled URL
         status = resp.status if hasattr(resp, "status") else resp.getcode()
+        final_url = resp.geturl()
         body = resp.read().decode("utf-8", errors="replace")
-        return status, body
+        return status, body, final_url
 
 
 def check_smoke_pages(base_url: str):
-    pages = ["/", "/products.html", "/radar.html", "/story.html", "/faq.html"]
+    # Use clean-URLs (no .html) to match the live canonical form. Cloudflare
+    # Pages 308-redirects /foo.html -> /foo; _http_get now follows that, but
+    # requesting the canonical form directly keeps the check honest and fast.
+    pages = ["/", "/products", "/radar", "/story", "/faq"]
     problems = []
     for p in pages:
         url = base_url.rstrip("/") + p
         try:
-            status, _ = _http_get(url)
+            status, _, _ = _http_get(url)
         except urllib.error.HTTPError as e:
             status = e.code
         except Exception as e:
@@ -1028,13 +1045,13 @@ def check_smoke_pages(base_url: str):
             problems.append("{}: HTTP {}".format(url, status))
     if problems:
         return "FAIL", "; ".join(problems)
-    return "PASS", "all {} primary page(s) returned HTTP 200".format(len(pages))
+    return "PASS", "all {} primary page(s) returned HTTP 200 (redirects followed)".format(len(pages))
 
 
 def check_smoke_homepage_content(base_url: str):
     url = base_url.rstrip("/")
     try:
-        status, body = _http_get(url)
+        status, body, _ = _http_get(url)
     except Exception as e:
         return "FAIL", "request to {} failed: {}: {}".format(url, type(e).__name__, e)
     if status != 200:
@@ -1050,7 +1067,7 @@ def check_smoke_homepage_content(base_url: str):
 def check_smoke_canonical_domain(base_url: str):
     url = base_url.rstrip("/")
     try:
-        status, body = _http_get(url)
+        status, body, _ = _http_get(url)
     except Exception as e:
         return "FAIL", "request to {} failed: {}: {}".format(url, type(e).__name__, e)
     m = re.search(r'rel="canonical"\s+href="([^"]+)"', body)
