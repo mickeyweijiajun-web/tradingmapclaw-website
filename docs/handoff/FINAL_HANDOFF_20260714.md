@@ -16,15 +16,21 @@ Status vocabulary used throughout: **PASS / NEEDS_FIX / BLOCKED / OWNER_ACTION**
 
 | Phase | Scope | Result |
 |---|---|---|
-| **P0** | Recover Mac loose ends (weekly_content v2, Test 6/7, owner map, date drift, idempotency, GitHub takeover test, secrets, prod regression) | **PASS** (Test 7 `bootstrap` = OWNER_ACTION — launchd GUI-domain limit) |
+| **P0** | Recover Mac loose ends (weekly_content v2, Test 6/7, owner map, date drift, idempotency, GitHub takeover test, secrets, prod regression) | **PASS** (Test 7 now fully PASS after Owner's interactive bootstrap) |
 | **P1** | Formal takeover acceptance (fixed roles, state machine, degradation, health check, E2E rehearsal) | **PASS** |
-| **P2** | Workspace Lite skeleton (data contract + deterministic build + ≥1 verified asset + CI gate) | **PASS**, live on Production |
-| **P3** | Merge/author the authoritative handoff docs | **This document set** |
+| **P2a** | Workspace Lite skeleton **shipped to Production** (data contract + deterministic build + ≥1 verified asset + CI gate) | **PASS**, live |
+| **P2b** | Workspace **dual-engine workflow takeover** (Hermes candidate → Codex verify → CI → Preview E2E rehearsal) | **PASS** (rehearsed 2026-07-14; fixture never reached Production) |
+| **P3** | Merge/author the authoritative handoff docs + reconcile state machine | **PASS** (docs merged, PR #3) |
+
+> **Shipping vs. workflow-takeover are separated on purpose.** P2a = the pages exist and serve on
+> Production. P2b = the *process* that produces/verifies/publishes those pages is proven runnable by
+> Hermes+Codex+CI without Perplexity. Both are now PASS with distinct evidence.
 
 **The system no longer depends on Perplexity to run.** Content generation runs on the Mac (Hermes),
 verification/publishing runs through GitHub Actions + Cloudflare Pages (Codex), and health monitoring
-runs as a GitHub Actions workflow. Two Perplexity scheduled tasks remain only as OWNER-decided fallbacks
-(see §5).
+runs as a GitHub Actions workflow. After this acceptance, **one** Perplexity scheduled task remains
+(daily brief), retained only as an OWNER-decided fallback because local delivery is not yet wired
+(see §5). The weekly-content task was deleted after its Mac chain passed Test 7.
 
 ---
 
@@ -41,18 +47,21 @@ runs as a GitHub Actions workflow. Two Perplexity scheduled tasks remain only as
   `initial(3) → fix-1(3) → fix-2(0)` (2 rounds, no infinite loop), wrote
   `DRAFT_2026-07-14_method-note.md` (7122 B), exit 0, `out.log: DRAFT ... lint_problems=0 (fix_iterations=2)`.
 - **Test 6b — PASS (idempotent).** Re-trigger → `SKIP: already terminal today`, draft mtime unchanged.
-- **Test 7 — bootout PASS / bootstrap OWNER_ACTION.** `bootout` deactivated the agent cleanly
-  (`STOPPED_OK`, plist retained + valid `plutil`). `bootstrap`/`load` returns `error 5 (I/O)` in the
-  non-interactive `pc` session — this is a launchd **gui/501 domain** restriction, not a file problem.
-  The plist is valid on disk and auto-loads on next login/reboot.
-  - **OWNER_ACTION (run in the Mac's own Terminal):**
-    ```sh
-    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.tmc.weekly_content.plist
-    ```
+- **Test 7 — PASS (final, 2026-07-14 12:0x CST).** The Owner ran `bootstrap` in the Mac's own Terminal;
+  `launchctl print gui/501/ai.tmc.weekly_content` is now visible (calendarinterval trigger Mon 09:30).
+  A safe `launchctl kickstart -k` then produced real evidence: **runs 0 → 1, last exit code = 0**,
+  new log line `DRAFT: DRAFT_2026-07-14_method-note.md lint_problems=0 (fix_iterations=2)`, artifact on
+  disk at `public-content/drafts/DRAFT_2026-07-14_method-note.md` (7122 B, marked "requires Mickey
+  approval before publishing", not published anywhere), err.log empty. Re-trigger →
+  `SKIP: already terminal today` (idempotent). The earlier `pc`-session `bootstrap error 5` was a
+  launchd gui/501 non-interactive limit only; resolved by the Owner's interactive bootstrap. **No
+  OWNER_ACTION remains for Test 7.**
+  - (Historical, now DONE) The one-time interactive bootstrap command was:
+    `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.tmc.weekly_content.plist`
 
 ### P0-D — Perplexity scheduled-task owner mapping — PASS
-See §5 for the full table. Net: 1 task retired (replaced 1:1 by GitHub Actions), 2 retained as
-OWNER-decided fallbacks.
+See §5 for the full table. Net (as of 2026-07-14): 2 tasks retired (GitHub health earlier; weekly
+content now), **1 retained** as an OWNER-decided fallback (daily brief).
 
 ### P0-E — Date-drift fix (home / Radar / RSS / Archive from one JSON source) — PASS
 - New deterministic, idempotent tool `tools/backfill_radar_meta.py` backfilled required metadata into
@@ -138,9 +147,9 @@ Judgement discipline: **only real run logs count as "taken over."**
 
 | # | Task | Old owner | New owner | Disposition |
 |---|---|---|---|---|
-| 1 | Daily market brief | Perplexity `9b9748d6` | LOCAL-DUAL-ENGINE (`ai.tmc.daily_brief`) | **RETAINED (OWNER_ACTION).** Mac generates + independently verifies (13/13), but `sent=False` (no local push yet). Keep Perplexity task until local push is wired, or Owner decides to drop it. |
-| 2 | Weekly content + Substack draft | Perplexity `d87c574c` | LOCAL-DUAL-ENGINE (`ai.tmc.weekly_content`) | **RETAINED (OWNER_ACTION).** Generation moved to Mac (v2, Test 6 PASS). Reminder/push retention is Owner's call. |
-| 3 | Weekly GitHub health check | Perplexity `5196e484` | GITHUB-ACTIONS `weekly-health.yml` | **RETIRED.** 1:1 replaced; Perplexity task deleted. |
+| 1 | Daily market brief | Perplexity `9b9748d6` | LOCAL-DUAL-ENGINE (`ai.tmc.daily_brief`) | **RETAINED — OWNER_ACTION.** Mac agent is bootstrapped (runs=8, exit 0) and independently verifies, but today `sent=False` — `VERIFICATION FAILED — not sending` on ETH/BTC cross-source mismatch (this is correct degradation: it refuses to send unverified numbers). Delivery is not yet wired, so the local chain cannot fully replace this task. **Not deleted.** Owner decides when to wire local push and drop it. |
+| 2 | Weekly content + Substack draft | Perplexity `d87c574c` | LOCAL-DUAL-ENGINE (`ai.tmc.weekly_content`) | **RETIRED — DELETED 2026-07-14.** Mac v2 chain passed Test 7 (runs→1, exit 0, DRAFT produced, idempotent). Per the no-dual-run rule the Perplexity task was deleted after real PASS. |
+| 3 | Weekly GitHub health check | Perplexity `5196e484` | GITHUB-ACTIONS `weekly-health.yml` | **RETIRED.** 1:1 replaced; Perplexity task deleted (earlier). |
 
 To cancel a retained task later, the Owner opens the owning conversation at
 `https://www.perplexity.ai/computer/tasks/<session_id>` (task #1/#2 live in session `ca8fd1cc-…`).
@@ -160,6 +169,7 @@ To cancel a retained task later, the Owner opens the owning conversation at
 
 ## 7. P2 Workspace evidence
 
+**P2a — shipped to Production:**
 - 9 pages under `/workspace` (index, radar, research, catalysts, methodology, status, assets/{nvda,mstr,btc}).
 - Data contract: `schemas/workspace/asset.schema.json` + `site/data/workspace/{nvda,mstr,btc,status}.json`.
 - Tools: `tools/workspace_validate.py` (Codex gate), `tools/workspace_build.py` (idempotent generator).
@@ -167,7 +177,20 @@ To cancel a retained task later, the Owner opens the owning conversation at
 - CI extended: workspace validate + build-idempotency gates.
 - **P2-H feature flag OFF** — no user DB, login, payment backend, or live-LLM. Reserved sections only.
 - Does **not** touch home / Products / Skills / Radar / RSS / Payhip.
-- **Live on Production:** `/workspace`, `/workspace/assets/nvda`, `/workspace/status` all 200.
+- **Live on Production** (post-deploy 2026-07-14, CF `3ada9478` = commit `8a82d49`): `/workspace`,
+  `/workspace/assets/nvda`, `/workspace/status` all **200**.
+
+**P2b — dual-engine workflow takeover (E2E rehearsal, 2026-07-14):**
+- New executable **Codex entry point** committed: `tools/codex_verify_candidate.py` (PR #5, main `85ddf6c`).
+  Exit 0 = `APPROVED_CANDIDATE`, 3 = `NEEDS_FIX`, 4 = `BLOCKED`.
+- Full flow rehearsed with a synthetic fixture (`TESTZ`, not a real security):
+  Hermes candidate (`HERMES_READY`) → Codex verify (`APPROVED_CANDIDATE`, rc0) → GitHub CI verify PASS
+  → Cloudflare Preview `e84b58d7` → smoke. Two negative tests confirmed the gate bites:
+  red-line language → `BLOCKED` (rc4); missing field → `NEEDS_FIX` (rc3).
+- **Fixture never reached Production:** `/workspace/assets/testz` = **404** on both Preview and Production;
+  the fixture JSON lived only in `e2e_evidence/` (never in `site/data/workspace/`, never rendered).
+  PR #4 was **closed without merging**, branch deleted, fixture files removed. Production unchanged
+  (`/workspace/assets/nvda` 200, `/` 200).
 
 ---
 
@@ -177,8 +200,12 @@ To cancel a retained task later, the Owner opens the owning conversation at
 |---|---|
 | Repo | `mickeyweijiajun-web/tradingmapclaw-website` |
 | P0-E merge | PR #1 (squash) → main; CI + Deploy success; Prod smoke 10/10 |
-| P2 merge | PR #2 (squash) → main HEAD `37a2bb9`; CI + Deploy success (58s); Prod regression all 200 |
+| P2 merge | PR #2 (squash) → main `37a2bb9`; CI + Deploy success; Prod regression all 200 |
+| P3 merge | PR #3 (squash) → main `8a82d49`; **run 29304453358 = success**; CF Production **`3ada9478` = commit `8a82d49`**; post-deploy 9/9 endpoints **200** |
+| Codex entry point | PR #5 (squash) → main **`85ddf6c`**; CI verify + deploy PASS |
+| E2E rehearsal | PR #4 **closed, not merged**; CF Preview `e84b58d7`; fixture 404 on Prod |
 | Rollback branch | `final/perplexity-handoff-20260713 @ efb9a9c` (last-known-good) |
+| Current main HEAD | `85ddf6c` |
 | Commit identity | `git -c user.name="Mickey Wei" -c user.email="mickeyweijiajun@gmail.com"` |
 | Production site | https://www.tradingmapclaw.com |
 | Manual CF preview | `pip install blake3 && python3 tools/pages_deploy.py --branch <b>` with `custom-cred:api.cloudflare.com` (account `984e275d…`, project `tradingmapclaw`) |
@@ -187,20 +214,20 @@ To cancel a retained task later, the Owner opens the owning conversation at
 
 ## 9. OWNER_ACTION items (only these need a human)
 
-1. **Test 7 bootstrap** — run in the Mac's own Terminal:
-   `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.tmc.weekly_content.plist`
-   (or simply log out/in — the valid plist auto-loads).
-2. **Daily brief push** — decide whether to wire local push (`sent=False` today) or keep the Perplexity
-   fallback task `9b9748d6`.
-3. **Weekly content reminder** — decide retention of Perplexity task `d87c574c`.
-4. Payments / refunds / 2FA / terms acceptance / banking / account ownership — always Owner-only.
+1. ~~Test 7 bootstrap~~ — **DONE** by the Owner on 2026-07-14 (interactive Terminal bootstrap; verified
+   runs=1, exit 0). No longer pending.
+2. **Daily brief delivery** — the only remaining OWNER_ACTION. The Mac `ai.tmc.daily_brief` agent runs
+   and verifies but currently `sent=False` (correctly refuses to send on cross-source mismatch). Owner
+   decides whether to wire local delivery; until then Perplexity fallback task `9b9748d6` stays enabled.
+3. Payments / refunds / 2FA / terms acceptance / banking / account ownership — always Owner-only.
 
 ---
 
 ## 10. BLOCKED reasons (current)
 
-- **Test 7 `bootstrap` via `pc`** — launchd `gui/501` domain cannot be bootstrapped from a non-interactive
-  session (`error 5 I/O`). Not a code/file fault. Resolved by the OWNER_ACTION in §9.1. No other BLOCKED items.
+- **None.** The earlier Test 7 `bootstrap`-via-`pc` limitation (launchd `gui/501` non-interactive,
+  `error 5 I/O`) was resolved by the Owner's interactive bootstrap and verified with a real run
+  (runs=1, exit 0). No BLOCKED items remain.
 
 ---
 
@@ -213,6 +240,7 @@ python3 tools/tmc_ops.py verify-all            # 25 PASS expected
 python3 tools/workspace_validate.py            # workspace contract
 python3 tools/workspace_build.py --check       # idempotency
 python3 tools/build_site_data.py --check       # date-drift guard
+python3 tools/codex_verify_candidate.py <candidate.json> --report <out.json>  # independent Codex gate (0/3/4)
 # publish flow: branch → PR → CI gate → CF preview → prod-smoke → merge to main
 ```
 
