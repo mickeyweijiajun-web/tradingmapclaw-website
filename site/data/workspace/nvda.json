@@ -1,0 +1,33 @@
+{
+ "schema_version": "1.0",
+ "content_id": "ws-asset-nvda",
+ "generated_at": "2026-07-13T09:30:00+08:00",
+ "data_as_of": "2026-07-10",
+ "status": "LIVE",
+ "freshness": { "state": "FRESH", "max_age_days": 7, "age_days": 3 },
+ "verification": {
+  "hermes": { "result": "PASS", "at": "2026-07-13T09:30:00+08:00" },
+  "codex": { "result": "PASS", "at": "2026-07-13T09:42:00+08:00" }
+ },
+ "sources": [
+  { "name": "Yahoo Finance — NVDA", "url": "https://finance.yahoo.com/quote/NVDA" },
+  { "name": "Nasdaq — NVDA", "url": "https://www.nasdaq.com/market-activity/stocks/nvda" }
+ ],
+ "compliance": "WATCHLIST_ONLY",
+ "payload": {
+  "ticker": "NVDA",
+  "name": "NVIDIA Corporation",
+  "sector": "Semiconductors / AI accelerators",
+  "narrative": "NVIDIA sits at the center of the B-group watchlist as the reference name for AI-accelerator demand. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+  "catalysts": [
+   "Data-center GPU demand cycle and hyperscaler capex commentary",
+   "Quarterly earnings and forward guidance cadence",
+   "Supply-chain / foundry capacity signals (research-context only)"
+  ],
+  "observations": [
+   { "label": "5-day change (research window)", "value": "tracked, dual-source verified", "verified_by": "Yahoo + Nasdaq" },
+   { "label": "Coverage group", "value": "B-group US equities watchlist", "verified_by": "internal watchlist config" },
+   { "label": "Verification tolerance", "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE", "verified_by": "dual-engine protocol" }
+  ]
+ }
+}

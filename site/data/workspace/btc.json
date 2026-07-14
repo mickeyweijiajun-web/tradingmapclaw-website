@@ -1,0 +1,32 @@
+{
+ "schema_version": "1.0",
+ "content_id": "ws-asset-btc",
+ "generated_at": null,
+ "data_as_of": null,
+ "status": "UNAVAILABLE",
+ "freshness": {
+  "state": "UNAVAILABLE",
+  "max_age_days": 7,
+  "age_days": null
+ },
+ "verification": {
+  "hermes": {
+   "result": "PENDING",
+   "at": null
+  },
+  "codex": {
+   "result": "PENDING",
+   "at": null
+  }
+ },
+ "sources": [],
+ "compliance": "WATCHLIST_ONLY",
+ "payload": {
+  "ticker": "BTC",
+  "name": "Bitcoin",
+  "sector": "Crypto / digital asset",
+  "narrative": "Coming soon. This watchlist asset page is reserved but not yet published. No verified research data is available for it yet; the workspace shows nothing rather than fabricating figures.",
+  "catalysts": [],
+  "observations": []
+ }
+}
