@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.0",
+    "content_id": "ws-asset-crwv",
+    "generated_at": "2026-07-14T23:02:42+08:00",
+    "data_as_of": "2026-07-14",
+    "status": "HERMES_READY",
+    "freshness": {
+        "state": "FRESH",
+        "max_age_days": 7,
+        "age_days": 0
+    },
+    "verification": {
+        "hermes": {
+            "result": "PASS",
+            "at": "2026-07-14T23:02:42+08:00"
+        },
+        "codex": {
+            "result": "PENDING",
+            "at": null
+        }
+    },
+    "sources": [
+        {
+            "name": "Finnhub — CRWV",
+            "url": "https://finnhub.io/quote/CRWV"
+        },
+        {
+            "name": "Yahoo Finance — CRWV",
+            "url": "https://finance.yahoo.com/quote/CRWV"
+        }
+    ],
+    "compliance": "WATCHLIST_ONLY",
+    "payload": {
+        "ticker": "CRWV",
+        "name": "CRWV (CoreWeave, Inc.)",
+        "sector": "AI Cloud Infrastructure",
+        "narrative": "CoreWeave sits in the B-group watchlist as a pure-play AI cloud infrastructure name. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+        "catalysts": [
+            "GPU-as-a-service demand cycle and hyperscaler contract pipeline",
+            "Data-center capacity expansion and power procurement",
+            "Quarterly earnings and cash burn trajectory"
+        ],
+        "observations": [
+            {
+                "label": "5-day change (research window)",
+                "value": "-8.9%",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Closing price (as-of date)",
+                "value": "$82.02",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Coverage group",
+                "value": "B-group US equities watchlist",
+                "verified_by": "internal watchlist config"
+            },
+            {
+                "label": "Verification tolerance",
+                "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
+                "verified_by": "dual-engine protocol"
+            }
+        ]
+    },
+    "market_data": {
+        "ticker": "CRWV",
+        "currency": "USD",
+        "as_of": "2026-07-14",
+        "value": 82.02,
+        "tolerance_pct": 1.5,
+        "sources": [
+            {
+                "name": "Finnhub",
+                "url": "https://finnhub.io/quote/CRWV",
+                "as_of": "2026-07-14",
+                "value": 82.14
+            },
+            {
+                "name": "Yahoo Finance",
+                "url": "https://finance.yahoo.com/quote/CRWV",
+                "as_of": "2026-07-14",
+                "value": 82.02
+            }
+        ]
+    }
+}

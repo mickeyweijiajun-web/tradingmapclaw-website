@@ -1,0 +1,87 @@
+{
+    "schema_version": "1.0",
+    "content_id": "ws-asset-now",
+    "generated_at": "2026-07-14T23:02:42+08:00",
+    "data_as_of": "2026-07-14",
+    "status": "HERMES_READY",
+    "freshness": {
+        "state": "FRESH",
+        "max_age_days": 7,
+        "age_days": 0
+    },
+    "verification": {
+        "hermes": {
+            "result": "PASS",
+            "at": "2026-07-14T23:02:42+08:00"
+        },
+        "codex": {
+            "result": "PENDING",
+            "at": null
+        }
+    },
+    "sources": [
+        {
+            "name": "Finnhub — NOW",
+            "url": "https://finnhub.io/quote/NOW"
+        },
+        {
+            "name": "Yahoo Finance — NOW",
+            "url": "https://finance.yahoo.com/quote/NOW"
+        }
+    ],
+    "compliance": "WATCHLIST_ONLY",
+    "payload": {
+        "ticker": "NOW",
+        "name": "ServiceNow, Inc.",
+        "sector": "Enterprise Software / Workflow automation",
+        "narrative": "ServiceNow sits in the B-group watchlist as the reference name for enterprise workflow automation and IT service management. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+        "catalysts": [
+            "Now Platform adoption and AI-assisted workflow features",
+            "Enterprise IT spending environment and renewal rates",
+            "Quarterly earnings and subscription revenue growth"
+        ],
+        "observations": [
+            {
+                "label": "5-day change (research window)",
+                "value": "-1.1%",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Closing price (as-of date)",
+                "value": "$106.61",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Coverage group",
+                "value": "B-group US equities watchlist",
+                "verified_by": "internal watchlist config"
+            },
+            {
+                "label": "Verification tolerance",
+                "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
+                "verified_by": "dual-engine protocol"
+            }
+        ]
+    },
+    "market_data": {
+        "ticker": "NOW",
+        "currency": "USD",
+        "as_of": "2026-07-14",
+        "value": 106.61,
+        "tolerance_pct": 1.5,
+        "sources": [
+            {
+                "name": "Finnhub",
+                "url": "https://finnhub.io/quote/NOW",
+                "as_of": "2026-07-14",
+                "value": 106.66
+            },
+            {
+                "name": "Yahoo Finance",
+                "url": "https://finance.yahoo.com/quote/NOW",
+                "as_of": "2026-07-14",
+                "value": 106.61
+            }
+        ]
+    }
+}
