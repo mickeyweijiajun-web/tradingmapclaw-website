@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://www.tradingmapclaw.com/schemas/workspace/asset.schema.json",
+  "title": "TMC Workspace Asset Card",
+  "description": "Data contract for a single watchlist asset page in the TMC Workspace. Production renders ONLY status=LIVE. WATCHLIST_ONLY: no buy/sell/position/entry/stop/return/personalized fields are permitted.",
+  "type": "object",
+  "required": [
+    "schema_version", "content_id", "generated_at", "data_as_of",
+    "status", "freshness", "verification", "sources", "compliance", "payload"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "content_id": { "type": "string", "pattern": "^ws-asset-[a-z0-9]+$" },
+    "generated_at": { "type": "string", "description": "ISO 8601 timestamp when Hermes generated the draft" },
+    "data_as_of": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "status": { "type": "string", "enum": ["DRAFT", "HERMES_READY", "CODEX_VERIFYING", "NEEDS_FIX", "BLOCKED", "APPROVED_CANDIDATE", "PREVIEW", "LIVE", "ARCHIVED", "UNAVAILABLE"] },
+    "freshness": {
+      "type": "object",
+      "required": ["state", "max_age_days", "age_days"],
+      "properties": {
+        "state": { "type": "string", "enum": ["FRESH", "DELAYED", "UNAVAILABLE"] },
+        "max_age_days": { "type": "integer", "minimum": 1 },
+        "age_days": { "type": ["integer", "null"] }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["hermes", "codex"],
+      "description": "Dual-engine verification record. Both must be PASS for status=LIVE.",
+      "properties": {
+        "hermes": { "type": "object", "required": ["result", "at"], "properties": {
+          "result": { "type": "string", "enum": ["PASS", "NEEDS_FIX", "BLOCKED", "PENDING"] },
+          "at": { "type": ["string", "null"] }
+        }},
+        "codex": { "type": "object", "required": ["result", "at"], "properties": {
+          "result": { "type": "string", "enum": ["PASS", "NEEDS_FIX", "BLOCKED", "PENDING"] },
+          "at": { "type": ["string", "null"] }
+        }}
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "type": "object", "required": ["name", "url"], "properties": {
+        "name": { "type": "string" }, "url": { "type": "string", "pattern": "^https?://" }
+      }}
+    },
+    "compliance": { "type": "string", "const": "WATCHLIST_ONLY" },
+    "payload": {
+      "type": "object",
+      "required": ["ticker", "name", "sector", "narrative"],
+      "additionalProperties": false,
+      "description": "Research-only payload. No trade instructions, positions, prices-to-act, or returns.",
+      "properties": {
+        "ticker": { "type": "string" },
+        "name": { "type": "string" },
+        "sector": { "type": "string" },
+        "narrative": { "type": "string", "description": "Neutral research narrative, education-context only" },
+        "catalysts": { "type": "array", "items": { "type": "string" } },
+        "observations": { "type": "array", "items": {
+          "type": "object", "required": ["label", "value"],
+          "properties": { "label": { "type": "string" }, "value": { "type": "string" }, "verified_by": { "type": "string" } }
+        }}
+      }
+    }
+  }
+}

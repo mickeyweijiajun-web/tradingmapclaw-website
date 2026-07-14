@@ -1,0 +1,36 @@
+{
+ "schema_version": "1.0",
+ "content_id": "ws-status",
+ "generated_at": "2026-07-14T11:30:00+08:00",
+ "data_as_of": "2026-07-14",
+ "status": "LIVE",
+ "compliance": "WATCHLIST_ONLY",
+ "engines": {
+  "hermes": "MAKER",
+  "codex": "CHECKER_PUBLISHER",
+  "github_actions": "CI_GATE",
+  "cloudflare": "HOSTING",
+  "owner": "PAYMENTS_LEGAL"
+ },
+ "assets": [
+  {
+   "content_id": "ws-asset-nvda",
+   "ticker": "NVDA",
+   "status": "LIVE",
+   "freshness": "FRESH"
+  },
+  {
+   "content_id": "ws-asset-mstr",
+   "ticker": "MSTR",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-btc",
+   "ticker": "BTC",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  }
+ ],
+ "degradation": "If Mac offline -> serve last-known-good/DELAYED; engine/source/CI/CF failure -> no LIVE publish; notify failure -> keep primary artifact."
+}

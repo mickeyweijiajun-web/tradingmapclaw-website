@@ -17,6 +17,10 @@ jobs:
         run: python -m py_compile tools/*.py
       - name: verify-all quality gate
         run: python tools/tmc_ops.py verify-all --json verify-report.json
+      - name: workspace data contract (Codex gate)
+        run: python tools/workspace_validate.py
+      - name: workspace pages built & idempotent
+        run: python tools/workspace_build.py --check
       - name: Upload verify report
         if: always()
         uses: actions/upload-artifact@v4
