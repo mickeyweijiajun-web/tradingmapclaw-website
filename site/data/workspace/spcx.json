@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "content_id": "ws-asset-spcx",
+  "generated_at": null,
+  "data_as_of": null,
+  "status": "UNAVAILABLE",
+  "freshness": {"state": "UNAVAILABLE", "max_age_days": 7, "age_days": null},
+  "verification": {
+    "hermes": {"result": "PENDING", "at": null},
+    "codex": {"result": "PENDING", "at": null}
+  },
+  "sources": [],
+  "compliance": "WATCHLIST_ONLY",
+  "payload": {
+    "ticker": "SPCX",
+    "name": "SpaceX",
+    "sector": "Aerospace / space systems",
+    "narrative": "Coming soon. No independently verified candidate is published for this watchlist asset.",
+    "catalysts": [],
+    "observations": []
+  }
+}

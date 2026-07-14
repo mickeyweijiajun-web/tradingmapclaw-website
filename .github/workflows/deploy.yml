@@ -72,3 +72,6 @@ jobs:
           done
           curl -s https://www.tradingmapclaw.com/ | grep -q "Dual-Engine" || { echo "::error::homepage content check failed"; exit 1; }
           curl -s https://www.tradingmapclaw.com/workspace/assets/nvda/ | grep -q "STATUS: LIVE" || { echo "::error::workspace NVDA is not LIVE"; exit 1; }
+          for ticker in avgo crwv meta msft now rklb spcx; do
+            curl -s "https://www.tradingmapclaw.com/data/workspace/${ticker}.json" | grep -q '"status": "UNAVAILABLE"' || { echo "::error::stale candidate still public for ${ticker}"; exit 1; }
+          done

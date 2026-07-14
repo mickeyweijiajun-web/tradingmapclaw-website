@@ -14,6 +14,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class WorkspacePipelineTests(unittest.TestCase):
+    def test_rolled_back_candidate_paths_are_safe_tombstones(self):
+        for ticker in ("avgo", "crwv", "meta", "msft", "now", "rklb", "spcx"):
+            data = json.loads((ROOT / f"site/data/workspace/{ticker}.json").read_text())
+            self.assertEqual(data["status"], "UNAVAILABLE")
+            self.assertEqual(data["verification"]["hermes"]["result"], "PENDING")
+            self.assertEqual(data["verification"]["codex"]["result"], "PENDING")
+            self.assertEqual(data["payload"].get("observations"), [])
+
     def test_empty_candidate_queue_is_clean(self):
         with tempfile.TemporaryDirectory() as inbox, tempfile.TemporaryDirectory() as reports:
             self.assertEqual(
