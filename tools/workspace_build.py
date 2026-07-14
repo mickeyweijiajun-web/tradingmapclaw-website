@@ -123,7 +123,7 @@ def render_asset_page(cid) -> str:
             body += [f"<li>{esc(c)}</li>" for c in pl["catalysts"]]
             body.append("</ul>")
         if pl.get("observations"):
-            body.append('<h2>Observations</h2><table class="tbl"><thead><tr><th>Metric</th><th>Value</th><th>Verified by</th></tr></thead><tbody>')
+            body.append('<h2>Observations</h2><table class="table"><thead><tr><th>Metric</th><th>Value</th><th>Verified by</th></tr></thead><tbody>')
             for o in pl["observations"]:
                 body.append(f'<tr><td>{esc(o["label"])}</td><td>{esc(o["value"])}</td><td class="mono">{esc(o.get("verified_by",""))}</td></tr>')
             body.append("</tbody></table>")
@@ -155,21 +155,24 @@ def render_index() -> str:
             hero("Workspace", "One surface. Every research thread.",
                  "A read-only window into what the dual-engine system produces — assets, radar, catalysts, methodology. Nothing here is a trade instruction.")]
     body.append('<section class="section"><div class="wrap">')
-    body.append('<h2>Watchlist assets</h2><div class="grid">')
+    body.append('<h2>Watchlist assets</h2><div class="card-grid-3">')
     for a in st["assets"]:
         cid = a["content_id"].replace("ws-asset-", "")
-        pill = "LIVE" if a["status"] == "LIVE" else "Coming soon"
-        body.append(f'<a class="card" href="/workspace/assets/{cid}"><h3>{a["ticker"]}</h3>'
-                    f'<p class="mono">{pill} &middot; {a["freshness"]}</p></a>')
+        live = a["status"] == "LIVE"
+        badge = ('<span class="pstatus free">LIVE &middot; FRESH</span>' if live
+                 else '<span class="pstatus lab">Coming soon</span>')
+        body.append(f'<div class="note-card">{badge}<h3>{a["ticker"]}</h3>'
+                    f'<p class="w-more"><a href="/workspace/assets/{cid}">Open card &rarr;</a></p></div>')
     body.append("</div>")
-    body.append('<h2>Sections</h2><div class="grid">')
+    body.append('<h2>Sections</h2><div class="card-grid-3">')
     for label, href, note in [
         ("Radar", "/workspace/radar", "Weekly market radar feed"),
         ("Research", "/workspace/research", "Deep research notes"),
         ("Catalysts", "/workspace/catalysts", "Upcoming research calendar"),
         ("Methodology", "/workspace/methodology", "How the dual-engine pipeline works"),
         ("Status", "/workspace/status", "System + engine ownership")]:
-        body.append(f'<a class="card" href="{href}"><h3>{label}</h3><p>{note}</p></a>')
+        body.append(f'<div class="note-card"><h3>{label}</h3><p>{note}</p>'
+                    f'<p class="w-more"><a href="{href}">Open &rarr;</a></p></div>')
     body.append("</div></div></section>")
     body.append("</main>")
     body.append(FOOTER)
@@ -195,7 +198,7 @@ def render_status_page() -> str:
     st = json.loads((WS_DATA / "status.json").read_text(encoding="utf-8"))
     rows = "".join(f'<tr><td>{k}</td><td class="mono">{v}</td></tr>' for k, v in st["engines"].items())
     extra = (f'<p class="status-pill">STATUS: {st["status"]} &middot; as of {st["data_as_of"]}</p>'
-             f'<h2>Engine ownership</h2><table class="tbl"><thead><tr><th>Engine</th><th>Role</th></tr></thead><tbody>{rows}</tbody></table>'
+             f'<h2>Engine ownership</h2><table class="table"><thead><tr><th>Engine</th><th>Role</th></tr></thead><tbody>{rows}</tbody></table>'
              f'<h2>Degradation behavior</h2><p>{esc(st["degradation"])}</p>')
     return render_stub("status", "Status", "System &amp; engine ownership",
                        "Who owns what after the Perplexity handoff, and how the system degrades gracefully.", extra)
