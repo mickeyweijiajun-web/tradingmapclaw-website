@@ -18,8 +18,18 @@ Exit  : 0 = APPROVED_CANDIDATE (dual-PASS + FRESH + compliant + schema-valid)
 Continue command:
   python3 tools/codex_verify_candidate.py <candidate.json> --report <out.json>
 """
-import json, re, sys, argparse, datetime
+import argparse
+import datetime
+import hashlib
+import json
+import re
+import sys
 from pathlib import Path
+
+try:
+    from simple_schema import validate as validate_schema
+except ModuleNotFoundError:
+    from tools.simple_schema import validate as validate_schema
 
 ROOT = Path(__file__).resolve().parent.parent
 SCHEMA = ROOT / "schemas" / "workspace" / "asset.schema.json"
@@ -31,8 +41,65 @@ FORBIDDEN = re.compile(
     re.IGNORECASE,
 )
 
-TOP_KEYS = ["schema_version", "content_id", "generated_at", "data_as_of", "status",
-            "freshness", "verification", "sources", "compliance", "payload"]
+def schema_errors(candidate):
+    if not SCHEMA.exists():
+        return [f"schema missing: {SCHEMA}"]
+    return validate_schema(candidate, json.loads(SCHEMA.read_text()), "candidate")
+
+
+def validate_candidate(candidate):
+    problems = []
+    blockers = schema_errors(candidate)
+    cid = candidate.get("content_id", "candidate")
+
+    if FORBIDDEN.search(json.dumps(candidate, ensure_ascii=False)):
+        blockers.append(f"{cid}: FORBIDDEN trading language detected (WATCHLIST_ONLY red-line)")
+    if candidate.get("compliance") != "WATCHLIST_ONLY":
+        blockers.append(f"{cid}: compliance must be WATCHLIST_ONLY")
+
+    hermes = candidate.get("verification", {}).get("hermes", {}).get("result")
+    if hermes != "PASS":
+        problems.append(f"{cid}: hermes result must be PASS before Codex verify (got {hermes})")
+    if candidate.get("freshness", {}).get("state") != "FRESH":
+        problems.append(f"{cid}: candidate freshness must be FRESH")
+
+    observations = candidate.get("payload", {}).get("observations", [])
+    has_price = any("$" in str(item.get("value", "")) or
+                    "close" in str(item.get("label", "")).lower()
+                    for item in observations if isinstance(item, dict))
+    market = candidate.get("market_data")
+    if has_price and not market:
+        problems.append(f"{cid}: price observation requires market_data evidence")
+    if isinstance(market, dict):
+        sources = market.get("sources", [])
+        names = {item.get("name") for item in sources if isinstance(item, dict)}
+        if len(sources) < 2 or len(names) < 2:
+            problems.append(f"{cid}: market_data requires two independent sources")
+        as_of = market.get("as_of")
+        if candidate.get("data_as_of") != as_of:
+            problems.append(f"{cid}: market_data as_of must match data_as_of")
+        if candidate.get("payload", {}).get("ticker") != market.get("ticker"):
+            problems.append(f"{cid}: market_data ticker must match payload ticker")
+        if any(item.get("as_of") != as_of for item in sources if isinstance(item, dict)):
+            problems.append(f"{cid}: market_data source dates do not match")
+        values = [float(item["value"]) for item in sources
+                  if isinstance(item, dict) and isinstance(item.get("value"), (int, float))]
+        if len(values) >= 2:
+            mean = sum(values) / len(values)
+            spread = (max(values) - min(values)) / mean * 100
+            tolerance = float(market.get("tolerance_pct", 1.5))
+            if spread > tolerance:
+                problems.append(
+                    f"{cid}: market_data sources diverge {spread:.2f}% > {tolerance:.2f}%"
+                )
+            published = market.get("value")
+            if isinstance(published, (int, float)):
+                deviation = abs(float(published) - mean) / mean * 100
+                if deviation > tolerance:
+                    problems.append(
+                        f"{cid}: published market value deviates {deviation:.2f}% from source mean"
+                    )
+    return problems, blockers
 
 
 def main() -> int:
@@ -57,26 +124,11 @@ def main() -> int:
         return _emit(args, "BLOCKED", problems, blockers, None)
 
     cid = d.get("content_id", cand_path.name)
+    problems, blockers = validate_candidate(d)
 
-    # 1) required-key / schema-shape check
-    for k in TOP_KEYS:
-        if k not in d:
-            problems.append(f"{cid}: missing required key '{k}'")
-
-    # 2) compliance red-line scan (whole document)
-    if FORBIDDEN.search(json.dumps(d, ensure_ascii=False)):
-        blockers.append(f"{cid}: FORBIDDEN trading language detected (WATCHLIST_ONLY red-line)")
-    if d.get("compliance") != "WATCHLIST_ONLY":
-        blockers.append(f"{cid}: compliance must be WATCHLIST_ONLY")
-
-    # 3) dual-engine verification presence
     v = d.get("verification", {})
     hermes = v.get("hermes", {}).get("result")
     codex_prior = v.get("codex", {}).get("result")
-    if hermes != "PASS":
-        problems.append(f"{cid}: hermes result must be PASS before Codex verify (got {hermes})")
-
-    # 4) Codex independent judgement -> stamps its own PASS/NEEDS_FIX
     fresh = d.get("freshness", {}).get("state")
     codex_result = "PASS" if not problems and not blockers else ("BLOCKED" if blockers else "NEEDS_FIX")
 
@@ -92,6 +144,7 @@ def main() -> int:
 
     return _emit(args, state, problems, blockers, {
         "content_id": cid,
+        "candidate_sha256": hashlib.sha256(cand_path.read_bytes()).hexdigest(),
         "hermes": hermes,
         "codex_prior": codex_prior,
         "codex_result": codex_result,
