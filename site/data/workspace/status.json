@@ -30,6 +30,48 @@
    "ticker": "BTC",
    "status": "UNAVAILABLE",
    "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-avgo",
+   "ticker": "AVGO",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-crwv",
+   "ticker": "CRWV",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-meta",
+   "ticker": "META",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-msft",
+   "ticker": "MSFT",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-now",
+   "ticker": "NOW",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-rklb",
+   "ticker": "RKLB",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
+  },
+  {
+   "content_id": "ws-asset-spcx",
+   "ticker": "SPCX",
+   "status": "UNAVAILABLE",
+   "freshness": "UNAVAILABLE"
   }
  ],
  "degradation": "If Mac offline -> serve last-known-good/DELAYED; engine/source/CI/CF failure -> no LIVE publish; notify failure -> keep primary artifact."
