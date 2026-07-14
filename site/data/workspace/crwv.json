@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "content_id": "ws-asset-crwv",
+  "generated_at": "2026-07-14T14:03:46.639987+08:00",
+  "data_as_of": "2026-07-13",
+  "status": "HERMES_READY",
+  "freshness": {
+    "state": "FRESH",
+    "max_age_days": 7,
+    "age_days": 1
+  },
+  "verification": {
+    "hermes": {
+      "result": "PASS",
+      "at": "2026-07-14T14:03:46.640019+08:00"
+    },
+    "codex": {
+      "result": "PENDING",
+      "at": null
+    }
+  },
+  "sources": [
+    {
+      "name": "Yahoo Finance — CRWV",
+      "url": "https://finance.yahoo.com/quote/CRWV"
+    },
+    {
+      "name": "Nasdaq — CRWV",
+      "url": "https://www.nasdaq.com/market-activity/stocks/crwv"
+    }
+  ],
+  "compliance": "WATCHLIST_ONLY",
+  "payload": {
+    "ticker": "CRWV",
+    "name": "CoreWeave, Inc.",
+    "sector": "AI Cloud Infrastructure",
+    "narrative": "CoreWeave, Inc. (CRWV) is an AI-native cloud infrastructure provider headquartered in New Jersey, operating purpose-built GPU data centers across the US and Europe with a most-favored-nation supply relationship with Nvidia. The company reported $2.08B in Q1 2026 revenue (up 112% YoY) and held a $99.4B revenue backlog as of March 31, 2026, anchored by multi-year contracts with Meta ($21B) and OpenAI (~$22.4B in cumulative commitments). It is on the watchlist as a concentrated play on AI compute demand, with the key open question being whether its high capital intensity — approximately $2.60 spent for every dollar of revenue — can translate into sustainable free cash flow as contracted revenue ramps.\n\nNote: Revenue backlog and capital intensity figures sourced from Sacra estimates (sacra.com/c/coreweave); Q1 2026 results and contract values cross-verified against multiple secondary sources. Company background confirmed via Wikipedia and CoreWeave's own investor communications. These are publicly reported or estimated figures, not independently audited by this research workspace. WATCHLIST_ONLY — no position, no recommendation.",
+    "catalysts": [
+      "Quarterly earnings and forward guidance cadence",
+      "Sector-specific demand cycle and supply-chain signals",
+      "Macro regime shifts affecting risk appetite"
+    ],
+    "observations": [
+      {
+        "label": "Latest close (verified)",
+        "value": "$83.31",
+        "verified_by": "finnhub + yahoo"
+      },
+      {
+        "label": "Coverage group",
+        "value": "B-group US equities watchlist",
+        "verified_by": "internal watchlist config"
+      },
+      {
+        "label": "Verification tolerance",
+        "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
+        "verified_by": "dual-engine protocol"
+      }
+    ]
+  }
+}
