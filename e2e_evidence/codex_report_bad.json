@@ -1,0 +1,17 @@
+{
+  "verifier": "codex_verify_candidate",
+  "verified_at": "2026-07-14T04:05:32.185170+00:00",
+  "proposed_state": "BLOCKED",
+  "detail": {
+    "content_id": "ws-asset-testz-fixture",
+    "hermes": "PASS",
+    "codex_prior": "PENDING",
+    "codex_result": "BLOCKED",
+    "freshness": "FRESH",
+    "live_eligible": false
+  },
+  "problems": [],
+  "blockers": [
+    "ws-asset-testz-fixture: FORBIDDEN trading language detected (WATCHLIST_ONLY red-line)"
+  ]
+}

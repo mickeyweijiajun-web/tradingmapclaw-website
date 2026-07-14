@@ -1,0 +1,17 @@
+{
+  "verifier": "codex_verify_candidate",
+  "verified_at": "2026-07-14T04:05:32.242516+00:00",
+  "proposed_state": "NEEDS_FIX",
+  "detail": {
+    "content_id": "ws-asset-testz-fixture",
+    "hermes": "PASS",
+    "codex_prior": "PENDING",
+    "codex_result": "NEEDS_FIX",
+    "freshness": "FRESH",
+    "live_eligible": false
+  },
+  "problems": [
+    "ws-asset-testz-fixture: missing required key 'sources'"
+  ],
+  "blockers": []
+}
