@@ -15,7 +15,7 @@ Re-run any test with the exact command shown. Compliance: WATCHLIST_ONLY.
 | P0-C6b | Test 6 idempotency | re-kickstart same day | `SKIP: already terminal today`, mtime unchanged | PASS |
 | P0-C7a | Test 7 bootout | `launchctl bootout gui/$(id -u)/ai.tmc.weekly_content` | STOPPED_OK, plist valid | PASS |
 | P0-C7b | Test 7 bootstrap (final) | Owner ran `launchctl bootstrap gui/501 …ai.tmc.weekly_content.plist` in Mac Terminal; then `kickstart -k` | `launchctl print` visible; runs 0→1, last exit code 0; new `DRAFT … lint_problems=0 (fix_iterations=2)`; draft on disk (not published); re-trigger `SKIP: already terminal today`; err.log empty | **PASS** |
-| P0-D | Perplexity owner map | see SYSTEM_OWNERSHIP_MATRIX §B | 2 retired (GitHub health + weekly content), 1 retained (daily brief) | PASS |
+| P0-D | Perplexity owner map | see SYSTEM_OWNERSHIP_MATRIX §B | 2 retired (GitHub health + weekly content); daily brief = DEFERRED/OWNER_ACTION, `9b9748d6` retained as manual-optional fallback (not auto-triggered) | PASS (mapping correct; daily-brief delivery itself is DEFERRED, not PASS/auto) |
 | P0-E | Date drift fix | `python3 tools/backfill_radar_meta.py` (idempotent) | radar-latest.json has content_id/week/schema_version/compliance | PASS |
 | P0-F | Publish idempotency | archive guard + RSS GUID week-unique | single LIVE, SAMPLE refused | PASS |
 | P0-G | GitHub takeover | PR #1 branch→CI→preview→smoke | all green | PASS |

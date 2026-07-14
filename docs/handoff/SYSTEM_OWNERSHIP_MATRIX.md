@@ -26,8 +26,8 @@ are **out of scope** and unchanged.
 
 | # | Task | Owner (target) | Schedule | Last real run / evidence | Status | Rollback |
 |---|---|---|---|---|---|---|
-| 1 | Daily market brief | LOCAL-DUAL-ENGINE `ai.tmc.daily_brief` | Weekdays 08:00 Beijing | 2026-07-13, OK 10/10, 13/13 independently re-checked; `sent=False` | OWNER_ACTION (push not wired) | Keep Perplexity `9b9748d6` |
-| 2 | Weekly content + Substack draft | LOCAL-DUAL-ENGINE `ai.tmc.weekly_content` | Mon 09:30 Beijing | 2026-07-14 Test 6 PASS (`DRAFT_2026-07-14_method-note.md`, 2 fix rounds) | OWNER_ACTION (bootstrap §9.1) | Restore `.v1.bak.20260714`; Perplexity `d87c574c` fallback |
+| 1 | Daily market brief | LOCAL-DUAL-ENGINE `ai.tmc.daily_brief` | Weekdays 08:00 Beijing | 2026-07-14, generates + independently re-checks; `sent=False` (refuses to send on cross-source mismatch — correct degradation) | **DEFERRED / OWNER_ACTION — delivery not wired, NOT auto-taken-over** | Perplexity `9b9748d6` **retained as manual-optional fallback, enabled but not auto-triggered by this system** |
+| 2 | Weekly content + Substack draft | LOCAL-DUAL-ENGINE `ai.tmc.weekly_content` | Mon 09:30 Beijing | 2026-07-14 Test 6 + Test 7 PASS (bootstrap done by Owner, runs=1 exit 0, `DRAFT_2026-07-14_method-note.md`, 2 fix rounds, idempotent) | **PASS (owned)** — Perplexity `d87c574c` **deleted** (no dual-run) | Restore `.v1.bak.20260714` |
 | 3 | Weekly GitHub health check | GITHUB-ACTIONS `weekly-health.yml` | Mon 09:30 Beijing (01:30 UTC) | GitHub Actions run, STATUS OK | PASS (owned) | Disable workflow → re-enable Perplexity `5196e484` (now deleted) |
 | 4 | Weekly Radar (report) | DUAL-ENGINE (Hermes narrative + Codex verify/build) | Weekly | 2026-W29 real run: dual-source 9/9 → LIVE JSON → Preview → CI → Prod → archive + RSS | PASS | `git revert` + re-push main; bad data → DATA_UNAVAILABLE |
 | 5 | Site publish pipeline | CODEX (CI/CF) | On PR / on main | PR #1 (P0-E), PR #2 (P2) both merged, Prod green | PASS | Revert to `efb9a9c` |
