@@ -113,7 +113,7 @@ def render_asset_page(cid) -> str:
     canonical = f"{BASE}/workspace/assets/{cid}"
     title = f"{t} &mdash; Workspace research card | TradingMapClaw"
     desc = f"Research-only workspace card for {esc(pl['name'])} ({t}). Dual-engine verified, WATCHLIST_ONLY. Not investment advice."
-    body = [head(title, desc, canonical), hero("Workspace &middot; Asset", f"{t} — {pl['name']}", pl["sector"])]
+    body = [head(title, desc, canonical), hero("Workspace · Asset", f"{t} — {pl['name']}", pl["sector"])]
     if d["status"] == "LIVE":
         body.append('<section class="section"><div class="wrap">')
         body.append(f'<p class="status-pill">STATUS: {d["status"]} &middot; freshness {d["freshness"]["state"]} &middot; as of {d["data_as_of"]}</p>')
@@ -184,7 +184,7 @@ def render_stub(slug, label, h1, sub, extra="") -> str:
     canonical = f"{BASE}/workspace/{slug}"
     title = f"{label} &mdash; Workspace | TradingMapClaw"
     desc = f"{sub} WATCHLIST_ONLY. Not investment advice."
-    body = [head(title, desc, canonical), hero(f"Workspace &middot; {label}", h1, sub)]
+    body = [head(title, desc, canonical), hero(f"Workspace · {label}", h1, sub)]
     body.append('<section class="section"><div class="wrap">')
     body.append(extra or '<p class="status-pill">Coming soon</p><p>This workspace section is reserved and will publish once its data contract goes LIVE. Until then it shows nothing rather than fabricating content.</p>')
     body.append('<p><a href="/workspace">&larr; Back to Workspace</a></p>')
@@ -200,7 +200,7 @@ def render_status_page() -> str:
     extra = (f'<p class="status-pill">STATUS: {st["status"]} &middot; as of {st["data_as_of"]}</p>'
              f'<h2>Engine ownership</h2><table class="table"><thead><tr><th>Engine</th><th>Role</th></tr></thead><tbody>{rows}</tbody></table>'
              f'<h2>Degradation behavior</h2><p>{esc(st["degradation"])}</p>')
-    return render_stub("status", "Status", "System &amp; engine ownership",
+    return render_stub("status", "Status", "System & engine ownership",
                        "Who owns what after the Perplexity handoff, and how the system degrades gracefully.", extra)
 
 
