@@ -26,6 +26,10 @@
 
 1. **Hermes generates** a draft (weekly content Monday, daily brief weekday mornings). Drafts land in
    `ops_migration/logs/` and `public-content/drafts/` with a `.lintreport.json` sidecar and a status.
+   > **Note on the daily brief:** the Mac `ai.tmc.daily_brief` agent runs and independently verifies,
+   > but it does **not** yet auto-deliver — when cross-source numbers disagree it logs
+   > `VERIFICATION FAILED — not sending` and sets `sent=False` (correct graceful degradation; it never
+   > sends unverified numbers). Delivery is a pending **OWNER_ACTION**, not an automated step (see §7).
 2. **Codex verifies**: run the deterministic checks (below). Draft advances
    `HERMES_READY → CODEX_VERIFYING → APPROVED_CANDIDATE` only on dual-PASS.
 3. **Publish**: create a branch → PR → CI gate → Cloudflare Preview → prod-smoke → merge to `main`.
@@ -100,13 +104,32 @@ never guess.
 
 ---
 
-## 7. Known OWNER_ACTION — launchd bootstrap (Test 7)
+## 7. OWNER_ACTION items
 
-`launchctl bootstrap` cannot run from a non-interactive session (launchd `gui/501` domain, `error 5`).
-Run this in the Mac's own Terminal (or just log out/in — the valid plist auto-loads):
+**7.1 Test 7 launchd bootstrap — DONE (no longer pending).**
+The Owner completed the one-time interactive bootstrap on 2026-07-14 and it was verified with a real
+run (`launchctl print` visible, runs=1, last exit code 0). Kept here only for reference:
 ```sh
+# already done — re-run only if the agent is ever removed:
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/ai.tmc.weekly_content.plist
 ```
+
+**7.2 Daily-brief local delivery — OWNER_ACTION (the only open item).**
+The Mac `ai.tmc.daily_brief` agent generates + verifies but currently `sent=False` (it refuses to send
+on cross-source number mismatch — correct degradation, **not** a failure). Local delivery is **not**
+wired, so this step is **not automatically taken over**. The Owner decides whether to:
+- wire a local delivery channel for the brief, and/or
+- keep using the Perplexity fallback task `9b9748d6` (see §7.3).
+
+Until the Owner acts, treat the daily brief as **OWNER_ACTION / DEFERRED**, not as auto-running.
+
+**7.3 Perplexity fallback task `9b9748d6` — retained as manual-optional, not auto-triggered by this system.**
+Perplexity has otherwise exited (weekly-content and GitHub-health tasks retired). One Perplexity
+scheduled task, `9b9748d6` (daily market brief), is **intentionally left enabled as a human-optional
+fallback** so the Owner still receives a brief while §7.2 is undecided. It is **not** part of the
+Hermes/Codex/GitHub-Actions/Cloudflare automated pipeline and must not be described as "auto-taken-over."
+To stop it, the Owner opens `https://www.perplexity.ai/computer/tasks/<session_id>` (task lives in
+session `ca8fd1cc-…`) and deletes it. Do **not** wire this system to trigger it.
 
 ---
 

@@ -29,8 +29,9 @@ Status vocabulary used throughout: **PASS / NEEDS_FIX / BLOCKED / OWNER_ACTION**
 **The system no longer depends on Perplexity to run.** Content generation runs on the Mac (Hermes),
 verification/publishing runs through GitHub Actions + Cloudflare Pages (Codex), and health monitoring
 runs as a GitHub Actions workflow. After this acceptance, **one** Perplexity scheduled task remains
-(daily brief), retained only as an OWNER-decided fallback because local delivery is not yet wired
-(see §5). The weekly-content task was deleted after its Mac chain passed Test 7.
+(daily brief), **retained as a human-optional fallback — left enabled but not auto-triggered by this
+system** — because its local delivery is not yet wired (see §5). It is an OWNER_ACTION / DEFERRED item,
+not an automated takeover. The weekly-content task was deleted after its Mac chain passed Test 7.
 
 ---
 
@@ -147,12 +148,13 @@ Judgement discipline: **only real run logs count as "taken over."**
 
 | # | Task | Old owner | New owner | Disposition |
 |---|---|---|---|---|
-| 1 | Daily market brief | Perplexity `9b9748d6` | LOCAL-DUAL-ENGINE (`ai.tmc.daily_brief`) | **RETAINED — OWNER_ACTION.** Mac agent is bootstrapped (runs=8, exit 0) and independently verifies, but today `sent=False` — `VERIFICATION FAILED — not sending` on ETH/BTC cross-source mismatch (this is correct degradation: it refuses to send unverified numbers). Delivery is not yet wired, so the local chain cannot fully replace this task. **Not deleted.** Owner decides when to wire local push and drop it. |
+| 1 | Daily market brief | Perplexity `9b9748d6` | LOCAL-DUAL-ENGINE (`ai.tmc.daily_brief`) | **DEFERRED / OWNER_ACTION — NOT auto-taken-over.** The Mac agent is bootstrapped (runs=8, exit 0) and independently verifies, but delivery is **not** wired: today `sent=False` (`VERIFICATION FAILED — not sending` on ETH/BTC cross-source mismatch — correct graceful degradation, it refuses to send unverified numbers). Because delivery is unwired, this step is **not** part of the automated pipeline. The Perplexity task `9b9748d6` is **retained as a human-optional fallback, left enabled but not auto-triggered by this system** — it must not be recorded as PASS or auto-running. Owner decides when to wire local delivery and then delete `9b9748d6`. |
 | 2 | Weekly content + Substack draft | Perplexity `d87c574c` | LOCAL-DUAL-ENGINE (`ai.tmc.weekly_content`) | **RETIRED — DELETED 2026-07-14.** Mac v2 chain passed Test 7 (runs→1, exit 0, DRAFT produced, idempotent). Per the no-dual-run rule the Perplexity task was deleted after real PASS. |
 | 3 | Weekly GitHub health check | Perplexity `5196e484` | GITHUB-ACTIONS `weekly-health.yml` | **RETIRED.** 1:1 replaced; Perplexity task deleted (earlier). |
 
-To cancel a retained task later, the Owner opens the owning conversation at
-`https://www.perplexity.ai/computer/tasks/<session_id>` (task #1/#2 live in session `ca8fd1cc-…`).
+To cancel the retained fallback task later, the Owner opens the owning conversation at
+`https://www.perplexity.ai/computer/tasks/<session_id>` (task #1 `9b9748d6` lives in session
+`ca8fd1cc-…`) and deletes it. This system does not and must not trigger it automatically.
 
 ---
 
@@ -216,9 +218,11 @@ To cancel a retained task later, the Owner opens the owning conversation at
 
 1. ~~Test 7 bootstrap~~ — **DONE** by the Owner on 2026-07-14 (interactive Terminal bootstrap; verified
    runs=1, exit 0). No longer pending.
-2. **Daily brief delivery** — the only remaining OWNER_ACTION. The Mac `ai.tmc.daily_brief` agent runs
-   and verifies but currently `sent=False` (correctly refuses to send on cross-source mismatch). Owner
-   decides whether to wire local delivery; until then Perplexity fallback task `9b9748d6` stays enabled.
+2. **Daily brief delivery — OWNER_ACTION / DEFERRED (the only open item).** The Mac `ai.tmc.daily_brief`
+   agent runs and verifies but currently `sent=False` (correctly refuses to send on cross-source
+   mismatch). This delivery step is **not auto-taken-over**. Perplexity task `9b9748d6` is **retained as
+   a manual-optional fallback, left enabled but not auto-triggered by this system** — do not record it as
+   PASS or auto-running. Owner decides whether to wire local delivery and then delete `9b9748d6`.
 3. Payments / refunds / 2FA / terms acceptance / banking / account ownership — always Owner-only.
 
 ---
