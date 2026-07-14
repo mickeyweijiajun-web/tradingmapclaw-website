@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.0",
+    "content_id": "ws-asset-spcx",
+    "generated_at": "2026-07-14T23:02:42+08:00",
+    "data_as_of": "2026-07-14",
+    "status": "HERMES_READY",
+    "freshness": {
+        "state": "FRESH",
+        "max_age_days": 7,
+        "age_days": 0
+    },
+    "verification": {
+        "hermes": {
+            "result": "PASS",
+            "at": "2026-07-14T23:02:42+08:00"
+        },
+        "codex": {
+            "result": "PENDING",
+            "at": null
+        }
+    },
+    "sources": [
+        {
+            "name": "Finnhub — SPCX",
+            "url": "https://finnhub.io/quote/SPCX"
+        },
+        {
+            "name": "Yahoo Finance — SPCX",
+            "url": "https://finance.yahoo.com/quote/SPCX"
+        }
+    ],
+    "compliance": "WATCHLIST_ONLY",
+    "payload": {
+        "ticker": "SPCX",
+        "name": "SPCX (Spire Space Systems)",
+        "sector": "Space / Satellite data",
+        "narrative": "SPCX sits in the B-group watchlist as a space-data and satellite infrastructure name. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+        "catalysts": [
+            "Satellite constellation expansion and data-service revenue growth",
+            "Government / defense contract pipeline",
+            "Quarterly earnings and path to profitability"
+        ],
+        "observations": [
+            {
+                "label": "5-day change (research window)",
+                "value": "-4.8%",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Closing price (as-of date)",
+                "value": "$141.24",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Coverage group",
+                "value": "B-group US equities watchlist",
+                "verified_by": "internal watchlist config"
+            },
+            {
+                "label": "Verification tolerance",
+                "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
+                "verified_by": "dual-engine protocol"
+            }
+        ]
+    }
+}

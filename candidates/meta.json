@@ -1,0 +1,66 @@
+{
+    "schema_version": "1.0",
+    "content_id": "ws-asset-meta",
+    "generated_at": "2026-07-14T23:02:42+08:00",
+    "data_as_of": "2026-07-14",
+    "status": "HERMES_READY",
+    "freshness": {
+        "state": "FRESH",
+        "max_age_days": 7,
+        "age_days": 0
+    },
+    "verification": {
+        "hermes": {
+            "result": "PASS",
+            "at": "2026-07-14T23:02:42+08:00"
+        },
+        "codex": {
+            "result": "PENDING",
+            "at": null
+        }
+    },
+    "sources": [
+        {
+            "name": "Finnhub — META",
+            "url": "https://finnhub.io/quote/META"
+        },
+        {
+            "name": "Yahoo Finance — META",
+            "url": "https://finance.yahoo.com/quote/META"
+        }
+    ],
+    "compliance": "WATCHLIST_ONLY",
+    "payload": {
+        "ticker": "META",
+        "name": "Meta Platforms, Inc.",
+        "sector": "Social / Digital advertising",
+        "narrative": "Meta sits in the B-group watchlist as the reference name for digital advertising and social-platform economics. The workspace tracks it as a research subject only: what the dual-engine pipeline observed over the last 5 trading days, which catalysts are on the calendar, and where the primary data sources disagree. Nothing here is a recommendation to buy, sell, or hold.",
+        "catalysts": [
+            "Advertising revenue cycle and Reels monetization trajectory",
+            "AI infrastructure capex and Reality Labs burn rate",
+            "Quarterly earnings and forward guidance cadence"
+        ],
+        "observations": [
+            {
+                "label": "5-day change (research window)",
+                "value": "+9.6%",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Closing price (as-of date)",
+                "value": "$660.98",
+                "verified_by": "Finnhub + Yahoo"
+            },
+            {
+                "label": "Coverage group",
+                "value": "B-group US equities watchlist",
+                "verified_by": "internal watchlist config"
+            },
+            {
+                "label": "Verification tolerance",
+                "value": "1.5% cross-source; mismatch -> DATA_UNAVAILABLE",
+                "verified_by": "dual-engine protocol"
+            }
+        ]
+    }
+}
