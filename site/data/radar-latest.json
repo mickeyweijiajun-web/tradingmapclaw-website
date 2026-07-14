@@ -89,5 +89,10 @@
    "band": "logged",
    "verified_by": "dual-source ✓ (Coinbase + Kraken, ≤1.5% divergence)"
   }
- ]
+ ],
+ "week": 29,
+ "content_id": "radar-2026-W29",
+ "generated_at": "2026-07-13T00:00:00+08:00",
+ "schema_version": "1.0",
+ "compliance": "WATCHLIST_ONLY"
 }
