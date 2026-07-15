@@ -29,11 +29,11 @@ jobs:
         run: python -m py_compile tools/*.py
       - name: regression tests
         run: python -m unittest discover -s tests -v
-      - name: independent candidate verification
+      - name: deterministic candidate preflight
         run: python tools/codex_verify_queue.py
       - name: verify-all quality gate
         run: python tools/tmc_ops.py verify-all --json verify-report.json
-      - name: workspace data contract (Codex gate)
+      - name: workspace data contract
         run: python tools/workspace_validate.py
       - name: workspace pages built & idempotent
         run: python tools/workspace_build.py --check

@@ -8,7 +8,7 @@ import os
 OUT = os.path.join(os.path.dirname(__file__), "..", "site", "legal")
 os.makedirs(OUT, exist_ok=True)
 
-EFFECTIVE = "July 4, 2026"
+EFFECTIVE = "July 15, 2026"
 
 HEAD = """<!doctype html>
 <html lang="en">
@@ -270,10 +270,17 @@ PAGES["disclaimer"] = ("Disclaimer",
   <h2>6. Third-party references</h2>
   <p>References to third-party tools, platforms, or prices are for comparison and education. We are not affiliated with, endorsed by, or sponsored by those companies, and their prices and features may change.</p>
 
-  <h2>7. Assumption of risk</h2>
+  <h2>7. Publication and verification policy</h2>
+  <p>Public research is general and impersonal, is released on a regular stated cadence, and is not adapted to a reader's portfolio, objectives, risk tolerance, location, or financial circumstances. Records carry an as-of date and source links. Missing or conflicting data is labeled DATA_UNAVAILABLE or left as an open question rather than estimated.</p>
+  <p>Automated structural checks do not equal independent fact verification. A record cannot be promoted to LIVE research solely because its schema and language passed validation. AI-assisted content may still contain errors; a PASS records completion of the stated checks, not a guarantee of accuracy.</p>
+
+  <h2>8. Conflicts, sponsorships, and corrections</h2>
+  <p>Paid relationships, affiliate links, free access, or other material connections are disclosed clearly at first mention. Sponsored material is kept outside the research pipeline. Material corrections are dated and recorded rather than silently rewriting the archive.</p>
+
+  <h2>9. Assumption of risk</h2>
   <p>Markets — including equities and crypto — carry significant risk, including total loss. You are solely responsible for your own decisions and their consequences. By using this Site or any Product, you accept these disclaimers.</p>
 
-  <h2>8. Contact</h2>
+  <h2>10. Contact</h2>
   <p>Questions about this Disclaimer: <a href="mailto:contact@tradingmapclaw.com">contact@tradingmapclaw.com</a>.</p>
   """)
 

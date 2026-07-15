@@ -952,11 +952,11 @@ def check_llms_txt(site_dir: str):
             continue
         if "v2.0" not in text:
             problems.append("{}: missing 'v2.0'".format(fname))
-        if "118" not in text:
-            problems.append("{}: missing '118'".format(fname))
+        if "WATCHLIST_ONLY" not in text:
+            problems.append("{}: missing 'WATCHLIST_ONLY'".format(fname))
     if problems:
         return "FAIL", "; ".join(problems)
-    return "PASS", "llms.txt and llms-full.txt exist and contain 'v2.0' and '118'"
+    return "PASS", "llms.txt and llms-full.txt exist and contain 'v2.0' and 'WATCHLIST_ONLY'"
 
 
 def check_robots_txt(site_dir: str):
@@ -997,9 +997,63 @@ def check_site_config(site_dir: str):
     ae = data.get("analytics_enabled")
     if not isinstance(ae, bool):
         problems.append("analytics_enabled must be a JSON boolean, got: {!r}".format(ae))
+    if ae is False:
+        beacon_pages = []
+        for root, _, files in os.walk(site_dir):
+            for name in files:
+                if not name.endswith(".html"):
+                    continue
+                page, _ = read_text(os.path.join(root, name))
+                if page and ("cloudflareinsights.com" in page or "data-cf-beacon" in page):
+                    beacon_pages.append(os.path.relpath(os.path.join(root, name), site_dir))
+        if beacon_pages:
+            problems.append("analytics_enabled=false but beacon remains on: {}".format(
+                ", ".join(sorted(beacon_pages)[:20])
+            ))
     if problems:
         return "FAIL", "; ".join(problems)
     return "PASS", "site-config.json valid: cta_variant={!r}, analytics_enabled={!r}".format(cta, ae)
+
+
+def check_public_release_feeds(site_dir: str):
+    """Validate the machine-published system log and verification ledger."""
+    try:
+        from public_release import validate as validate_release
+    except Exception as e:
+        return "FAIL", "cannot import public release gate: {}: {}".format(type(e).__name__, e)
+
+    problems = []
+    build_path = os.path.join(site_dir, "data", "build-log.json")
+    ledger_path = os.path.join(site_dir, "data", "verification-ledger-latest.json")
+    build_text, build_err = read_text(build_path)
+    if build_text is None:
+        problems.append("build-log.json missing: {}".format(build_err))
+    else:
+        try:
+            build_data = json.loads(build_text)
+            entries = build_data.get("entries", []) if isinstance(build_data, dict) else []
+            if not entries:
+                problems.append("build-log.json has no entries")
+            for index, entry in enumerate(entries):
+                for error in validate_release(entry, "build-log"):
+                    problems.append("build-log entry {}: {}".format(index, error))
+        except (ValueError, TypeError) as e:
+            problems.append("build-log.json invalid: {}".format(e))
+
+    ledger_text, ledger_err = read_text(ledger_path)
+    if ledger_text is None:
+        problems.append("verification-ledger-latest.json missing: {}".format(ledger_err))
+    else:
+        try:
+            ledger = json.loads(ledger_text)
+            for error in validate_release(ledger, "verification-ledger"):
+                problems.append("verification ledger: {}".format(error))
+        except (ValueError, TypeError) as e:
+            problems.append("verification-ledger-latest.json invalid: {}".format(e))
+
+    if problems:
+        return "FAIL", "; ".join(problems[:20])
+    return "PASS", "public build log and verification ledger pass schema, freshness, source-diversity and compliance gates"
 
 
 # ---- network checks (opt-in via --smoke) --------------------------------
@@ -1120,17 +1174,18 @@ def cmd_verify_all(args):
     runner.run("23_robots_txt", lambda: check_robots_txt(site_dir))
     runner.run("24_404_page", lambda: check_404_page(site_dir))
     runner.run("25_site_config", lambda: check_site_config(site_dir))
+    runner.run("26_public_release_feeds", lambda: check_public_release_feeds(site_dir))
 
     if args.smoke and not args.skip_network:
-        runner.run("26_smoke_pages_200", lambda: check_smoke_pages(base_url))
-        runner.run("27_smoke_homepage_content", lambda: check_smoke_homepage_content(base_url))
-        runner.run("28_smoke_canonical_domain", lambda: check_smoke_canonical_domain(base_url))
+        runner.run("27_smoke_pages_200", lambda: check_smoke_pages(base_url))
+        runner.run("28_smoke_homepage_content", lambda: check_smoke_homepage_content(base_url))
+        runner.run("29_smoke_canonical_domain", lambda: check_smoke_canonical_domain(base_url))
     else:
         reason = "network checks skipped (pass --smoke to enable)" if not args.smoke else \
             "network checks skipped (--skip-network was set)"
-        runner.add("26_smoke_pages_200", "SKIP", reason)
-        runner.add("27_smoke_homepage_content", "SKIP", reason)
-        runner.add("28_smoke_canonical_domain", "SKIP", reason)
+        runner.add("27_smoke_pages_200", "SKIP", reason)
+        runner.add("28_smoke_homepage_content", "SKIP", reason)
+        runner.add("29_smoke_canonical_domain", "SKIP", reason)
 
     summary = {"pass": 0, "fail": 0, "warn": 0, "skip": 0}
     for c in runner.checks:

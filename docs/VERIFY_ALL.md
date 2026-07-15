@@ -4,7 +4,7 @@
 
 包含两个脚本：
 
-- `tools/tmc_ops.py` — `verify-all` 子命令，对 `site/` 与 `tools/` 做 28 项检查（25 项本地 + 3 项可选网络），人类可读报告 + 可选 `--json` 机器可读报告，退出码反映结果。
+- `tools/tmc_ops.py` — `verify-all` 子命令，对 `site/` 与 `tools/` 做 29 项检查（26 项本地 + 3 项可选网络），人类可读报告 + 可选 `--json` 机器可读报告，退出码反映结果。
 - `tools/weekly_health.py` — 每周仓库/站点健康检查，fail-open（任何异常都不会让脚本本身非零退出），输出 `STATUS: OK|DRIFT|FAIL` 首行 + markdown 详情。
 
 两者均为 **stdlib only**，兼容 **Python 3.9+**，对 `site/` **只读**（`tools/tmc_ops.py` 和 `tools/weekly_health.py` 从不写入 `site/` 下任何文件）。
@@ -27,8 +27,8 @@ python3 tools/tmc_ops.py verify-all [--json PATH] [--site-dir site] \
 | `--json PATH` | 无 | 额外写一份机器可读 JSON 报告到指定路径 |
 | `--site-dir` | `site` | 站点目录（相对当前工作目录，或绝对路径） |
 | `--base-url` | `https://www.tradingmapclaw.com` | 校验 canonical / sitemap / 网络检查所用的权威域名 |
-| `--skip-network` | 关闭 | 强制跳过第 26–28 项网络检查（优先于 `--smoke`） |
-| `--smoke` | 关闭 | 开启第 26–28 项网络检查（需要出网） |
+| `--skip-network` | 关闭 | 强制跳过第 27–29 项网络检查（优先于 `--smoke`） |
+| `--smoke` | 关闭 | 开启第 27–29 项网络检查（需要出网） |
 
 退出码：
 
@@ -43,7 +43,7 @@ python3 tools/tmc_ops.py verify-all --json verify-report.json
 echo "exit code: $?"
 ```
 
-### 1.2 检查项清单（28 项）
+### 1.2 检查项清单（29 项）
 
 本地检查（默认执行，无需出网）：
 
@@ -70,18 +70,19 @@ echo "exit code: $?"
 | 19 | `19_accessibility_basics` | `<img>` 有 `alt`；表单 `<input>` 有 `<label for>` 或 `aria-label`/`aria-labelledby` |
 | 20 | `20_mobile_basics` | 每页有 viewport meta；`site.css` 含 `@media` |
 | 21 | `21_build_site_data_idempotent` | `python3 tools/build_site_data.py --check` 退出码为 0（幂等） |
-| 22 | `22_llms_txt` | `llms.txt`/`llms-full.txt` 存在且含 `v2.0` 与 `118` |
+| 22 | `22_llms_txt` | `llms.txt`/`llms-full.txt` 存在且含 `v2.0` 与 `WATCHLIST_ONLY`；不再用未核准的精确任务数作为门禁 |
 | 23 | `23_robots_txt` | `robots.txt` 存在且引用 `sitemap.xml` |
 | 24 | `24_404_page` | `site/404.html` 存在 |
 | 25 | `25_site_config` | `site/data/site-config.json` 的 `cta_variant ∈ {A,B}`，`analytics_enabled` 为布尔值 |
+| 26 | `26_public_release_feeds` | Build Log 与 Verification Ledger 通过 schema、时效、双域来源和 WATCHLIST_ONLY 用语门禁 |
 
 网络检查（默认 SKIP，`--smoke` 开启，`--skip-network` 强制跳过）：
 
 | # | id | 内容 |
 |---|---|---|
-| 26 | `26_smoke_pages_200` | `GET base-url` 的 `/`, `/products.html`, `/radar.html`, `/story.html`, `/faq.html` 均返回 200 |
-| 27 | `27_smoke_homepage_content` | 线上首页含 `Dual-Engine` 且不含禁用旧数字 |
-| 28 | `28_smoke_canonical_domain` | 线上首页 canonical 域与 `--base-url` 一致 |
+| 27 | `27_smoke_pages_200` | `GET base-url` 的 `/`, `/products.html`, `/radar.html`, `/story.html`, `/faq.html` 均返回 200 |
+| 28 | `28_smoke_homepage_content` | 线上首页含 `Dual-Engine` 且不含禁用旧数字 |
+| 29 | `29_smoke_canonical_domain` | 线上首页 canonical 域与 `--base-url` 一致 |
 
 ### 1.3 缺失文件的处理方式（重要）
 
@@ -112,9 +113,9 @@ echo "exit code: $?"
 
 （`summary` 额外含 `skip` 字段，便于统计网络检查跳过情况；spec 要求的 `pass/fail/warn` 三键均保留。）
 
-### 1.5 本仓库真实运行样例（人类可读，`--skip-network` 隐含，默认模式）
+### 1.5 历史运行样例（2026-07-13，新增第 26 项之前）
 
-以下为在本仓库 `/home/user/workspace/repo/tradingmapclaw-website` 内真实执行 `python3 tools/tmc_ops.py verify-all --json verify-report.json` 得到的样例输出（`site/` 由另一代理并行修改，属于该时间点的真实快照）：
+以下是 2026-07-13 的留档输出，仅用于展示格式；当前基线以实际命令输出和第 1.2 节的 29 项清单为准：
 
 ```
 ==============================================================================
@@ -187,16 +188,16 @@ $ echo $?
 }
 ```
 
-（完整 28 项见运行时 `--json` 输出文件；此处为节选，用于展示结构。）
+（这是新增公共发布门禁前的 28 项历史输出；当前完整输出为 29 项。）
 
 ### 1.7 网络检查样例（`--smoke`）
 
 在同一仓库对线上站点执行 `python3 tools/tmc_ops.py verify-all --smoke`（截至撰写本文档时，`www.tradingmapclaw.com` 可访问）：
 
 ```
-[PASS] 26_smoke_pages_200               all 5 primary page(s) returned HTTP 200
-[PASS] 27_smoke_homepage_content        live homepage contains 'Dual-Engine' and no banned legacy numbers
-[PASS] 28_smoke_canonical_domain        live canonical 'https://www.tradingmapclaw.com/' matches base-url domain
+[PASS] 27_smoke_pages_200               all 5 primary page(s) returned HTTP 200
+[PASS] 28_smoke_homepage_content        live homepage contains 'Dual-Engine' and no banned legacy numbers
+[PASS] 29_smoke_canonical_domain        live canonical 'https://www.tradingmapclaw.com/' matches base-url domain
 ```
 
 整体 `overall` 仍为 `FAIL`（因为本地检查 07/09 仍是 FAIL），退出码为 1 —— 网络检查的 PASS 不会掩盖本地问题。

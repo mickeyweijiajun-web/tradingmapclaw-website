@@ -63,7 +63,7 @@ Re-run any test with the exact command shown. Compliance: WATCHLIST_ONLY.
 
 ```sh
 cd tmc-v3/website/tmc-site
-python3 tools/tmc_ops.py verify-all        # 25 PASS / 0 FAIL / 0 WARN / 3 SKIP
+python3 tools/tmc_ops.py verify-all        # current: 26 PASS / 0 FAIL / 0 WARN / 3 SKIP
 python3 tools/workspace_validate.py        # PASS
 python3 tools/workspace_build.py --check   # up to date
 python3 tools/build_site_data.py --check   # up to date

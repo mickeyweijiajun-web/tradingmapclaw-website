@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "entries": [
+    {
+      "schema_version": "1.0",
+      "content_id": "build-2026-07-15-third-round-audit",
+      "content_type": "SYSTEM_BUILD_LOG",
+      "published_date": "2026-07-15",
+      "title": "Third-round audit hardened the publication gate",
+      "summary": "A Codex cross-audit separated deterministic JSON preflight from genuine external fact checking and tightened LIVE freshness and source-diversity rules.",
+      "changes": [
+        "Recomputed freshness from data_as_of instead of trusting a producer-supplied FRESH label.",
+        "Required two independent source domains for LIVE workspace records.",
+        "Marked deterministic candidate checks as preflight rather than independent market-data verification.",
+        "Designed separate release lanes for safe system updates and research evidence ledgers."
+      ],
+      "evidence": [
+        "Website unit tests and verify-all quality gate",
+        "Workspace schema and validator review",
+        "Hermes Round 2 report cross-audit"
+      ],
+      "status": "APPROVED",
+      "compliance": "WATCHLIST_ONLY"
+    }
+  ]
+}

@@ -26,10 +26,10 @@ HERMES = str(HOME / ".local" / "bin" / "hermes")
 
 TOPICS = [
     ("dual-engine-verification", "How dual-engine cross-verification catches a confidently wrong model"),
-    ("budget-engineering", "Running 118 scheduled research jobs on a $55/month budget cap"),
+    ("budget-engineering", "Running 100+ scheduled research workflows on a $55/month budget cap"),
     ("engine-disagreement", "What happens when Engine 1 and Engine 2 disagree by more than 5%"),
     ("council-voting", "A 3-round model council vote, explained with a real workflow"),
-    ("build-log", "Build log: one operator, one Mac mini, 230+ scripts"),
+    ("build-log", "Build log: one operator, one Mac mini, hundreds of scripts"),
     ("method-note", "Method note: why every public number carries an as-of date"),
 ]
 
@@ -60,7 +60,7 @@ Topic: {title}
 Voice: first-person solo builder ("the one-handed operator"), concrete, no hype. Slogan: Not pity. Visibility.
 HARD RULES — violating any of these makes the draft unusable:
 - Every number about the system must come verbatim from the FACTS block below; if it's not there, don't state it.
-- Product CTAs must match FACTS product status exactly: Payhip checkout is NOT live yet, so CTA is "join the waitlist" — never "buy now". Consulting ($200/$399/$699) is live via email application.
+- Product CTAs must match FACTS product status exactly. Only items marked LIVE may link to checkout; WAITLIST items must say "join the waitlist". Consulting ($200/$399/$699) is live via email application.
 - Scenario language only (bullish/neutral/bearish); no buy/sell advice; no guaranteed returns; no "real-time data" claims; no personal holdings; use "high research priority" never "high conviction".
 - End with: "Research & education only. Not investment advice."
 - First line: "# {title}". Second line: "DRAFT — requires Mickey approval before publishing."

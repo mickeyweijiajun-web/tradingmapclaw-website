@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-Codex independent candidate verifier — minimal executable entry point.
+Deterministic candidate preflight — minimal executable entry point.
 
-Role: Codex = CHECKER. This is the deterministic (no-LLM) content/finance gate that a
-Hermes candidate must clear before it can advance toward LIVE. It is intentionally
-independent of workspace_validate.py (which gates the 3 committed production assets):
-this one takes an arbitrary candidate file so a fixture can be verified end-to-end
-WITHOUT touching production data.
+This gate validates structure, freshness, source diversity and compliance. It does not
+retrieve market data and therefore MUST NOT be represented as an independent external
+fact check. A candidate that passes is eligible for checker review/Preview, never LIVE
+on the strength of this script alone.
 
 Input : a candidate asset JSON (Hermes output), validated against
         schemas/workspace/asset.schema.json.
@@ -25,6 +24,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 try:
     from simple_schema import validate as validate_schema
@@ -63,6 +63,28 @@ def validate_candidate(candidate):
     if candidate.get("freshness", {}).get("state") != "FRESH":
         problems.append(f"{cid}: candidate freshness must be FRESH")
 
+    # Never trust a producer-supplied age counter. Recompute it from data_as_of.
+    data_as_of = candidate.get("data_as_of")
+    max_age = candidate.get("freshness", {}).get("max_age_days")
+    try:
+        as_of_date = datetime.date.fromisoformat(data_as_of)
+        actual_age = (datetime.datetime.now(datetime.timezone.utc).date() - as_of_date).days
+        if actual_age < 0:
+            problems.append(f"{cid}: data_as_of is in the future")
+        if isinstance(max_age, int) and actual_age > max_age:
+            problems.append(f"{cid}: data is stale ({actual_age}d > max_age_days={max_age})")
+    except (TypeError, ValueError):
+        problems.append(f"{cid}: data_as_of must be a valid YYYY-MM-DD date")
+
+    sources = candidate.get("sources", [])
+    source_hosts = {
+        urlparse(item.get("url", "")).hostname
+        for item in sources if isinstance(item, dict) and item.get("url")
+    }
+    source_hosts.discard(None)
+    if len(sources) < 2 or len(source_hosts) < 2:
+        problems.append(f"{cid}: at least two independent source domains are required")
+
     observations = candidate.get("payload", {}).get("observations", [])
     has_price = any("$" in str(item.get("value", "")) or
                     "close" in str(item.get("label", "")).lower()
@@ -73,7 +95,10 @@ def validate_candidate(candidate):
     if isinstance(market, dict):
         sources = market.get("sources", [])
         names = {item.get("name") for item in sources if isinstance(item, dict)}
-        if len(sources) < 2 or len(names) < 2:
+        hosts = {urlparse(item.get("url", "")).hostname for item in sources
+                 if isinstance(item, dict) and item.get("url")}
+        hosts.discard(None)
+        if len(sources) < 2 or len(names) < 2 or len(hosts) < 2:
             problems.append(f"{cid}: market_data requires two independent sources")
         as_of = market.get("as_of")
         if candidate.get("data_as_of") != as_of:
@@ -103,7 +128,7 @@ def validate_candidate(candidate):
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description="Codex independent candidate verifier")
+    ap = argparse.ArgumentParser(description="Deterministic candidate preflight")
     ap.add_argument("candidate", help="path to Hermes candidate asset JSON")
     ap.add_argument("--report", default=None, help="path to write structured verification report")
     args = ap.parse_args()
@@ -155,7 +180,9 @@ def main() -> int:
 
 def _emit(args, state, problems, blockers, detail):
     report = {
-        "verifier": "codex_verify_candidate",
+        "verifier": "deterministic_candidate_preflight",
+        "external_fact_check": "NOT_PERFORMED",
+        "warning": "PASS means schema/compliance/internal-consistency only; independent source retrieval is still required before LIVE.",
         "verified_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "proposed_state": state,
         "detail": detail,

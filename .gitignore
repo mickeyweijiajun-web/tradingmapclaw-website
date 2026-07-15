@@ -4,5 +4,6 @@ __pycache__/
 .DS_Store
 ._*
 verify-report.json
+codex-reports/
 health-report.md
 node_modules/
