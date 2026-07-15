@@ -62,7 +62,7 @@ TARGET_FILES = [
 
 CTA_COPY = {
     "A": "Get the weekly radar brief",
-    "B": "See what 118 jobs found this week",
+    "B": "See what 100+ jobs found this week",
 }
 
 MARKER_RE_TEMPLATE = r"<!--TMC:{key}-->.*?<!--/TMC:{key}-->"

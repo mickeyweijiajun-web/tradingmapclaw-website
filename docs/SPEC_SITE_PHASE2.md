@@ -17,7 +17,7 @@
 - site/research/index.html：Research hub — 4 类入口卡片。
 - site/research/radar/index.html：Radar 归档索引（本期 = SAMPLE，注明；结构支持后续每周新增 <li>）。
 - site/research/market-structure/index.html、site/research/engine-disagreements/index.html、site/research/methods/index.html：栏目页，各含 1 条 SAMPLE 占位条目（标 SAMPLE）+ 栏目说明。
-- site/build-log/index.html：Build Log — 3 条真实里程碑（v1→v2 重构、118 任务、$55 预算工程，从 FACTS/llms-full.txt 取材），标注日期。
+- site/build-log/index.html：Build Log — 3 条真实里程碑（v1→v2 重构、100+ 定时任务、$55 预算工程，从 FACTS/llms-full.txt 取材），标注日期。
 - site/checklist.html：免费 lead magnet "Financial Research Checklist" — 纯客户端静态清单（研究流程 12-15 项 checkbox，localStorage 记忆），页面顶部 email 订阅框（复用现有 newsletter 表单机制），红线：不含买卖建议/目标价/仓位建议。
 - site/consulting.html：咨询资格表 — 静态表单，字段：姓名、email、想解决的问题(textarea)、现有技术水平(select)、预算档($200/$399/$699/not sure)；提交 = mailto: 组装（现有 get-access.html 模式）；禁止询问持仓金额/账户/密码。
 
@@ -27,7 +27,7 @@ All-Weather Run 时间表区块整块删除（已迁 /system/）。导航加 Res
 
 ## D. Newsletter CTA A/B（可切换文案，不随机分流）
 site/data/site-config.json：{"cta_variant":"A","analytics_enabled":false}
-两套文案：A "Get the weekly radar brief" / B "See what 118 jobs found this week"。build_site_data.py 按 variant 注入。
+两套文案：A "Get the weekly radar brief" / B "See what 100+ jobs found this week"。build_site_data.py 按 variant 注入。
 
 ## E. 匿名事件埋点（隐私友好，默认关）
 site/assets/js/tmc-events.js：window.tmcEvent(name) → analytics_enabled=false 时仅 console.debug；true 时发 GoatCounter（预留 endpoint 常量）。事件：page_view, newsletter_submit, radar_view, product_click, payhip_click, consulting_mail_click, github_click。在相应元素挂 data-tmc-event 属性 + 统一监听。无 cookie、无指纹、无第三方脚本（GoatCounter 仅 enabled 时动态注入）。

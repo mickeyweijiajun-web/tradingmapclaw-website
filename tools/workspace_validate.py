@@ -10,7 +10,9 @@ Usage: python3 tools/workspace_validate.py
 import json
 import re
 import sys
+import datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 try:
     from simple_schema import validate as validate_schema
@@ -67,8 +69,24 @@ def validate_asset(cid: str) -> list:
         v = d.get("verification", {})
         if v.get("hermes", {}).get("result") != "PASS" or v.get("codex", {}).get("result") != "PASS":
             problems.append(f"{cid}: status=LIVE but not dual-PASS (hermes+codex)")
-        if d.get("freshness", {}).get("state") == "UNAVAILABLE":
-            problems.append(f"{cid}: status=LIVE but freshness UNAVAILABLE")
+        freshness = d.get("freshness", {})
+        if freshness.get("state") != "FRESH":
+            problems.append(f"{cid}: status=LIVE requires freshness=FRESH")
+        try:
+            actual_age = (datetime.datetime.now(datetime.timezone.utc).date() -
+                          datetime.date.fromisoformat(d.get("data_as_of"))).days
+            if actual_age < 0:
+                problems.append(f"{cid}: data_as_of is in the future")
+            if actual_age > freshness.get("max_age_days", -1):
+                problems.append(f"{cid}: LIVE data is stale ({actual_age}d)")
+        except (TypeError, ValueError):
+            problems.append(f"{cid}: LIVE data_as_of must be YYYY-MM-DD")
+        sources = d.get("sources", [])
+        hosts = {urlparse(s.get("url", "")).hostname for s in sources
+                 if isinstance(s, dict) and s.get("url")}
+        hosts.discard(None)
+        if len(sources) < 2 or len(hosts) < 2:
+            problems.append(f"{cid}: LIVE requires two independent source domains")
     # UNAVAILABLE must not carry fabricated data
     if d.get("status") == "UNAVAILABLE":
         pl = d.get("payload", {})

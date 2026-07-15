@@ -7,6 +7,20 @@
   <language>en-us</language>
   <atom:link href="https://www.tradingmapclaw.com/rss.xml" rel="self" type="application/rss+xml" />
   <item>
+   <title>System update: verification and publication gates hardened</title>
+   <link>https://www.tradingmapclaw.com/build-log</link>
+   <guid isPermaLink="false">tmc-system-update-2026-07-15-audit-hardening</guid>
+   <pubDate>Wed, 15 Jul 2026 02:30:00 GMT</pubDate>
+   <description>The candidate check is now labeled accurately as deterministic preflight; freshness is recomputed, source-domain diversity is enforced, and research records cannot auto-merge.</description>
+  </item>
+  <item>
+   <title>Verification ledger: claims, checks and open evidence</title>
+   <link>https://www.tradingmapclaw.com/research/verification-ledger</link>
+   <guid isPermaLink="true">https://www.tradingmapclaw.com/research/verification-ledger</guid>
+   <pubDate>Wed, 15 Jul 2026 02:30:00 GMT</pubDate>
+   <description>A process ledger distinguishing repository-verified findings, deterministic checks, and Mac-only claims that still require reproducible evidence.</description>
+  </item>
+  <item>
    <title>Weekly Market Intelligence Brief 2026-W29</title>
    <link>https://www.tradingmapclaw.com/research/radar/2026-w29</link>
    <guid isPermaLink="true">https://www.tradingmapclaw.com/research/radar/2026-w29</guid>

@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Build Log — The Engineering Diary | TradingMapClaw</title>
-<meta name="description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 118 scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
+<meta name="description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 100+ scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
 <meta name="author" content="TradingMapClaw" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="theme-color" content="#01696f" />
@@ -12,7 +12,7 @@
 <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
 <meta property="og:site_name" content="TradingMapClaw" />
 <meta property="og:title" content="Build Log — The Engineering Diary | TradingMapClaw" />
-<meta property="og:description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 118 scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
+<meta property="og:description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 100+ scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://www.tradingmapclaw.com/build-log" />
 <meta property="og:image" content="https://www.tradingmapclaw.com/assets/logo-slogan.jpg" />
@@ -20,7 +20,7 @@
 <meta property="og:locale" content="en_US" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Build Log — The Engineering Diary | TradingMapClaw" />
-<meta name="twitter:description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 118 scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
+<meta name="twitter:description" content="The engineering diary behind TradingMapClaw: the v1 to v2 refactor, scaling to 100+ scheduled workflows, and engineering under a $55/month budget cap. Research and education only." />
 <meta name="twitter:image" content="https://www.tradingmapclaw.com/assets/logo-slogan.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -52,7 +52,20 @@
 </nav>
 <main>
 
-<header class="page-hero"><div class="ph-inner"><p class="section-label">Build Log</p><h1>What broke. What got fixed. What it cost.</h1><p class="ph-sub">The unglamorous engineering diary of running 118 scheduled workflows on a $55/month budget cap — on one Mac mini, as one operator.</p><p class="ph-compliance">Research &amp; education only. Not investment advice. · WATCHLIST_ONLY</p></div></header>
+<header class="page-hero"><div class="ph-inner"><p class="section-label">Build Log</p><h1>What broke. What got fixed. What it cost.</h1><p class="ph-sub">The unglamorous engineering diary of running 100+ scheduled workflows on a $55/month budget cap — on one Mac mini, as one operator.</p><p class="ph-compliance">Research &amp; education only. Not investment advice. · WATCHLIST_ONLY</p></div></header>
+
+<section class="section" id="verified-updates">
+  <div class="section-inner">
+    <div class="section-head">
+      <p class="section-label">Verified updates</p>
+      <h2 class="section-title">Recent fixes, with evidence.</h2>
+      <p class="section-sub">This feed is generated from approved system-update records. It contains engineering changes only—never positions, signals or market instructions.</p>
+    </div>
+    <div class="card-grid-3" id="buildLogFeed" aria-live="polite">
+      <article class="note-card"><p class="w-date mono">LOADING</p><h3>Reading the verified update feed…</h3><p>If this message remains, the archived milestone log below is still available.</p></article>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="milestones">
   <div class="section-inner">
@@ -73,8 +86,8 @@
       <div class="tl-item">
         <div class="tl-time mono">2026-07<br><span class="tl-days">Scale</span></div>
         <div class="tl-card feat">
-          <div class="tl-head"><h3>Scaling to 118 scheduled workflows</h3></div>
-          <p>Growing from a handful of manual scripts to <b>118 scheduled workflows (117 enabled)</b> covering 82 tracked tickers meant building real scheduling discipline: per-session timing (pre-market, intraday snapshots, after-hours wrap-up), retry logic, and a quality gate that holds back anything that doesn't meet the bar rather than shipping broken output. The full schedule is public on the <a href="/system">All-Weather Run</a>.</p>
+          <div class="tl-head"><h3>Scaling to 100+ scheduled workflows</h3></div>
+          <p>Growing from a handful of manual scripts to <b>100+ scheduled workflows</b> covering 82 tracked tickers meant building real scheduling discipline: per-session timing (pre-market, intraday snapshots, after-hours wrap-up), retry logic, and a quality gate that holds back anything that doesn't meet the bar rather than shipping broken output. The full schedule is public on the <a href="/system">All-Weather Run</a>.</p>
         </div>
       </div>
       <div class="tl-item">
@@ -193,9 +206,27 @@
     tgl.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 </script>
-<!-- Cloudflare Web Analytics: replace TOKEN (dashboard → Analytics & Logs → Web Analytics) -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
-        data-cf-beacon='{"token": "REPLACE_WITH_CF_TOKEN"}'></script>
+<script>
+  fetch('/data/build-log.json').then(r => {
+    if (!r.ok) throw new Error('feed unavailable');
+    return r.json();
+  }).then(data => {
+    const feed = document.getElementById('buildLogFeed');
+    feed.replaceChildren();
+    (data.entries || []).slice(0, 6).forEach(entry => {
+      const card = document.createElement('article'); card.className = 'note-card';
+      const date = document.createElement('p'); date.className = 'w-date mono'; date.textContent = entry.published_date;
+      const title = document.createElement('h3'); title.textContent = entry.title;
+      const summary = document.createElement('p'); summary.textContent = entry.summary;
+      const list = document.createElement('ul');
+      (entry.changes || []).slice(0, 4).forEach(change => { const li = document.createElement('li'); li.textContent = change; list.appendChild(li); });
+      card.append(date, title, summary, list); feed.appendChild(card);
+    });
+  }).catch(() => {
+    const feed = document.getElementById('buildLogFeed');
+    feed.textContent = 'Verified update feed is temporarily unavailable. The archived milestone log remains below.';
+  });
+</script>
 <script src="/assets/js/tmc-events.js"></script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "content_id": "verification-ledger-2026-07-14",
+  "content_type": "VERIFICATION_LEDGER",
+  "period": "2026-07-14 UTC cross-audit",
+  "data_as_of": "2026-07-14",
+  "published_date": "2026-07-15",
+  "title": "Verification ledger: claims, checks and open evidence",
+  "summary": "This ledger records where automated claims survived independent review, where only structural checks were available, and where evidence remains open. It documents the research process rather than directing any market action.",
+  "items": [
+    {
+      "subject": "Website publication gate",
+      "research_question": "Does the current repository block malformed, stale or non-compliant public workspace records?",
+      "maker_view": "Hermes reported the website pipeline and quality gate as operational.",
+      "checker_view": "Repository tests passed, but freshness labels and producer-supplied source values were previously trusted too far.",
+      "resolution": "METHOD_REVISED",
+      "evidence_for": ["Existing unit tests and the 25-check verify-all gate passed."],
+      "evidence_against": ["The candidate preflight did not retrieve external market data independently."],
+      "source_urls": ["https://github.com/mickeyweijiajun-web/tradingmapclaw-website", "https://www.tradingmapclaw.com/legal/disclaimer/"]
+    },
+    {
+      "subject": "Mac-only repair claims",
+      "research_question": "Can the model-routing, Council and browser-automation fixes be confirmed from the public repositories?",
+      "maker_view": "Hermes recorded six post-audit repairs as completed on the Mac.",
+      "checker_view": "The referenced Mac source files are not present in either public repository, so those implementation claims remain open pending a reproducible Mac snapshot.",
+      "resolution": "OPEN_QUESTION",
+      "evidence_for": ["The audit report contains paths and claimed test results."],
+      "evidence_against": ["No source diff, file hash or independently runnable snapshot was attached."],
+      "source_urls": ["https://github.com/mickeyweijiajun-web/TradingMapClaw", "https://www.tradingmapclaw.com/legal/disclaimer/"]
+    }
+  ],
+  "verification": {"hermes": "PASS", "codex": "PASS"},
+  "status": "APPROVED_CANDIDATE",
+  "compliance": "WATCHLIST_ONLY"
+}

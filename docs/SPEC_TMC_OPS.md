@@ -31,7 +31,7 @@ exit code：有 FAIL → 1，否则 0。WARN 不挡。
 19 可访问性基础：img 有 alt，form input 有 label 或 aria-label
 20 移动端基础：每页有 viewport meta；CSS 中存在 @media
 21 build_site_data.py --check 幂等通过
-22 llms.txt/llms-full.txt 存在且含 v2.0 与 118 字样
+22 llms.txt/llms-full.txt 存在且含 v2.0 与 WATCHLIST_ONLY 字样（精确任务数由 Mac 快照提供，不硬编码）
 23 robots.txt 存在且引用 sitemap
 24 404 页存在
 25 config 完整性：site-config.json 的 cta_variant ∈ {A,B}，analytics_enabled ∈ bool

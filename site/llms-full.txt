@@ -1,6 +1,6 @@
 # TradingMapClaw (TMC) — Full Reference for AI Agents
 
-> A dual-engine, multi-model AI research system for US equities and crypto, built by one operator on a single Mac mini for ~$55/month. It runs 118 scheduled workflows (117 enabled), cross-verifies its own conclusions with a council of models, and delivers reports to Telegram (English) and Feishu (Chinese). Research only — WATCHLIST_ONLY. Not pity. Visibility.
+> A dual-engine, multi-model AI research system for US equities and crypto, built by one operator on a single Mac mini for ~$55/month. It runs 100+ scheduled workflows, cross-verifies its own conclusions with a council of models, and delivers reports to Telegram (English) and Feishu (Chinese). Research only — WATCHLIST_ONLY. Not pity. Visibility.
 
 Version: v2.0 (2026-07-12)
 Canonical URL: https://www.tradingmapclaw.com/
@@ -16,8 +16,8 @@ Built by a brand persona — "the one-handed operator" — who constructed the s
 
 ## 2. Authoritative facts (v2.0)
 
-- 118 scheduled workflows total; 117 enabled
-- 230+ Python scripts
+- 100+ scheduled workflows total; 117 enabled
+- hundreds of Python scripts
 - 50+ SKILL.md modules
 - 82 tickers (75 unique)
 - 12 data sources
@@ -49,21 +49,21 @@ TMC Deep Analysis:
 
 Evening — pre-market build-up:
 - 20:00 (Mon–Fri) — T3 Pre-market Deep Dive (GLM-5.2, 14 sections): B-group panorama, position-by-position deep dive, A-group macro, C-group full list, D-group crypto, news & impact, valuation & technicals, signal board, catalysts, data quality. The most detailed scheduled report.
-- 20:30 — Scoring Engine: turns a model's conviction into a numeric score, then a plain scenario label per ticker (illustrative of the scoring workflow, not a recommendation).
-- 20:45 — Position Analyst (Deep Analysis, GLM-5.2 + Codex): multi-engine per-ticker analysis — Engine 1 (fundamentals+valuation+insider) → Engine 2 (technicals+cross-verify) → co-authored Synthesis. 8 sections, ≤1200 words, bullish/neutral/bearish scenario label + valuation context.
+- 20:30 — Evidence Scoring Engine: turns the completeness and agreement of research evidence into a process score, then a plain scenario label per tracked asset (illustrative workflow output, not a recommendation).
+- 20:45 — Watchlist Analyst (Deep Analysis, GLM-5.2 + Codex): multi-engine per-ticker research — Engine 1 (fundamentals+valuation+insider) → Engine 2 (technicals+cross-verify) → co-authored synthesis. Eight sections, no position sizing or action instruction.
 - 20:50 (Mon–Fri) — T11 Alpha Radar: full-market hidden-gem discovery; scans 8 sources; hard-filters OTC/meme/penny/micro-cap. 3 tiers — 🔴 High Research Priority (α≥70), 🟡 Emerging (α 50–69), 🟠 Speculative Surge. 5-factor scoring: Surge Intensity, Catalyst Backing, Supply-Chain Chokepoint, Market Blindness, Sector Alignment.
 
 Night — deep reasoning & the vote:
 - 21:00 (Mon/Thu) — T26 Supply Chain Onion (GPT-5.6): five-layer supply-chain peel across 8 sectors; upstream (raw materials → components → equipment) + downstream (contract mfg → end brands). Each layer: bottleneck story ("who's got who by the neck") + company deep-dive (moat, financials, valuation, scenario label). Plain language.
-- 21:15 — Bull/Bear (GLM-5.2): per-holding bull vs bear, ≤3 points each, score X/10.
-- 21:30 — Options Strategy (DeepSeek V4 Pro): covered call / protective put / bull call spread / wait.
+- 21:15 — Evidence / Counter-Evidence (GLM-5.2): per tracked asset, no more than three points on each side, plus an evidence-completeness score.
+- 21:30 — Options Context (DeepSeek V4 Pro): summarizes publicly observable options-market context without proposing a trade structure.
 - 21:45 (Mon–Fri) — Council War Room: multi-model vote — R1 DeepSeek → R2 GLM-5.2 reviews → R3 GPT-5.6 tiebreaker → final bullish/neutral/bearish scenario label + confidence/100.
 
-Overnight — real-time watch:
-- 22:30 / 00:00 / 01:30 / 03:00 — T1 Intraday Snapshots (DeepSeek V4 Pro, 11 sections each): real-time B/C/D group prices, news, sentiment, 6-factor signal board. Force-push if a holding moves ±4%/±6%.
+Overnight — scheduled intraday watch:
+- 22:30 / 00:00 / 01:30 / 03:00 — T1 Intraday Snapshots (DeepSeek V4 Pro, 11 sections each): scheduled B/C/D group observations, news, sentiment and a six-factor research-priority board. Internal alerting may run when a tracked asset moves beyond a configured observation threshold; no public action instruction is produced.
 
 Dawn — the wrap-up:
-- 05:00 (Tue–Sat) — T2 After-Hours Daily (GPT-5.6, 12 sections): B-group panorama, C-group full list (49 tickers), crypto, sentiment divergence, oversold-bounce picks, next-session recommendations, data-quality report. The most comprehensive daily.
+- 05:00 (Tue–Sat) — T2 After-Hours Daily (GPT-5.6, 12 sections): B-group panorama, C-group full list, crypto, sentiment divergence, notable-move observations, next-session research questions and a data-quality report. The most comprehensive daily internal research record.
 - 07:00 — T16 On-chain (GPT-5.6): BTC network metrics, Fear & Greed, per-coin sentiment.
 
 Supporting cast (secondary jobs): T17 earnings, T18 insider Form 4, T15 macro, T12 weekly synthesis, backtest, DCF valuation.
@@ -97,7 +97,7 @@ Checkout via Payhip (current channel). Lemon Squeezy is a planned future backup 
 - Monthly cost: TMC ~$55 budget cap vs commercial platforms $1,000s/seat vs DIY ChatGPT $20–200.
 - Cross-model verification: TMC yes (dual-engine); commercial rarely exposed; DIY no.
 - Auditable pipeline: TMC yes (every job); commercial black box; DIY ad-hoc.
-- Automation: TMC 118 scheduled workflows; commercial yes; DIY manual.
+- Automation: TMC 100+ scheduled workflows; commercial yes; DIY manual.
 - Model fallback chain: TMC 4-tier; commercial vendor-locked; DIY no.
 - Trade execution: TMC none by design; commercial often included; DIY no.
 - Runs on your own hardware: TMC one Mac mini; commercial cloud SaaS; DIY your choice.
@@ -113,6 +113,7 @@ China: 爱在延长炎症性肠病基金会 CCCF (https://www.isun.org.cn), 中�
 - Products: https://www.tradingmapclaw.com/products
 - Radar: https://www.tradingmapclaw.com/radar
 - Research hub: https://www.tradingmapclaw.com/research
+- Verification Ledger: https://www.tradingmapclaw.com/research/verification-ledger
 - System (how the dual-engine pipeline runs): https://www.tradingmapclaw.com/system
 - Build Log: https://www.tradingmapclaw.com/build-log
 - Free Checklist: https://www.tradingmapclaw.com/checklist.html

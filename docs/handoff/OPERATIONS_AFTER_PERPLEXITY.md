@@ -43,7 +43,7 @@
 
 ```sh
 cd tmc-v3/website/tmc-site
-python3 tools/tmc_ops.py verify-all         # expect: 25 PASS / 0 FAIL / 0 WARN / 3 SKIP
+python3 tools/tmc_ops.py verify-all         # current: 26 PASS / 0 FAIL / 0 WARN / 3 SKIP
 python3 tools/tmc_ops.py verify-all --smoke # add network smoke (pages 200, canonical, homepage)
 python3 tools/workspace_validate.py         # workspace data contract (WATCHLIST_ONLY + LIVE gate)
 python3 tools/workspace_build.py --check    # workspace pages built & idempotent

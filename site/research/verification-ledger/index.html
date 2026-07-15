@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verification Ledger — Claims, Checks &amp; Open Evidence | TradingMapClaw</title>
+<meta name="description" content="A weekly record of maker claims, checker challenges, surviving evidence and open questions from TradingMapClaw's dual-engine research process." />
+<meta name="author" content="TradingMapClaw" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href="https://www.tradingmapclaw.com/research/verification-ledger" />
+<meta property="og:title" content="Verification Ledger | TradingMapClaw" />
+<meta property="og:description" content="What the maker claimed, what the checker challenged, and what remains open." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.tradingmapclaw.com/research/verification-ledger" />
+<link rel="stylesheet" href="/assets/site.css" />
+</head>
+<body>
+<nav class="nav" id="nav"><div class="nav-inner">
+  <a class="nav-logo" href="/" aria-label="TradingMapClaw home"><img class="mark" src="/assets/logo-icon.jpg" alt="TradingMapClaw logo" width="30" height="30" /><span>TradingMap<span class="accent">Claw</span></span></a>
+  <div class="nav-links" id="navLinks"><a href="/story">Story</a><a href="/research">Research</a><a href="/workspace">Workspace</a><a href="/system">System</a><a href="/build-log">Build Log</a><a href="/products">Products</a><a href="/faq">FAQ</a></div>
+  <div class="nav-right"><a class="btn btn-primary" href="/products">Get Access</a><button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button></div>
+</div></nav>
+<main>
+<header class="page-hero"><div class="ph-inner"><p class="section-label">Research · Verification Ledger</p><h1>Show the disagreement, not just the answer.</h1><p class="ph-sub">A fixed-cadence record of claims, challenges, surviving evidence and unresolved questions. No individualized output and no market-action instructions.</p><p class="ph-compliance">General and impersonal research &amp; education only. Not investment advice. · WATCHLIST_ONLY</p></div></header>
+<section class="section"><div class="section-inner">
+  <div class="section-head"><p class="section-label">Latest ledger</p><h2 class="section-title" id="ledgerTitle">Loading the latest verified ledger…</h2><p class="section-sub" id="ledgerSummary">The last archived ledger remains available if the feed is delayed.</p><p class="radar-cap mono" id="ledgerMeta"></p></div>
+  <div class="card-grid-3" id="ledgerItems" aria-live="polite"></div>
+  <p class="radar-cap">Resolution labels describe the verification process—<b>AGREEMENT</b>, <b>OPEN_QUESTION</b>, <b>DATA_UNAVAILABLE</b> or <b>METHOD_REVISED</b>. They are not ratings of any security.</p>
+</div></section>
+<section class="section" style="background:var(--surface)"><div class="section-inner"><div class="section-head"><p class="section-label">Why this exists</p><h2 class="section-title">The audit trail is the product.</h2><p class="section-sub">Most AI research pages show polished conclusions. This page preserves where the two engines disagreed, what evidence was missing and why a method changed. Entries require two source domains and dual approval before they can appear.</p></div></div></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p class="disclaimer"><b>Compliance:</b> TradingMapClaw publishes general, impersonal and regularly scheduled research-process documentation. It does not execute trades, hold customer funds, operate brokerage accounts or provide individualized investment recommendations. All output is for research and educational purposes and is <b>not investment advice</b>.</p><div class="footer-bottom"><span>© 2026 TradingMapClaw · Research &amp; education only</span><span>Verification Ledger · WATCHLIST_ONLY</span></div></div></footer>
+<script>
+  const nav = document.getElementById('nav'); const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12); window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  const tgl = document.getElementById('navToggle'), links = document.getElementById('navLinks'); if (tgl && links) tgl.addEventListener('click', () => { const open = links.classList.toggle('open'); tgl.setAttribute('aria-expanded', open ? 'true' : 'false'); });
+  const addList = (card, label, values) => { const h = document.createElement('p'); h.className = 'w-date mono'; h.textContent = label; const ul = document.createElement('ul'); (values || []).forEach(value => { const li = document.createElement('li'); li.textContent = value; ul.appendChild(li); }); card.append(h, ul); };
+  fetch('/data/verification-ledger-latest.json').then(r => { if (!r.ok) throw new Error('unavailable'); return r.json(); }).then(data => {
+    document.getElementById('ledgerTitle').textContent = data.title; document.getElementById('ledgerSummary').textContent = data.summary; document.getElementById('ledgerMeta').textContent = `${data.period} · DATA AS OF ${data.data_as_of} · ${data.status}`;
+    const root = document.getElementById('ledgerItems'); root.replaceChildren();
+    (data.items || []).forEach(item => { const card = document.createElement('article'); card.className = 'note-card'; const state = document.createElement('p'); state.className = 'w-date mono'; state.textContent = item.resolution; const title = document.createElement('h3'); title.textContent = item.subject; const q = document.createElement('p'); q.textContent = item.research_question; const maker = document.createElement('p'); maker.textContent = `Maker: ${item.maker_view}`; const checker = document.createElement('p'); checker.textContent = `Checker: ${item.checker_view}`; card.append(state, title, q, maker, checker); addList(card, 'EVIDENCE FOR', item.evidence_for); addList(card, 'EVIDENCE AGAINST', item.evidence_against); root.appendChild(card); });
+  }).catch(() => { document.getElementById('ledgerTitle').textContent = 'Ledger temporarily unavailable'; document.getElementById('ledgerSummary').textContent = 'No substitute data is generated when the approved feed cannot be loaded.'; });
+</script>
+<script src="/assets/js/tmc-events.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>ai.tmc.public_system_log</string>
+  <key>ProgramArguments</key><array>
+    <string>/Users/mikicourage/.hermes/hermes-agent/venv/bin/python</string>
+    <string>/Users/mikicourage/TradingMapClaw/ops_migration/public_outbox.py</string>
+    <string>build-log</string><string>--prepare</string><string>--auto-merge-system-log</string>
+  </array>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>10</integer><key>Minute</key><integer>30</integer></dict>
+  <key>StandardOutPath</key><string>/Users/mikicourage/TradingMapClaw/ops_migration/logs/public_system_log.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/mikicourage/TradingMapClaw/ops_migration/logs/public_system_log.err.log</string>
+  <key>EnvironmentVariables</key><dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string></dict>
+</dict></plist>

@@ -1,11 +1,11 @@
 # TradingMapClaw (TMC)
 
-> An independent financial-market research, intelligence-aggregation, and research-engineering platform. Dual-engine (Hermes Agent + Codex) cross-verified research across 82 tracked assets, 13 report types, 118 scheduled workflows — built and run by one operator on a single Mac mini for ~$55/month. Research & education only — WATCHLIST_ONLY. Not pity. Visibility.
+> An independent financial-market research, intelligence-aggregation, and research-engineering platform. Dual-engine (Hermes Agent + Codex) cross-verified research across 82 tracked assets, 13 report types, 100+ scheduled workflows — built and run by one operator on a single Mac mini for ~$55/month. Research & education only — WATCHLIST_ONLY. Not pity. Visibility.
 
 TradingMapClaw (TMC) v2.0 (2026-07-12) is operated single-handedly ("the one-handed operator"). Its defining feature is cross-verification: no single model is allowed to be right alone. It aggregates financial-market information across company fundamentals, valuation, technical structure, capital flows, options context, macro conditions, and market sentiment. It is a research system — it never provides investment advice, routes orders, or executes trades.
 
 ## Key facts (v2.0, 2026-07-12)
-- 118 scheduled workflows (117 enabled), 230+ Python scripts, 50+ SKILL modules
+- 100+ scheduled workflows, hundreds of Python scripts, 50+ SKILL modules
 - 82 tracked assets across 5 groups; 13 report types
 - Cost: ~$55/month budget cap
 - Delivery: English → Telegram, Chinese → Feishu
@@ -24,6 +24,7 @@ TradingMapClaw (TMC) v2.0 (2026-07-12) is operated single-handedly ("the one-han
 ## What it publishes (free)
 - Weekly Market Radar — desensitized watchlist observations, scenario labels: https://www.tradingmapclaw.com/radar
 - Research hub (Market Radar, Market Structure Briefs, Engine Disagreement Notes, Research Method Releases): https://www.tradingmapclaw.com/research
+- Verification Ledger — maker claims, checker challenges, surviving evidence and open questions: https://www.tradingmapclaw.com/research/verification-ledger
 - System Build Log (weekly): https://www.tradingmapclaw.com/build-log
 - How the dual-engine system runs day to day (schedule, architecture): https://www.tradingmapclaw.com/system
 - Deep-analysis method walkthroughs: https://www.tradingmapclaw.com/deep-analysis
@@ -44,6 +45,7 @@ TradingMapClaw (TMC) v2.0 (2026-07-12) is operated single-handedly ("the one-han
 - Research hub: https://www.tradingmapclaw.com/research
 - System: https://www.tradingmapclaw.com/system
 - Build Log: https://www.tradingmapclaw.com/build-log
+- Verification Ledger: https://www.tradingmapclaw.com/research/verification-ledger
 - Free Checklist: https://www.tradingmapclaw.com/checklist.html
 - Consulting: https://www.tradingmapclaw.com/consulting
 - FAQ: https://www.tradingmapclaw.com/faq

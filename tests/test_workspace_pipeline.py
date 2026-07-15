@@ -1,4 +1,5 @@
 import copy
+import datetime
 import json
 import tempfile
 import unittest
@@ -6,6 +7,8 @@ from pathlib import Path
 
 from tools import codex_verify_candidate
 from tools import codex_verify_queue
+from tools import public_release
+from tools import tmc_ops
 from tools import workspace_build
 from tools import workspace_validate
 
@@ -44,12 +47,14 @@ class WorkspacePipelineTests(unittest.TestCase):
             )
             self.assertTrue((Path(reports) / "nvda.report.json").exists())
 
-    def test_ci_has_independent_codex_job(self):
+    def test_ci_labels_candidate_check_as_deterministic_preflight(self):
         ci = (ROOT / ".github/workflows/ci.yml").read_text()
         deploy = (ROOT / ".github/workflows/deploy.yml").read_text()
         self.assertIn("codex-verify:", ci)
         self.assertIn("python tools/codex_verify_queue.py", ci)
         self.assertIn("python tools/codex_verify_queue.py", deploy)
+        self.assertIn("deterministic candidate preflight", ci)
+        self.assertNotIn("independent candidate verification", ci + deploy)
 
     def test_asset_discovery_uses_all_workspace_json_files(self):
         expected = {p.stem for p in (ROOT / "site/data/workspace").glob("*.json")}
@@ -98,6 +103,61 @@ class WorkspacePipelineTests(unittest.TestCase):
             finally:
                 workspace_validate.WS = old_ws
         self.assertTrue(any("public workspace" in problem for problem in problems), problems)
+
+    def test_candidate_preflight_recomputes_staleness(self):
+        candidate = json.loads((ROOT / "site/data/workspace/nvda.json").read_text())
+        candidate["data_as_of"] = (
+            datetime.datetime.now(datetime.timezone.utc).date() - datetime.timedelta(days=30)
+        ).isoformat()
+        problems, blockers = codex_verify_candidate.validate_candidate(candidate)
+        self.assertFalse(blockers)
+        self.assertTrue(any("stale" in problem for problem in problems), problems)
+
+    def test_live_workspace_requires_fresh_state(self):
+        candidate = json.loads((ROOT / "site/data/workspace/nvda.json").read_text())
+        candidate["freshness"]["state"] = "DELAYED"
+        with tempfile.TemporaryDirectory() as tmp:
+            ws = Path(tmp)
+            (ws / "nvda.json").write_text(json.dumps(candidate))
+            old_ws = workspace_validate.WS
+            workspace_validate.WS = ws
+            try:
+                problems = workspace_validate.validate_asset("nvda")
+            finally:
+                workspace_validate.WS = old_ws
+        self.assertTrue(any("freshness=FRESH" in problem for problem in problems), problems)
+
+    def test_public_release_feeds_are_compliant(self):
+        build_feed = json.loads((ROOT / "site/data/build-log.json").read_text())
+        for entry in build_feed["entries"]:
+            self.assertEqual(public_release.validate(entry, "build-log"), [])
+        ledger = json.loads((ROOT / "site/data/verification-ledger-latest.json").read_text())
+        self.assertEqual(public_release.validate(ledger, "verification-ledger"), [])
+
+    def test_public_release_rejects_action_language(self):
+        entry = json.loads((ROOT / "site/data/build-log.json").read_text())["entries"][0]
+        entry["summary"] = "You should buy now."
+        errors = public_release.validate(entry, "build-log")
+        self.assertTrue(any("forbidden" in error for error in errors), errors)
+
+    def test_public_release_allows_benign_engineering_entry_word(self):
+        entry = json.loads((ROOT / "site/data/build-log.json").read_text())["entries"][0]
+        entry["summary"] = "This engineering entry records a deterministic validation change."
+        self.assertEqual(public_release.validate(entry, "build-log"), [])
+
+    def test_disabled_analytics_rejects_beacon(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            site = Path(tmp)
+            (site / "data").mkdir()
+            (site / "data/site-config.json").write_text(
+                json.dumps({"cta_variant": "A", "analytics_enabled": False})
+            )
+            (site / "index.html").write_text(
+                '<script src="https://static.cloudflareinsights.com/beacon.min.js"></script>'
+            )
+            status, detail = tmc_ops.check_site_config(str(site))
+        self.assertEqual(status, "FAIL")
+        self.assertIn("beacon remains", detail)
 
 
 if __name__ == "__main__":

@@ -83,7 +83,7 @@ Branch → CI (verify-all gate) → Cloudflare Pages Preview → prod-smoke → 
 Secrets scan CLEAN. Production all paths 200 (`/`, `/products`, `/skills/`, `/radar`, `/rss.xml`,
 `/sitemap.xml`, `/llms.txt`, `/api/health`, `/faq`, `/story`).
 
-**verify-all baseline: 25 PASS / 0 FAIL / 0 WARN / 3 SKIP** (3 SKIP = network smoke, run with `--smoke`).
+**Historical 2026-07-14 baseline: 25 PASS / 0 FAIL / 0 WARN / 3 SKIP. Current baseline after the 2026-07-15 public-release gate: 26 PASS / 0 FAIL / 0 WARN / 3 SKIP** (3 SKIP = network smoke, run with `--smoke`).
 
 ---
 
@@ -240,7 +240,7 @@ To cancel the retained fallback task later, the Owner opens the owning conversat
 **Codex (verification / CI / deploy):**
 ```sh
 cd tmc-v3/website/tmc-site
-python3 tools/tmc_ops.py verify-all            # 25 PASS expected
+python3 tools/tmc_ops.py verify-all            # current: 26 PASS expected
 python3 tools/workspace_validate.py            # workspace contract
 python3 tools/workspace_build.py --check       # idempotency
 python3 tools/build_site_data.py --check       # date-drift guard

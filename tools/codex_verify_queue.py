@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Run the independent candidate verifier over the non-public CI inbox."""
+"""Run the deterministic candidate preflight over the non-public CI inbox.
+
+This queue performs no external source retrieval. Passing reports may proceed to
+checker review/Preview but are not evidence for LIVE publication.
+"""
 import subprocess
 import sys
 from pathlib import Path
